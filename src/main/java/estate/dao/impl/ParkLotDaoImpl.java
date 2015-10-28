@@ -1,5 +1,6 @@
 package estate.dao.impl;
 
+import estate.common.util.LogUtil;
 import estate.dao.ParkLotDao;
 import estate.entity.database.ParkingLotEntity;
 import estate.entity.json.TableData;
@@ -36,16 +37,20 @@ public class ParkLotDaoImpl implements ParkLotDao
         ArrayList<ParkingLotEntity> entities;
         Query query;
 
+        StringBuilder hql=new StringBuilder("from ParkingLotEntity t where 1=1 ");
         if (tableFilter.getSearchValue()!=null)
-        {
-            String hql="from ParkingLotEntity t where t.code like (?)";
-            query=session.createQuery(hql).setString(0,"%"+tableFilter.getSearchValue()+"%");
-        }
-        else
-        {
-            String hql = "from ParkingLotEntity t";
-            query = session.createQuery(hql);
-        }
+            hql.append("and (t.code like('")
+                    .append(tableFilter.getSearchValue())
+                    .append("') or t.location like('")
+                    .append(tableFilter.getSearchValue()).append("') )");
+        if (tableFilter.getType()!=null)
+            hql.append(" and t.type=").append(tableFilter.getType());
+        if (tableFilter.getVillageId()!=null)
+            hql.append(" and t.brakeEntity.villageId=").append(tableFilter.getVillageId());
+        if (tableFilter.getControlId()!=null)
+            hql.append(" and t.brakeId=").append(tableFilter.getControlId());
+        LogUtil.E(hql.toString());
+        query=session.createQuery(hql.toString());
         Integer count=query.list().size();
         entities=(ArrayList<ParkingLotEntity>)query
                 .setFirstResult(tableFilter.getStart())

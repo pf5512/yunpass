@@ -21,5 +21,9 @@
         <property name="buildingName">
             <column name="building_name" sql-type="varchar" length="45"/>
         </property>
+        <many-to-one name="villageEntity" insert="false" update="false" lazy="false"
+                     class="estate.entity.database.VillageEntity">
+            <column name="village_id"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

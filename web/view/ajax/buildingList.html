@@ -22,6 +22,16 @@
                 <div class="no-move"></div>
             </div>
             <div class="box-content no-padding">
+                <div class="box-content" style="padding-bottom:0;padding-left: 30px">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="villageList">所属园区</label>
+                            <select name="villageId" class="villageList">
+                            </select>
+                            <button id="doFilterBtn">确定</button>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered table-striped table-hover table-heading table-datatable"
                        id="buildingListTable">
                     <thead>
@@ -105,6 +115,9 @@
 </div><!-- /.modal -->
 <script type="text/javascript">
     var editTable;//全局的datatable变量
+    $("#doFilterBtn").click(function(){
+        editTable.draw();
+    });
 
     $('#buildingListTable tbody').on( 'click', 'button#delRowBtn', function () {
         var data = editTable.row($(this).parents('tr') ).data();
@@ -197,6 +210,9 @@
             "serverSide": true,
             "ajax":{
                 "url": urlConfig.buildingList,
+                "data":function ( d ) {
+                    d.villageId=$(".villageList option:selected").val();
+                },
                 "dataSrc": "jsonString"
             },
             "columnDefs": [{
@@ -211,23 +227,25 @@
             },{
                 "targets": 1,
                 "data": "buildingCode",
-                "visible": true,
                 "orderable": false,
                 "searchable": false
 
             },{
                 "targets": 2,
                 "data": "buildingName",
-                "visible": true,
                 "orderable": false,
                 "searchable": false
 
             },{
                 "targets": 3,
-                "data": "villageId",
-                "visible": true,
+                "data": "villageEntity",
                 "orderable": false,
-                "searchable": false
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    if(data!=null&&data!="") {
+                        return data.code + "--" + data.name;
+                    }
+                }
 
             },{
                 "targets": 4,//删除
@@ -241,7 +259,7 @@
             "aaSorting": [[ 1, "asc" ]],
             "autoWidth":false,
             "sDom":
-                    "<'box-content'<'col-sm-6'f><'col-sm-6 text-right'l><'clearfix'>>rt<'box-content'<'col-sm-6'i><'col-sm-6 text-right'p><'clearfix'>>",
+                    "<'box-content'<'col-sm-6'f><'col-sm-6 text-right'l><'clearfix'>>tr<'box-content'<'col-sm-6'i><'col-sm-6 text-right'p><'clearfix'>>",
             "language": {
                 "emptyTable":     "没有相关数据",
                 "info": "显示 _START_ 到 _END_ 条, 共 _TOTAL_ 条记录",

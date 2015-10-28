@@ -26,6 +26,17 @@
                 <div class="box-content" style="padding-bottom:0px;padding-left: 30px">
                     <div class="row">
                         <div class="col-md-3">
+                            <label for="propertyType">选择园区</label>
+                            <select name="villageId" class="villageList">
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="buildingList">选择楼栋</label>
+                            <select name="buildingId" class="buildingList">
+                                <option value=''>--所有楼栋--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
                             <label for="propertyType">物业类型</label>
                             <select name="propertyType" id="propertyType">
                                 <option value="0">所有类型</option>
@@ -33,7 +44,7 @@
                                 <option value="2">住宅</option>
                             </select>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-3">
                             <label for="propertyStatus">物业状态</label>
                             <select name="propertyStatus" id="propertyStatus">
                                 <option value="0">所有状态</option>
@@ -113,7 +124,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="">修改物业信息</h4>
+                <h4 class="modal-title">修改物业信息</h4>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -248,6 +259,40 @@
     var editTable;
     $("#doFilterBtn").click(function(){
         editTable.draw();
+    });
+    $(".villageList").change(function(){
+        var villageId=$(".villageList option:selected").val();
+        if(villageId!="")
+        $.ajax({
+            type: "post",
+            async: true,
+            url: urlConfig.getBuildingSelect2+"/"+villageId,
+            dataType: "json",
+            success: function (result) {
+                if (result.status) {
+                    if(result.jsonString!=null)
+                    {
+                        var options="<option value=''>--所有楼栋--</option>";
+                        for(var i in result.jsonString)
+                        {
+                            options+="<option value='"+result.jsonString[i].id+"'>"+result.jsonString[i].text+"</option>";
+                        }
+                        $(".buildingList").html(options);
+                    }
+                    else
+                    {
+                        $(".buildingList").html("<option value=''>--没有相应的楼栋--</option>");
+                    }
+                }
+                else
+                {
+                    $(".buildingList").html("<option value=''>--"+result.errorMsg.description+"--</option>");
+                }
+            },
+            error: function () {
+                $(".buildingList").html("<option value=''>--网络错误--</option>");
+            }
+        });
     });
 
     $('#propertyListTable tbody').on( 'click', 'button#delRowBtn', function () {
@@ -636,8 +681,10 @@
             "ajax":{
                 "url": urlConfig.propertyList,
                 "data":function ( d ) {
+                    d.villageId=$(".villageList option:selected").val();
                     d.propertyType = $("#propertyType option:selected").val();
                     d.propertyStatus = $("#propertyStatus option:selected").val();
+                    d.controlId = $(".buildingList option:selected").val();
                 },
                 "dataSrc": "jsonString"
             },
@@ -761,6 +808,7 @@
     }
 
     $(document).ready(function() {
+        initVillageSelect()
         LoadDataTablesScripts(initDataTable);
         LoadBootstrapValidatorScript(propertyModifyValidator);
         LoadBootstrapValidatorScript(ownerAddValidator);

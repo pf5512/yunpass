@@ -15,21 +15,23 @@ function initVillageSelect()
 		dataType: "json", //返回数据形式为json
 		success: function (result) {
 			if (result.status) {
-				var options="";
+				var options="<option value=''>--请选择--</option>";
 				for(var i in result.jsonString)
 				{
 					options+="<option value='"+result.jsonString[i].id+"'>"+result.jsonString[i].text+"</option>";
 				}
-				$("#villageList").append(options);
-				$(".villageList").append(options);
+				$("#villageList").html(options);
+				$(".villageList").html(options);
 			}
 			else
 			{
-				alert(result.errorMsg.description);
+				$("#villageList").html("<option value=''>--获取园区信息失败--</option>");
+				$(".villageList").html("<option value=''>--获取园区信息失败--</option>");
 			}
 		},
 		error: function () {
-			alert("服务器连接失败,请重试!");
+			$("#villageList").html("<option value=''>--网络连接失败--</option>");
+			$(".villageList").html("<option value=''>--网络连接失败--</option>");
 		}
 	});
 }

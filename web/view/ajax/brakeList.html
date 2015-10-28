@@ -22,6 +22,16 @@
                 <div class="no-move"></div>
             </div>
             <div class="box-content no-padding">
+                <div class="box-content" style="padding-bottom:0;padding-left: 30px">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="villageList">所属园区</label>
+                            <select name="villageId" class="villageList">
+                            </select>
+                            <button id="doFilterBtn">确定</button>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered table-striped table-hover table-heading table-datatable"
                        id="brakeListTable">
                     <thead>
@@ -104,7 +114,9 @@
 </div><!-- /.modal -->
 <script type="text/javascript">
     var editTable;
-
+    $("#doFilterBtn").click(function(){
+        editTable.draw();
+    });
     //删除数据
     $('#brakeListTable tbody').on( 'click', 'button#delRowBtn', function () {
         var comfirm=confirm("确定删除?");
@@ -197,6 +209,9 @@
             "serverSide": true,
             "ajax":{
                 "url": urlConfig.brakeList,
+                "data":function ( d ) {
+                    d.villageId=$(".villageList option:selected").val();
+                },
                 "dataSrc": "jsonString"
             },
             "columnDefs": [{

@@ -21,6 +21,31 @@
                 <div class="no-move"></div>
             </div>
             <div class="box-content no-padding">
+                <div class="box-content" style="padding-bottom:0px;padding-left: 30px">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="villageList">所属园区</label>
+                            <select name="villageId" class="villageList">
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="brakeList">选择道闸</label>
+                            <select name="brakeId" class="brakeList">
+                                <option value=''>--所有道闸--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="parkLotType">车位类型</label>
+                            <select name="parkLotType" id="parkLotType">
+                                <option value="">所有类型</option>
+                                <option value="1">小型车位</option>
+                                <option value="2">中型车位</option>
+                                <option value="3">大型车位</option>
+                            </select>
+                            <button id="doFilterBtn">确定</button>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered table-striped table-hover table-heading table-datatable"
                        id="parkingLotListTable">
                     <thead>
@@ -178,6 +203,44 @@
 
 <script type="text/javascript">
     var editTable;//全局的datatable变量
+    $("#doFilterBtn").click(function(){
+        editTable.draw();
+    });
+    $(".villageList").change(function()
+    {
+        var villageId=$(".villageList option:selected").val();
+        if(villageId!="")
+        $.ajax({
+            type: "post",
+            async: true,
+            url: urlConfig.getBrakeListByVillageID+"/"+villageId,
+            dataType: "json",
+            success: function (result) {
+                if (result.status) {
+                    if(result.jsonString!=null)
+                    {
+                        var options="<option value=''>--所有道闸--</option>";
+                        for(var i in result.jsonString)
+                        {
+                            options+="<option value='"+result.jsonString[i].id+"'>"+result.jsonString[i].text+"</option>";
+                        }
+                        $(".brakeList").html(options);
+                    }
+                    else
+                    {
+                        $(".brakeList").html("<option value=''>--没有相应的道闸--</option>");
+                    }
+                }
+                else
+                {
+                    $(".brakeList").html("<option value=''>"+result.errorMsg.description+"</option>");
+                }
+            },
+            error: function () {
+                $(".brakeList").html("<option value=''>网络连接失败</option>");
+            }
+        });
+    });
 
     //设置车位的用户角色
     $("#parkingLotListTable tbody").on('click', 'button#editRowBtn',function(){
@@ -417,6 +480,11 @@
             "serverSide": true,
             "ajax":{
                 "url": urlConfig.parkLotList,
+                "data":function ( d ) {
+                    d.villageId=$(".villageList option:selected").val();
+                    d.type = $("#parkLotType option:selected").val();
+                    d.controlId = $(".brakeList option:selected").val();
+                },
                 "dataSrc": "jsonString"
             },
             "columnDefs":[
@@ -459,10 +527,14 @@
 
                 },{
                     "targets": 4,
-                    "data": "brakeId",
+                    "data": "brakeEntity",
                     "orderable": false,
-                    "searchable": false
-
+                    "searchable": false,
+                    "render": function ( data, type, row ) {
+                        if(data!=null&&data!="") {
+                            return data.code + "--" + data.name;
+                        }
+                    }
                 },{
                     "targets": 5,
                     "data": null,

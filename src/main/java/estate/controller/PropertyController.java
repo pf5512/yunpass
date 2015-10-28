@@ -1,6 +1,7 @@
 package estate.controller;
 
 import estate.common.config.UserType;
+import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
 import estate.entity.database.PropertyEntity;
 import estate.entity.database.PropertyOwnerInfoEntity;
@@ -264,7 +265,6 @@ public class PropertyController
         tableFilter.setStatus(Byte.valueOf(request.getParameter("propertyStatus")));
         if (tableFilter.getStatus()==0)
             tableFilter.setStatus(null);
-
         try
         {
             return propertyService.getList(tableFilter);

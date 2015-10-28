@@ -36,16 +36,19 @@ public class BuildingDaoImpl implements BuildingDao
         ArrayList<BuildingEntity> entities;
         Query query;
 
+        StringBuilder hql=new StringBuilder("from BuildingEntity t where 1=1 ");
+
         if (tableFilter.getSearchValue()!=null)
-        {
-            String hql="from BuildingEntity t where t.buildingCode like (?)";
-            query=session.createQuery(hql).setString(0,"%"+tableFilter.getSearchValue()+"%");
-        }
-        else
-        {
-            String hql = "from BuildingEntity t";
-            query = session.createQuery(hql);
-        }
+            hql.append(" and (t.buildingCode like ('%")
+                    .append(tableFilter.getSearchValue())
+                    .append("%') or t.buildingName like ('%")
+                    .append(tableFilter.getSearchValue())
+                    .append("%')) ");
+        if (tableFilter.getVillageId()!=null)
+            hql.append(" and t.villageId=").append(tableFilter.getVillageId());
+
+        query=session.createQuery(hql.toString());
+
         Integer count=query.list().size();
         entities=(ArrayList<BuildingEntity>)query
                 .setFirstResult(tableFilter.getStart())

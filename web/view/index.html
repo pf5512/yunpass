@@ -65,9 +65,9 @@
 						</a>
 					</div>
                     <div class="col-xs-8 col-sm-5 top-panel-right">
-                        <label for="villageTopList">当前园区:</label>
-                        <select class="select" style="width: 200px;" id="villageTopList">
-                        </select>
+                        <!--<label for="villageTopList">当前园区:</label>-->
+                        <!--<select class="select" style="width: 200px;" id="villageTopList">-->
+                        <!--</select>-->
                     </div>
 					<div class="col-xs-3 col-sm-6 top-panel-right">
 						<ul class="nav navbar-nav pull-right panel-menu">
@@ -240,55 +240,55 @@
 
 <script src="js/devoops.js"></script>
 <script type="text/javascript">
-    $("#villageTopList").change(function(){
-        var villageID=$("#villageTopList option:selected").val();
-        if(villageID=="")
-            alert("未能获取正确的园区信息");
-        setCookie("villageID",villageID,10);
-        $.ajax({
-            type: "get",
-            async: true,
-            url: urlConfig.setVillageIDCookie+villageID,
-            dataType: "json", //返回数据形式为json
-            success: function (result) {
-            },
-            error: function () {
-            }
-        });
-    });
-
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = "expires="+d.toUTCString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
-    }
-
-    $(document).ready(function() {
-        $.ajax({
-            type: "post",
-            async: true,
-            url: urlConfig.getVillageSelect2,
-            dataType: "json", //返回数据形式为json
-            success: function (result) {
-                if (result.status) {
-                    var options="";
-                    for(var i in result.jsonString)
-                    {
-                        options+="<option value='"+result.jsonString[i].id+"'>"+result.jsonString[i].text+"</option>";
-                    }
-                    $("#villageTopList").append(options);
-                }
-                else
-                {
-                    $("#villageTopList").append('<option value="">获取园区信息失败</option>');
-                }
-            },
-            error: function () {
-                $("#villageTopList").append('<option value="">获取园区信息失败</option>');
-            }
-        });
-    });
+//    $("#villageTopList").change(function(){
+//        var villageID=$("#villageTopList option:selected").val();
+//        if(villageID=="")
+//            alert("未能获取正确的园区信息");
+//        setCookie("villageID",villageID,10);
+//        $.ajax({
+//            type: "get",
+//            async: true,
+//            url: urlConfig.setVillageIDCookie+villageID,
+//            dataType: "json", //返回数据形式为json
+//            success: function (result) {
+//            },
+//            error: function () {
+//            }
+//        });
+//    });
+//
+//    function setCookie(cname, cvalue, exdays) {
+//        var d = new Date();
+//        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+//        var expires = "expires="+d.toUTCString();
+//        document.cookie = cname + "=" + cvalue + "; " + expires+";path=/";
+//    }
+//
+//    $(document).ready(function() {
+//        $.ajax({
+//            type: "post",
+//            async: true,
+//            url: urlConfig.getVillageSelect2,
+//            dataType: "json", //返回数据形式为json
+//            success: function (result) {
+//                if (result.status) {
+//                    var options="";
+//                    for(var i in result.jsonString)
+//                    {
+//                        options+="<option value='"+result.jsonString[i].id+"'>"+result.jsonString[i].text+"</option>";
+//                    }
+//                    $("#villageTopList").append(options);
+//                }
+//                else
+//                {
+//                    $("#villageTopList").append('<option value="">获取园区信息失败</option>');
+//                }
+//            },
+//            error: function () {
+//                $("#villageTopList").append('<option value="">获取园区信息失败</option>');
+//            }
+//        });
+//    });
 </script>
 </body>
 </html>

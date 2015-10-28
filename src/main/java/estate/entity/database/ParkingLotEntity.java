@@ -14,6 +14,7 @@ public class ParkingLotEntity
     private Integer brakeId;
     private Integer villageId;
     private Byte status;
+    private BrakeEntity brakeEntity;
 
 
     public String getCode()
@@ -104,5 +105,15 @@ public class ParkingLotEntity
     public void setId(Integer id)
     {
         this.id = id;
+    }
+
+    public BrakeEntity getBrakeEntity()
+    {
+        return brakeEntity;
+    }
+
+    public void setBrakeEntity(BrakeEntity brakeEntity)
+    {
+        this.brakeEntity = brakeEntity;
     }
 }

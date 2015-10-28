@@ -38,80 +38,23 @@ public class PropertyDaoImpl implements PropertyDao
         TableData tableData=new TableData();
         ArrayList<PropertyEntity> entities;
         Query query;
-        StringBuilder hql=new StringBuilder("from PropertyEntity t ");
+        StringBuilder hql=new StringBuilder("from PropertyEntity t where 1=1 ");
+
         if (tableFilter.getSearchValue()!=null)
-        {
-            hql.append("where (t.code like(:code) or t.location like(:location)) ");
-            if (tableFilter.getStatus()!=null)
-            {
-                hql.append("and t.status=:status ");
-                if (tableFilter.getType()!=null)
-                {
-                    hql.append("and t.type=:type ");
-                    query=session.createQuery(hql.toString())
-                            .setString("code","%"+tableFilter.getSearchValue()+"%")
-                            .setString("location","%"+tableFilter.getSearchValue()+"%")
-                            .setByte("status", tableFilter.getStatus())
-                            .setByte("type", tableFilter.getType());
-                }
-                else
-                {
-                    query=session.createQuery(hql.toString())
-                            .setString("code","%"+tableFilter.getSearchValue()+"%")
-                            .setString("location","%"+tableFilter.getSearchValue()+"%")
-                            .setByte("status",tableFilter.getStatus());
-                }
-            }
-            else
-            {
-                if (tableFilter.getType()!=null)
-                {
-                    hql.append("and t.type=:type ");
-                    query=session.createQuery(hql.toString())
-                            .setString("code","%"+tableFilter.getSearchValue()+"%")
-                            .setString("location", "%"+tableFilter.getSearchValue()+"%")
-                            .setByte("type",tableFilter.getType());
-                }
-                else
-                {
-                    query=session.createQuery(hql.toString())
-                            .setString("code", "%" + tableFilter.getSearchValue()+"%")
-                            .setString("location", "%"+tableFilter.getSearchValue()+"%");
-                }
-            }
-        }
-        else
-        {
-            if (tableFilter.getStatus()!=null)
-            {
-                hql.append("where t.status=:status ");
-                if (tableFilter.getType()!=null)
-                {
-                    hql.append("and t.type=:type ");
-                    query=session.createQuery(hql.toString())
-                            .setByte("status",tableFilter.getStatus())
-                            .setByte("type",tableFilter.getType());
-                }
-                else
-                {
-                    query=session.createQuery(hql.toString())
-                            .setByte("status",tableFilter.getStatus());
-                }
-            }
-            else
-            {
-                if (tableFilter.getType()!=null)
-                {
-                    hql.append("where t.type=:type ");
-                    query=session.createQuery(hql.toString())
-                            .setByte("type",tableFilter.getType());
-                }
-                else
-                {
-                    query=session.createQuery(hql.toString());
-                }
-            }
-        }
+            hql.append(" and (t.code like('%")
+                    .append(tableFilter.getSearchValue())
+                    .append("%') or t.location like('%")
+                    .append(tableFilter.getSearchValue()).append("%')) ");
+        if (tableFilter.getType()!=null)
+            hql.append(" and t.type=").append(tableFilter.getType());
+        if (tableFilter.getStatus()!=null)
+            hql.append(" and t.status=").append(tableFilter.getStatus());
+        if (tableFilter.getVillageId()!=null)
+            hql.append(" and t.villageId=").append(tableFilter.getVillageId());
+        if(tableFilter.getControlId()!=null)
+            hql.append(" and t.buildingId=").append(tableFilter.getControlId());
+
+        query=session.createQuery(hql.toString());
         Integer count=query.list().size();
         entities=(ArrayList<PropertyEntity>)query.setFirstResult(tableFilter.getStart()).setMaxResults(tableFilter
                 .getLength()).list();

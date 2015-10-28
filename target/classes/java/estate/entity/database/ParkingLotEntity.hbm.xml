@@ -33,5 +33,9 @@
         <property name="status">
             <column name="status" sql-type="tinyint"/>
         </property>
+        <many-to-one name="brakeEntity" insert="false" update="false" lazy="false"
+                     class="estate.entity.database.BrakeEntity">
+            <column name="brake_id"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

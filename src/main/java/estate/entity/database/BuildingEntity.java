@@ -2,6 +2,7 @@ package estate.entity.database;
 
 /**
  * Created by kangbiao on 15-9-13.
+ *
  */
 public class BuildingEntity
 {
@@ -10,6 +11,9 @@ public class BuildingEntity
     private String description;
     private String buildingCode;
     private String buildingName;
+
+
+    private VillageEntity villageEntity;
 
 
     public Integer getVillageId()
@@ -60,5 +64,15 @@ public class BuildingEntity
     public void setId(Integer id)
     {
         this.id = id;
+    }
+
+    public VillageEntity getVillageEntity()
+    {
+        return villageEntity;
+    }
+
+    public void setVillageEntity(VillageEntity villageEntity)
+    {
+        this.villageEntity = villageEntity;
     }
 }

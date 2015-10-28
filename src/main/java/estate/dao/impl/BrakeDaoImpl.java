@@ -37,16 +37,16 @@ public class BrakeDaoImpl implements BrakeDao
         ArrayList<BrakeEntity> entities;
         Query query;
 
+        StringBuilder hql=new StringBuilder("from BrakeEntity t where 1=1 ");
         if (tableFilter.getSearchValue()!=null)
-        {
-            String hql="from BrakeEntity t where t.code like (?)";
-            query=session.createQuery(hql).setString(0,"%"+tableFilter.getSearchValue()+"%");
-        }
-        else
-        {
-            String hql = "from BrakeEntity t";
-            query = session.createQuery(hql);
-        }
+            hql.append(" and (t.code like('%")
+                    .append(tableFilter.getSearchValue())
+                    .append("%') or t.name like('%")
+                    .append(tableFilter.getSearchValue())
+                    .append("%'))");
+        if (tableFilter.getVillageId()!=null)
+            hql.append(" and t.villageId=").append(tableFilter.getVillageId());
+        query=session.createQuery(hql.toString());
         Integer count=query.list().size();
         entities=(ArrayList<BrakeEntity>)query
                 .setFirstResult(tableFilter.getStart())

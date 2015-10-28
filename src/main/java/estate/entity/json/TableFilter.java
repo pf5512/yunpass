@@ -10,6 +10,7 @@ public class TableFilter
     private Integer start;
     private String searchValue;
     private Integer villageId;
+    private Integer controlId;
     private Long endTime;
     private Long startTime;
     private Byte status;
@@ -94,5 +95,15 @@ public class TableFilter
     public void setType(Byte type)
     {
         this.type = type;
+    }
+
+    public Integer getControlId()
+    {
+        return controlId;
+    }
+
+    public void setControlId(Integer controlId)
+    {
+        this.controlId = controlId;
     }
 }
