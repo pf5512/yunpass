@@ -31,8 +31,8 @@ public class WebFilterMain implements Filter
         HttpServletResponse response = (HttpServletResponse) res;
 
         HttpSession session=request.getSession();
-        LogUtil.E(GsonUtil.getGson().toJson(request.getCookies()));
-        LogUtil.E("cookie:" + GetVillage.get(request, response));
+//        LogUtil.E(GsonUtil.getGson().toJson(request.getCookies()));
+//        LogUtil.E("cookie:" + GetVillage.get(request, response));
         String path=request.getServletPath();
 //        LogUtil.E("path:  " + path);
         ArrayList<String> passUrl=new ArrayList<>();

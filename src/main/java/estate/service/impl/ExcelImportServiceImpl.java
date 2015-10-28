@@ -7,11 +7,14 @@ import estate.common.excelDefine.BindHead;
 import estate.common.excelDefine.PropertyHead;
 import estate.common.excelDefine.SecretHead;
 import estate.common.util.Convert;
+import estate.common.util.GsonUtil;
+import estate.common.util.LogUtil;
 import estate.common.util.Validator;
 import estate.dao.*;
 import estate.entity.database.*;
 import estate.entity.json.ExcelImportReport;
 import estate.service.ExcelImportService;
+import org.apache.xmlbeans.impl.jam.mutable.MAnnotatedElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +39,8 @@ public class ExcelImportServiceImpl implements ExcelImportService
     private BuildingDao buildingDao;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private SsidSecretDao ssidSecretDao;
 
 
     @Override
@@ -53,23 +58,20 @@ public class ExcelImportServiceImpl implements ExcelImportService
             PropertyEntity propertyEntity=new PropertyEntity();
 
             //设置状态
-            if (check)
+            String status=map.get(PropertyHead.STATUS);
+            switch (status)
             {
-                String status=map.get(PropertyHead.STATUS);
-                switch (status)
-                {
-                    case "出租":
-                        propertyEntity.setStatus(PropertyStatus.CHUZU);
-                        break;
-                    case "自用":
-                        propertyEntity.setStatus(PropertyStatus.SELF);
-                        break;
-                    default:
-                        errorNum += 1;
-                        errorDescription.add("物业状态不合法: <br/>" + gson.toJson(map));
-                        check = false;
-                        break;
-                }
+                case "出租":
+                    propertyEntity.setStatus(PropertyStatus.CHUZU);
+                    break;
+                case "自用":
+                    propertyEntity.setStatus(PropertyStatus.SELF);
+                    break;
+                default:
+                    errorNum += 1;
+                    errorDescription.add("物业状态不合法: <br/>" + gson.toJson(map));
+                    check = false;
+                    break;
             }
 
             //设置编号
@@ -373,37 +375,90 @@ public class ExcelImportServiceImpl implements ExcelImportService
         boolean check;
         Gson gson=new Gson();
         List<String> errorDescription=new ArrayList<>();
-        for (Map<String, String> map : result)
+        for (Map<String,String> map:result)
         {
             check=true;
             SsidSecretEntity ssidSecretEntity=new SsidSecretEntity();
-
+            LogUtil.E(GsonUtil.getGson().toJson(map));
             //设置锁的编码
-            if (check)
+            String code=map.get(SecretHead.CODE);
+            if (code.equals(""))
             {
-                String code=map.get(SecretHead.CODE);
-                if (code.equals(""))
+                errorNum+=1;
+                errorDescription.add("锁的编号不能为空: "+gson.toJson(map));
+                check=false;
+            }
+            else
+            {
+                if (ssidSecretDao.getBySymbol(code)==null)
                 {
-                    errorNum+=1;
-                    errorDescription.add("锁的编号不能为空: "+gson.toJson(map));
-                    check=false;
+                    ssidSecretEntity.setSymbol(code);
                 }
                 else
-                    ssidSecretEntity.setSymbol(code);
+                {
+                    errorNum+=1;
+                    errorDescription.add("已导入该锁: <br/>"+gson.toJson(map));
+                    check=false;
+                }
             }
 
-            //设置锁的控制对象类型
             if (check)
             {
-                Byte controlType= Byte.valueOf(map.get(SecretHead.CONTROLTYPE));
-                ssidSecretEntity.setControlType(controlType);
+                if (map.get(SecretHead.TYPE).equals("蓝牙"))
+                {
+                    ssidSecretEntity.setType(SecretType.LANYA);
+                    LogUtil.E(map.get(SecretHead.SECRET));
+                    if (map.get(SecretHead.SECRET).equals(""))
+                    {
+                        errorNum += 1;
+                        errorDescription.add("蓝牙密钥不能为空: <br/>" + gson.toJson(map));
+                        check = false;
+                    }
+                }
+                else if (map.get(SecretHead.TYPE).equals("wifi"))
+                {
+                    ssidSecretEntity.setType(SecretType.WIFI);
+                    if (map.get(SecretHead.SECRET).equals("")||map.get(SecretHead.PASSWORD).equals(""))
+                    {
+                        errorNum += 1;
+                        errorDescription.add("wifi密钥或者密码不能为空: <br/>" + gson.toJson(map));
+                        check = false;
+                    }
+                }
+                else
+                {
+                    errorNum += 1;
+                    errorDescription.add("无线类型错误: <br/>" + gson.toJson(map));
+                    check = false;
+                }
             }
 
-            //设置锁的控制对象id
+            if (check)
+            {
+                ssidSecretEntity.setSecret(map.get(SecretHead.SECRET));
+                if (ssidSecretEntity.getType()==SecretType.WIFI)
+                {
+                    ssidSecretEntity.setPassword(map.get(SecretHead.PASSWORD));
+                }
+            }
 
-            //设置
-
+            if (check)
+            {
+                try
+                {
+                    baseDao.save(ssidSecretEntity);
+                    succNum+=1;
+                }
+                catch (Exception e)
+                {
+                    errorNum += 1;
+                    errorDescription.add("写入失败: <br/>" + gson.toJson(map));
+                }
+            }
         }
+        excelImportReport.setErrorNum(errorNum);
+        excelImportReport.setSuccNum(succNum);
+        excelImportReport.setErrorDescription(errorDescription);
         return excelImportReport;
     }
 }
