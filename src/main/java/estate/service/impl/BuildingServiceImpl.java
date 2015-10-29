@@ -1,8 +1,11 @@
 package estate.service.impl;
 
+import estate.common.config.SsidControlType;
 import estate.dao.BaseDao;
 import estate.dao.BuildingDao;
+import estate.dao.SsidSecretDao;
 import estate.entity.database.BuildingEntity;
+import estate.entity.database.SsidSecretEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.service.BuildingService;
@@ -22,11 +25,22 @@ public class BuildingServiceImpl implements BuildingService
     private BaseDao baseDao;
     @Autowired
     private BuildingDao buildingDao;
+    @Autowired
+    private SsidSecretDao ssidSecretDao;
 
     @Override
     public TableData getList(TableFilter tableFilter)
     {
         TableData tableData=buildingDao.getList(tableFilter);
+        ArrayList<BuildingEntity> buildingEntities= (ArrayList<BuildingEntity>) tableData.getJsonString();
+        for (BuildingEntity buildingEntity:buildingEntities)
+        {
+            SsidSecretEntity ssidSecretEntity=ssidSecretDao.
+                    getByControTypeControId(buildingEntity.getId(), SsidControlType.BUILDING);
+            if (ssidSecretEntity==null)
+                buildingEntity.setSymbol(null);
+            else buildingEntity.setSymbol(ssidSecretEntity.getSymbol());
+        }
         tableData.setRecordsTotal(baseDao.count("BuildingEntity"));
         return tableData;
     }

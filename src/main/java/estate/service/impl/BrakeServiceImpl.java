@@ -1,8 +1,11 @@
 package estate.service.impl;
 
+import estate.common.config.SsidControlType;
 import estate.dao.BaseDao;
 import estate.dao.BrakeDao;
+import estate.dao.SsidSecretDao;
 import estate.entity.database.BrakeEntity;
+import estate.entity.database.SsidSecretEntity;
 import estate.entity.json.Select2;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
@@ -23,11 +26,22 @@ public class BrakeServiceImpl implements BrakeService
     private BrakeDao brakeDao;
     @Autowired
     private BaseDao baseDao;
+    @Autowired
+    private SsidSecretDao ssidSecretDao;
 
     @Override
     public TableData getList(TableFilter tableFilter)
     {
         TableData tableData=brakeDao.getList(tableFilter);
+        ArrayList<BrakeEntity> brakeEntities= (ArrayList<BrakeEntity>) tableData.getJsonString();
+        for (BrakeEntity brakeEntity:brakeEntities)
+        {
+            SsidSecretEntity ssidSecretEntity=ssidSecretDao.
+                    getByControTypeControId(brakeEntity.getId(), SsidControlType.BRAKE);
+            if (ssidSecretEntity==null)
+                brakeEntity.setSymbol(null);
+            else brakeEntity.setSymbol(ssidSecretEntity.getSymbol());
+        }
         tableData.setRecordsTotal(baseDao.count("BrakeEntity"));
         return tableData;
     }

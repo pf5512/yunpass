@@ -12,6 +12,7 @@ public class BuildingEntity
     private String buildingCode;
     private String buildingName;
     private VillageEntity villageEntity;
+    private String symbol;
 
     public Integer getVillageId()
     {
@@ -71,5 +72,15 @@ public class BuildingEntity
     public void setVillageEntity(VillageEntity villageEntity)
     {
         this.villageEntity = villageEntity;
+    }
+
+    public String getSymbol()
+    {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol)
+    {
+        this.symbol = symbol;
     }
 }

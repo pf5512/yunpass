@@ -13,6 +13,7 @@ public class BrakeEntity
     private String description;
     private Integer villageId;
     private VillageEntity villageEntity;
+    private String symbol;
 
     public String getCode()
     {
@@ -82,5 +83,15 @@ public class BrakeEntity
     public void setVillageEntity(VillageEntity villageEntity)
     {
         this.villageEntity = villageEntity;
+    }
+
+    public String getSymbol()
+    {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol)
+    {
+        this.symbol = symbol;
     }
 }

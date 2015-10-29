@@ -184,6 +184,79 @@
         }
     });
 
+    $('#buildingListTable tbody').on( 'click', 'button#chooseSecretBtn', function () {
+        var data = editTable.row($(this).parents('tr') ).data();
+        $("#setSecretModel").modal("show");
+
+        $("#setSecretModel #villageId").val(data.id);
+        $.ajax({
+            type: "get",
+            async: true,
+            url: urlConfig.secretSelect2List,
+            dataType: "json",
+            success: function (result) {
+                if (result.status) {
+                    var html='<option value="">请选择yunPass编号</option>';
+                    if(result.jsonString==null)
+                        html='<option value="">--无可用yunPass--</option>';
+                    else
+                    {
+                        $.each(result.jsonString,function(k,v)
+                        {
+                            html+='<option value="'+ v.id+'">'+ v.text+'</option>';
+                        });
+                    }
+                    $("#yunPassList").html(html);
+                }
+                else
+                {
+                    $("#yunPassList").html('<option value="">--'+result.errorMsg.description+'--</option>');
+                }
+            },
+            error: function () {
+                $("#yunPassList").html('<option value="">--网络连接失败--</option>');
+            }
+        });
+        $('#yunPassList').val(null).trigger("change")
+    });
+    function yunPassListSelect2(){
+        $('#yunPassList').select2();
+    }
+    $("#submitSetSecret").on('click',function(){
+        var id=$("#setSecretForm #yunPassList option:selected").val();
+        var villageId=$("#setSecretForm #villageId").val();
+        if(id=="")
+        {
+            alert("请选择一个yunPass");
+        }
+        else {
+            $.ajax({
+                type: "post",
+                async: false,
+                url: urlConfig.setSecret + "building",
+                data: {
+                    controlId: villageId,
+                    id: id
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.status) {
+                        alert("设置成功!");
+                        editTable.ajax.reload(null, false);
+                    }
+                    else {
+                        alert(result.errorMsg.description);
+                    }
+                },
+                error: function () {
+                    alert("服务器连接失败,请重试!");
+                }
+            });
+            $("#setSecretModel").modal("hide");
+        }
+    });
+
+
 
     $("#addBuildingBtn").click(function(){
         $("#buildingAddModal").modal("show");
@@ -339,5 +412,6 @@
         LoadDataTablesScripts(initDataTable);
         initVillageSelect();
         LoadBootstrapValidatorScript(buildingAddValidator);
+        LoadSelect2Script(yunPassListSelect2);
     });
 </script>
