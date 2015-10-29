@@ -301,34 +301,42 @@
 
     //查看报修的详情
     $('#repairListTable tbody').on( 'click', 'button#detailRowBtn', function () {
+        $("#repairInfoModal").modal("show");
         var data = editTable.row($(this).parents('tr') ).data();
-        console.log(data);
         $("#repairInfoModal #titleArea").html(data.title);
         $("#repairInfoModal #descriptionArea").html(data.description);
         $("#repairInfoModal #contentArea").html("<p>"+data.content+"</p>");
-        $("#repairInfoModal #commentInfo").html("<h3>用户评论("+data.remark+")</h3><p>"+data.remarkText+"</p>");
+        if(data.remark!=null)
+            $("#repairInfoModal #commentInfo").html("<h3>用户评论("+data.remark+")</h3><p>"+data.remarkText+"</p>");
+        else
+            $("#repairInfoModal #commentInfo").html("");
+        $("#picArea").html("");
         $.ajax({
             type: "post",
             async: true,
-            url: urlConfig.getPicturePathsByID+data.id,
+            url: urlConfig.getRepairPicturePathsByID+data.id,
             dataType: "json",
             success: function (result) {
                 if(result.status)
                 {
-                    var imgList="";
-                    var pathString=result.jsonString.split(",");
-                    $.each(pathString,function(index,value){
-                        imgList+='<img max-width="100%" src="'+value+'" alt=""/><hr/>';
-                    });
-                    $("#picArea").html(imgList);
+                    if(result.jsonString!=null) {
+                        var imgList = "";
+                        var pathString = result.jsonString.split(",");
+                        $.each(pathString, function (index, value) {
+                            imgList += '<img max-width="100%" src="' + value + '" alt=""/><hr/>';
+                        });
+                        $("#picArea").html(imgList);
+                    }
+                }
+                else
+                {
+                    $("#picArea").html(result.errorMsg.description);
                 }
             },
             error: function () {
-
+                $("#picArea").html("获取图片失败");
             }
         });
-        $("#repairInfoModal").modal("show");
-
     });
 
 

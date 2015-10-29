@@ -1,11 +1,13 @@
 package estate.controller;
 
 import estate.entity.database.ComplainEntity;
+import estate.entity.database.RepairEntity;
 import estate.entity.json.BasicJson;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.service.BaseService;
 import estate.service.ComplainService;
+import estate.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ public class ComplainController
     private ComplainService complainService;
     @Autowired
     private BaseService baseService;
+    @Autowired
+    private PictureService pictureService;
 
     @RequestMapping(value = "/list")
     public TableData getList(TableFilter tableFilter,HttpServletRequest request)
@@ -70,6 +74,31 @@ public class ComplainController
         catch (Exception e)
         {
             basicJson.getErrorMsg().setDescription("删除失败");
+            return basicJson;
+        }
+
+        basicJson.setStatus(true);
+        return basicJson;
+    }
+
+    /**
+     * 获取投诉图片列表
+     * @param complainID
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getPathsByID/{complainID}")
+    public BasicJson getPathByID(@PathVariable Integer complainID,HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson();
+        try
+        {
+            ComplainEntity complainEntity = (ComplainEntity) baseService.get(complainID, ComplainEntity.class);
+            basicJson.setJsonString(pictureService.getPathsByIDs(complainEntity.getImageIdList(),request));
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setDescription("获取图片列表失败");
             return basicJson;
         }
 

@@ -40,4 +40,10 @@ public class ParkLotServiceImpl implements ParkLotService
     {
         return parkLotOwnerInfoDao.getByParkLotID(id);
     }
+
+    @Override
+    public ArrayList<ParklotOwnerInfoEntity> getByPhone(String phone)
+    {
+        return parkLotOwnerInfoDao.getByPhone(phone);
+    }
 }

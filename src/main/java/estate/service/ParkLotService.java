@@ -20,4 +20,11 @@ public interface ParkLotService
     TableData getList(TableFilter tableFilter);
 
     ArrayList<ParklotOwnerInfoEntity> getByParkLotID(Integer id);
+
+    /**
+     * 通过用户的电话获取车位绑定关系
+     * @param phone
+     * @return
+     */
+    ArrayList<ParklotOwnerInfoEntity> getByPhone(String phone);
 }

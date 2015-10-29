@@ -1,7 +1,11 @@
 package estate.service.impl;
 
 import estate.common.config.SsidControlType;
+import estate.common.util.LogUtil;
+import estate.dao.BrakeDao;
+import estate.dao.ParkLotOwnerInfoDao;
 import estate.dao.PropertyOwnerInfoDao;
+import estate.entity.database.ParklotOwnerInfoEntity;
 import estate.entity.database.PropertyOwnerInfoEntity;
 import estate.service.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +22,15 @@ public class AuthorityServiceImpl implements AuthorityService
 {
     @Autowired
     private PropertyOwnerInfoDao propertyOwnerInfoDao;
+    @Autowired
+    private BrakeDao brakeDao;
+    @Autowired
+    private ParkLotOwnerInfoDao parkLotOwnerInfoDao;
 
     @Override
     public ArrayList<Integer> getAuthorityIDsByPhoneType(String phone, Byte type)
     {
+        LogUtil.E("type:"+type);
         ArrayList<Integer> ids=new ArrayList<>();
         if (type== SsidControlType.VILLAGE||type==SsidControlType.BUILDING)
         {
@@ -42,14 +51,19 @@ public class AuthorityServiceImpl implements AuthorityService
                     ids.add(propertyOwnerInfoEntity.getPropertyEntity().getBuildingEntity().getVillageId());
                 }
             }
-            return ids;
         }
         else if (type==SsidControlType.BRAKE)
         {
-
-            return null;
+            ArrayList<ParklotOwnerInfoEntity> parklotOwnerInfoEntities=parkLotOwnerInfoDao.getByPhone(phone);
+            if (parklotOwnerInfoEntities==null)
+                return null;
+            for (ParklotOwnerInfoEntity parklotOwnerInfoEntity:parklotOwnerInfoEntities)
+            {
+                ids.add(parklotOwnerInfoEntity.getParkingLotEntity().getBrakeId());
+            }
         }
         else
             return null;
+        return ids;
     }
 }

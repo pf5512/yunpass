@@ -78,6 +78,7 @@
           <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml-schemas:3.12" />
           <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" />
           <element id="library" level="project" name="Maven: stax:stax-api:1.0.1" />
+          <element id="library" level="module" name="JUnit4" module-name="estateOA" />
         </element>
       </element>
     </root>

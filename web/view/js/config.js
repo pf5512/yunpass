@@ -41,7 +41,7 @@ urlConfig.pushBill=host+"fee/pushBill/";
 urlConfig.repairList=host+"repair/list";
 urlConfig.setRepairMan=host+"repair/setRepairMan";
 urlConfig.deleteRepair=host+"repair/delete/";
-urlConfig.getPicturePathsByID=host+"repair/getPathsByID/";
+urlConfig.getRepairPicturePathsByID=host+"repair/getPathsByID/";
 urlConfig.finishRepair=host+"repair/finish/";
 urlConfig.addRepairMan=host+"repair/addRepairMan";
 urlConfig.getRepairManList=host+"repair/getRepairManList";
@@ -49,6 +49,7 @@ urlConfig.getRepairManList=host+"repair/getRepairManList";
 //投诉相关的URL
 urlConfig.complainList=host+"complain/list";
 urlConfig.deleteComplain=host+"complain/delete/";
+urlConfig.getComplainPicturePathsByID=host+"complain/getPathsByID/";
 
 //用户相关的URL
 urlConfig.ownerList=host+"user/ownerList";

@@ -74,9 +74,7 @@
                                 <li class="list-group-item">投诉时间: <span id="time"></span></li>
                                 <li class="list-group-item">描述: <span id="description"></span></li>
                                 <li class="list-group-item">详情: <p id="detail"></p></li>
-                                <li class="list-group-item">图片: <img
-                                        src="http://7xlqn0.com1.z0.glb.clouddn.com/banner.jpg"
-                                        style="width: 800px; opacity: 1;"></li>
+                                <li class="list-group-item" id="picArea"></li>
                                 <li class="list-group-item">状态: <span id="status"></span></li>
                                 <li class="list-group-item">评分: <span id="remark"></span></li>
                                 <!--<li class="list-group-item">回复:-->
@@ -127,8 +125,9 @@
 
 
     $('#complainListTable tbody').on( 'click', 'button#deailRowBtn', function () {
+        $("#formModel").modal("show");//弹出框show
+        $("#formModel").find('.modal-title').text("投诉详情");
         var data = editTable.row($(this).parents('tr') ).data();
-        console.log(data);
 
         $("#complainInfo #title").text(data.title);
         $("#complainInfo #time").text(data.time);
@@ -136,8 +135,33 @@
         $("#complainInfo #detail").text(data.content);
         $("#complainInfo #status").text(data.status);
         $("#complainInfo #remark").text(data.remark);
-        $("#formModel").modal("show");//弹出框show
-        $("#formModel").find('.modal-title').text("投诉详情");
+        $("#picArea").html("");
+        $.ajax({
+            type: "post",
+            async: true,
+            url: urlConfig.getComplainPicturePathsByID+data.id,
+            dataType: "json",
+            success: function (result) {
+                if(result.status)
+                {
+                    if(result.jsonString!=null) {
+                        var imgList = "";
+                        var pathString = result.jsonString.split(",");
+                        $.each(pathString, function (index, value) {
+                            imgList += '<img max-width="100%" src="' + value + '" alt=""/><hr/>';
+                        });
+                        $("#picArea").html(imgList);
+                    }
+                }
+                else
+                {
+                    $("#picArea").html(result.errorMsg.description);
+                }
+            },
+            error: function () {
+                $("#picArea").html("获取图片失败");
+            }
+        });
 
     });
 

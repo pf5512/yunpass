@@ -76,7 +76,8 @@ public class AuthorityHandler
         ArrayList<Integer> ids;
         try
         {
-            ids = authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.VILLAGE);
+            ids = authorityService.getAuthorityIDsByPhoneType(phone, ssidSecretEntity.getControlType());
+            LogUtil.E("ids:"+ids);
         }
         catch (Exception e)
         {
