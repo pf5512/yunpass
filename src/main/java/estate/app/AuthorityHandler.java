@@ -1,5 +1,7 @@
 package estate.app;
 
+import estate.common.config.SecretType;
+import estate.common.config.SsidControlType;
 import estate.common.util.LogUtil;
 import estate.entity.database.OpenDoorRecordEntity;
 import estate.entity.database.SsidSecretEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-9-21.
@@ -31,19 +34,25 @@ public class AuthorityHandler
     @Autowired
     private BaseService baseService;
 
+    /**
+     * 获取门禁密钥
+     * @param symbol
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/getSecret/{symbol}",method = RequestMethod.GET)
     public BasicJson getSsidSecret(@PathVariable String symbol,HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson(false);
         SsidSecretEntity ssidSecretEntity;
-        //TODO 从登陆的用户session中取出用户的电话号码
+
         String phone= (String) request.getSession().getAttribute("phone");
         if (symbol!=null&&!symbol.equals(""))
         {
             try
             {
                 ssidSecretEntity=ssidSecretService.getSelfBySymbol(symbol);
-                if (ssidSecretEntity==null)
+                if (ssidSecretEntity==null||ssidSecretEntity.getControlId()==null)
                 {
                     basicJson.getErrorMsg().setDescription("该密钥未配置!");
                     return basicJson;
@@ -64,18 +73,35 @@ public class AuthorityHandler
         }
 
         //取出当前用户能进入的所有楼栋的ID
-//        ArrayList<Integer> ids=authorityService.getAuthorityBuildingIDsByPhone(phone);
-//        if(ids.contains(ssidSecretEntity.getBuildingId()))
-//        {
+        ArrayList<Integer> ids;
+        try
+        {
+            ids = authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.VILLAGE);
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setDescription("获取密钥失败");
+            return basicJson;
+        }
+
+        if (ids==null)
+        {
+            basicJson.getErrorMsg().setDescription("您没有该门禁权限");
+            return basicJson;
+        }
+
+        if(ids.contains(ssidSecretEntity.getControlId()))
+        {
+            basicJson.setJsonString(ssidSecretEntity);
+        }
+        else
+        {
+            basicJson.getErrorMsg().setCode("12050510");
+            basicJson.getErrorMsg().setDescription("您没有该门禁权限");
+            return basicJson;
+        }
+
         basicJson.setStatus(true);
-        basicJson.setJsonString(ssidSecretEntity);
-//        }
-//        else
-//        {
-//            basicJson.getErrorMsg().setCode("12050510");
-//            basicJson.getErrorMsg().setDescription("您没有访问权限");
-//            return basicJson;
-//        }
         return basicJson;
     }
 
@@ -103,7 +129,6 @@ public class AuthorityHandler
             basicJson.getErrorMsg().setDescription("保存出错-"+e.getMessage());
             return basicJson;
         }
-
         basicJson.setStatus(true);
         return basicJson;
     }

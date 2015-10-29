@@ -8,10 +8,12 @@ import java.util.ArrayList;
  */
 public interface AuthorityService
 {
+
     /**
-     * 根据业主的电话返回该业主名下所有有权限进入的楼栋id
+     * 通过电话和控制对象类型获取可进入的控制对象id
      * @param phone
-     * @return
+     * @param type village,building,brake
+     * @return ids
      */
-    ArrayList<Integer> getAuthorityBuildingIDsByPhone(String phone);
+    ArrayList<Integer> getAuthorityIDsByPhoneType(String phone,Byte type);
 }
