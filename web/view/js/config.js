@@ -67,6 +67,8 @@ urlConfig.getUserInfoByPhone=host+"/user/getUserInfoByPhone/";
 //密钥相关的url
 urlConfig.addSecret=host+"secret/add";
 urlConfig.secretList=host+"secret/list";
+urlConfig.secretSelect2List=host+"secret/select";
+urlConfig.setSecret=host+"secret/setSecret/";
 
 //物业信息相关的url
 urlConfig.modifyProperty=host+"property/modify";

@@ -209,16 +209,16 @@ public class UploadController
                 }
                 break;
             case "secret":
-//                try
-//                {
+                try
+                {
                     excelImportReport = excelImportService.importSecret(result);
-//                }
-//                catch (Exception e)
-//                {
-//                    basicJson.getErrorMsg().setDescription("excel文件内容不合法!");
-//                    basicJson.getErrorMsg().setCode(e.getMessage());
-//                    return basicJson;
-//                }
+                }
+                catch (Exception e)
+                {
+                    basicJson.getErrorMsg().setDescription("excel文件内容不合法!");
+                    basicJson.getErrorMsg().setCode(e.getMessage());
+                    return basicJson;
+                }
                 break;
             default:
                 basicJson.getErrorMsg().setDescription("请求路径错误");

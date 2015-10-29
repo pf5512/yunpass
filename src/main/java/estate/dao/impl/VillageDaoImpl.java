@@ -1,5 +1,7 @@
 package estate.dao.impl;
 
+import estate.common.util.GsonUtil;
+import estate.common.util.LogUtil;
 import estate.dao.VillageDao;
 import estate.entity.database.VillageEntity;
 import estate.entity.json.TableData;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kangbiao on 15-9-26.
@@ -59,7 +62,7 @@ public class VillageDaoImpl implements VillageDao
     public ArrayList<VillageEntity> getAllVillage()
     {
         Session session=getSession();
-        String hql="from VillageEntity t";
+        String hql="from VillageEntity t ";
         return (ArrayList<VillageEntity>) session.createQuery(hql).list();
     }
 }

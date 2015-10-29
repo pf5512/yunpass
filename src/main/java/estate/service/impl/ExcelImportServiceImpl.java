@@ -407,7 +407,6 @@ public class ExcelImportServiceImpl implements ExcelImportService
                 if (map.get(SecretHead.TYPE).equals("蓝牙"))
                 {
                     ssidSecretEntity.setType(SecretType.LANYA);
-                    LogUtil.E(map.get(SecretHead.SECRET));
                     if (map.get(SecretHead.SECRET).equals(""))
                     {
                         errorNum += 1;

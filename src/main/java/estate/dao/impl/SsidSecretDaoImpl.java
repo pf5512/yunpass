@@ -70,4 +70,27 @@ public class SsidSecretDaoImpl implements SsidSecretDao
         tableData.setJsonString(entities);
         return tableData;
     }
+
+    @Override
+    public SsidSecretEntity getByControTypeControId(Integer contrlId, Byte type)
+    {
+        Session session=getSession();
+        String hql="from SsidSecretEntity t where t.controlId=:id and t.controlType=:type";
+        Query query=session.createQuery(hql).setInteger("id",contrlId).setByte("type",type);
+        List list=query.list();
+        if (list.size()>0)
+            return (SsidSecretEntity) list.get(0);
+        return null;
+    }
+
+    @Override
+    public ArrayList<SsidSecretEntity> getNotUsed()
+    {
+        Session session=getSession();
+        String hql="from SsidSecretEntity t where t.controlId=null";
+        List list=session.createQuery(hql).list();
+        if (list.size()>0)
+            return (ArrayList<SsidSecretEntity>) list;
+        return null;
+    }
 }
