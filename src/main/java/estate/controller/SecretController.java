@@ -93,18 +93,15 @@ public class SecretController
     public TableData getList(TableFilter tableFilter,HttpServletRequest request)
     {
         TableData tableData=new TableData();
-        if(request.getParameter("search[value]")!=null)
-            tableFilter.setSearchValue(request.getParameter("search[value]"));
-        else
-            tableFilter.setSearchValue("");
+        tableFilter.setSearchValue(request.getParameter("search[value]"));
+
         try
         {
             tableData=ssidSecretService.getList(tableFilter);
         }
         catch (Exception e)
         {
-            LogUtil.E(e.getMessage());
-            tableData.getErrorMsg().setCode("1938340");
+            tableData.getErrorMsg().setCode(e.getMessage());
             tableData.getErrorMsg().setDescription("获取失败");
         }
         return tableData;

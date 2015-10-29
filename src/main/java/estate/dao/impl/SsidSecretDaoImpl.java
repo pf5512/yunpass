@@ -47,25 +47,18 @@ public class SsidSecretDaoImpl implements SsidSecretDao
         TableData tableData = new TableData(true);
         ArrayList<SsidSecretEntity> entities=new ArrayList<>();
         Query query;
-        if (!tableFilter.getSearchValue().equals(""))
-        {
-            String hql = "from SsidSecretEntity t ,BuildingEntity b where t.ssid like (?) and b.id=t.buildingId";
-            query = session.createQuery(hql).setString(0, "%" + tableFilter.getSearchValue() + "%");
-        }
-        else
-        {
-            String hql = "from SsidSecretEntity t,BuildingEntity b where b.id=t.buildingId";
-            query = session.createQuery(hql);
-        }
-        Integer count=query.list().size();
-        List list=query.setFirstResult(tableFilter.getStart()).setMaxResults(tableFilter.getLength()).list();
-        for (Object aList : list)
-        {
-            Object[] objects = (Object[]) aList;
-            SsidSecretEntity ssidSecretEntity=(SsidSecretEntity) objects[0];
-            entities.add(ssidSecretEntity);
-        }
+        StringBuilder hql=new StringBuilder("from SsidSecretEntity t where 1=1 ");
+        if (tableFilter.getSearchValue()!=null)
+            hql.append(" and t.symbol like('%")
+                    .append(tableFilter.getSearchValue())
+                    .append("%')");
 
+        query=session.createQuery(hql.toString());
+        Integer count=query.list().size();
+        entities= (ArrayList<SsidSecretEntity>) query
+                .setFirstResult(tableFilter.getStart())
+                .setMaxResults(tableFilter.getLength())
+                .list();
         tableData.setRecordsFiltered(count);
         tableData.setJsonString(entities);
         return tableData;
