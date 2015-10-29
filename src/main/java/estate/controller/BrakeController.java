@@ -38,7 +38,6 @@ public class BrakeController
         tableFilter.setSearchValue(request.getParameter("search[value]"));
         if (tableFilter.getSearchValue().equals(""))
             tableFilter.setSearchValue(null);
-
         try
         {
            return brakeService.getList(tableFilter);

@@ -12,8 +12,7 @@ public class BrakeEntity
     private String name;
     private String description;
     private Integer villageId;
-
-
+    private VillageEntity villageEntity;
 
     public String getCode()
     {
@@ -73,5 +72,15 @@ public class BrakeEntity
     public void setParkLotNum(Integer parkLotNum)
     {
         this.parkLotNum = parkLotNum;
+    }
+
+    public VillageEntity getVillageEntity()
+    {
+        return villageEntity;
+    }
+
+    public void setVillageEntity(VillageEntity villageEntity)
+    {
+        this.villageEntity = villageEntity;
     }
 }

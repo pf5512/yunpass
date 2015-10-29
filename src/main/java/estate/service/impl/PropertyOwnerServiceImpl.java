@@ -2,6 +2,7 @@ package estate.service.impl;
 
 import estate.common.config.BindStatus;
 import estate.common.config.UserType;
+import estate.common.util.LogUtil;
 import estate.dao.BaseDao;
 import estate.dao.PropertyOwnerInfoDao;
 import estate.dao.UserDao;
@@ -41,9 +42,9 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService
     public String getRoleStringByPhone(String phone)
     {
         ArrayList<PropertyOwnerInfoEntity> propertyOwnerInfoEntities=propertyOwnerInfoDao.getByPhone(phone);
+        StringBuilder roleString=new StringBuilder();
         if (propertyOwnerInfoEntities!=null)
         {
-            StringBuilder roleString=new StringBuilder();
             int temp=0;
             for (PropertyOwnerInfoEntity propertyOwnerInfoEntity:propertyOwnerInfoEntities)
             {
@@ -53,10 +54,11 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService
                     roleString.append(",").append(propertyOwnerInfoEntity.getUserRole());
                 temp++;
             }
-            return roleString.toString();
         }
-
-        return null;
+        LogUtil.E(roleString.toString());
+        if (roleString.toString().equals(""))
+            return "0";
+        return roleString.toString();
     }
 
     @Override

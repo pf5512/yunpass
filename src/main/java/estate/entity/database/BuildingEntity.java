@@ -11,10 +11,7 @@ public class BuildingEntity
     private String description;
     private String buildingCode;
     private String buildingName;
-
-
     private VillageEntity villageEntity;
-
 
     public Integer getVillageId()
     {
