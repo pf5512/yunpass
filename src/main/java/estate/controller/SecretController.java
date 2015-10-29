@@ -1,11 +1,14 @@
 package estate.controller;
 
+import estate.common.config.SecretType;
 import estate.common.config.SsidControlType;
+import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
 import estate.entity.database.SsidSecretEntity;
 import estate.entity.json.BasicJson;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
+import estate.exception.TypeErrorException;
 import estate.service.BaseService;
 import estate.service.BuildingService;
 import estate.service.SsidSecretService;
@@ -32,38 +35,56 @@ public class SecretController
     @Autowired
     private BaseService baseService;
 
+    /**
+     * 添加密钥
+     * @param ssidSecretEntity
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public BasicJson add(HttpServletRequest request)
+    public BasicJson add(SsidSecretEntity ssidSecretEntity,HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson(false);
-
-        SsidSecretEntity ssidSecretEntity=new SsidSecretEntity();
-        ssidSecretEntity.setSecret(request.getParameter("secret"));
-        ssidSecretEntity.setVillageId(Integer.valueOf(request.getParameter("villageId")));
-        ssidSecretEntity.setControlId(Integer.valueOf(request.getParameter("controlId")));
-        ssidSecretEntity.setPassword(request.getParameter("password"));
-        ssidSecretEntity.setType(Byte.valueOf(request.getParameter("type")));
-        ssidSecretEntity.setSymbol(request.getParameter("symbol"));
-
-        if (ssidSecretService.getSelfBySymbol(ssidSecretEntity.getSymbol())!=null)
+        if(ssidSecretEntity.getSecret()==null||ssidSecretEntity.getSecret().equals(""))
         {
-            basicJson.getErrorMsg().setCode("1000200");
-            basicJson.getErrorMsg().setDescription("该密钥已存在");
+            basicJson.getErrorMsg().setDescription("密钥不能为空");
             return basicJson;
+        }
+        try
+        {
+            LogUtil.E(GsonUtil.getGson().toJson(ssidSecretEntity));
+            SecretType.checkType(ssidSecretEntity.getType());
+        }
+        catch (TypeErrorException e)
+        {
+            basicJson.getErrorMsg().setDescription(e.getMessage());
+            return basicJson;
+        }
+
+        if (ssidSecretEntity.getType()== SecretType.WIFI)
+        {
+            if (ssidSecretEntity.getPassword()==null||ssidSecretEntity.getPassword().equals(""))
+            {
+                basicJson.getErrorMsg().setDescription("wifi密码不不能为空");
+                return basicJson;
+            }
         }
 
         try
         {
+            if (ssidSecretService.getSelfBySymbol(ssidSecretEntity.getSymbol())!=null)
+            {
+                basicJson.getErrorMsg().setDescription("该密钥已存在");
+                return basicJson;
+            }
             baseService.save(ssidSecretEntity);
         }
         catch (Exception e)
         {
-            LogUtil.E(e.getMessage());
-            basicJson.getErrorMsg().setCode("102200");
-            basicJson.getErrorMsg().setDescription("添加失败,请重试\n"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("添加失败,请重试");
             return basicJson;
         }
-        basicJson.setJsonString(ssidSecretEntity);
         basicJson.setStatus(true);
         return basicJson;
     }
