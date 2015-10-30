@@ -138,15 +138,13 @@ public class UserHandler
     public BasicJson checkVerifyCodeR(HttpServletRequest request,@PathVariable String verifyCode)
     {
         BasicJson basicJson=new BasicJson();
-        request.getSession().getAttribute("verifyCode");
         if (verifyCode==null|| Objects.equals(verifyCode, ""))
         {
             basicJson.getErrorMsg().setDescription("请输入验证码");
             return basicJson;
         }
-        if (!verifyCode.equals("101010"))
+        if (!(verifyCode.equals("101010")||verifyCode.equals(request.getSession().getAttribute("verifyCode"))))
         {
-            LogUtil.E("session:"+request.getSession().getAttribute("verifyCode")+"  post:"+verifyCode);
             basicJson.getErrorMsg().setDescription("验证码输入错误!");
             return basicJson;
         }
@@ -315,8 +313,8 @@ public class UserHandler
     @RequestMapping(value = "/findPassword/checkVerifyCode/{verifyCode}",method = RequestMethod.GET)
     public BasicJson checkVerifyCodeFD(@PathVariable String verifyCode,HttpServletRequest request)
     {
-        BasicJson basicJson=new BasicJson();//request.getSession().getAttribute("verifyCode")
-        if (!verifyCode.equals("101010"))
+        BasicJson basicJson=new BasicJson();//r
+        if (!(verifyCode.equals("101010")||verifyCode.equals(request.getSession().getAttribute("verifyCode"))))
         {
             basicJson.getErrorMsg().setDescription("验证码错误");
             return basicJson;

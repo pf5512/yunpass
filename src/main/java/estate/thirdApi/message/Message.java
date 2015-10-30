@@ -1,5 +1,8 @@
 package estate.thirdApi.message;
 
+import estate.common.util.LogUtil;
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,74 +15,21 @@ import java.net.*;
  */
 public class Message
 {
-    public static String send(String mobile, String content)
+    public static String send(String mobile, String content) throws IOException
     {
         String sign="阳辰";
-        StringBuffer sb = new StringBuffer("http://sms.1xinxi.cn/asmx/smsservice.aspx?");
+        StringBuilder sb = new StringBuilder("http://sms.1xinxi.cn/asmx/smsservice.aspx?");
         sb.append("name=VerPass@163.com");
         sb.append("&pwd=0C9E4B9FCDD8A770110444E6A7B8");
         sb.append("&mobile=").append(mobile);
-        try
-        {
-            sb.append("&content=").append(URLEncoder.encode(content, "UTF-8"));
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
-        try
-        {
-            sb.append("&sign=").append(URLEncoder.encode(sign, "UTF-8"));
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
+        sb.append("&content=").append(URLEncoder.encode(content, "UTF-8"));
+        sb.append("&sign=").append(URLEncoder.encode(sign, "UTF-8"));
         sb.append("&type=pt&extno=");
-        URL url = null;
-        try
-        {
-            url = new URL(sb.toString());
-        }
-        catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
-        HttpURLConnection connection = null;
-        try
-        {
-            connection = (HttpURLConnection) url.openConnection();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        try
-        {
-            connection.setRequestMethod("POST");
-        }
-        catch (ProtocolException e)
-        {
-            e.printStackTrace();
-        }
-        BufferedReader in = null;
-        try
-        {
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        String inputline = null;
-        try
-        {
-            inputline = in.readLine();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        URL url = new URL(sb.toString());
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        String inputline = in.readLine();
         System.out.println(inputline);
         String[] strings=inputline.split(",");
         switch (strings[0])
@@ -91,7 +41,7 @@ public class Message
             case "2":
                 return "余额不足";
             case "3":
-                return "请指定接受者电话";
+                return "请输入正确的电话号码";
             case "4":
                 return "包含sql语句";
             case "10":
@@ -109,13 +59,37 @@ public class Message
      */
     public static String sendRegisterVerifyCode(String phone,String verifyCode)
     {
-
-        return "succ";
+        String content="多能通用户注册验证码"+verifyCode+"(10分钟有效),消息来自:多能通安全中心";
+        try
+        {
+            return send(phone,content);
+        } catch (Exception e)
+        {
+            return "验证码发送失败";
+        }
     }
 
+    /**
+     * 发送找回密码的验证码
+     * @param phone
+     * @param verifyCode
+     * @return
+     */
     public static String sendFindPasswordVerifyCode(String phone,String verifyCode)
     {
-        return "succ";
+        String content="您的校验码是"+verifyCode+"(10分钟有效),请妥善保管,消息来自:多能通安全中心";
+        try
+        {
+            return send(phone,content);
+        } catch (Exception e)
+        {
+            return "验证码发送失败";
+        }
     }
 
+    @Test
+    public void test()
+    {
+        LogUtil.E(sendFindPasswordVerifyCode("15114052120", "101012"));
+    }
 }
