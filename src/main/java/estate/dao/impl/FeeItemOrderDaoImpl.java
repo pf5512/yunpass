@@ -31,27 +31,10 @@ public class FeeItemOrderDaoImpl implements FeeItemOrderDao
     public ArrayList<FeeItemOrderEntity> getFeeItemOrdersByPropertyID(Integer id)
     {
         Session session=getSession();
-        ArrayList arrayList=new ArrayList();
-        String hql="from FeeItemOrderEntity a left join a.feeItemEntity b left join b.ruleEntity c where a.propertyId=:id";
+        String hql="from FeeItemOrderEntity t where t.propertyId=:id";
         List list=session.createQuery(hql).setInteger("id",id).list();
-        if (list.size()<=0)
-        {
-            return null;
-        }
-        for (Object aList:list)
-        {
-            Object[] objects=(Object[])aList;
-            LogUtil.E(String.valueOf(objects.length));
-            arrayList.add(objects[0]);
-        }
-        return (ArrayList<FeeItemOrderEntity>) arrayList;
-    }
-
-    @Override
-    public void deleteAllByFeeItemID(Integer id)
-    {
-        Session session=getSession();
-        String hql="delete from FeeItemOrderEntity t where t.feeItemId=:id ";
-        session.createQuery(hql).setInteger("id",id).executeUpdate();
+        if (list.size()>0)
+            return (ArrayList<FeeItemOrderEntity>) list;
+        return null;
     }
 }

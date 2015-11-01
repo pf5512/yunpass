@@ -6,10 +6,9 @@ package estate.entity.json;
  */
 public class ParkLotExtra
 {
-    private Long payStartTime;
-    private Long payEndTime;
     private String monthPrice;
     private String perTimePrice;
+    private String managePrice;
 
     public String getMonthPrice()
     {
@@ -21,26 +20,6 @@ public class ParkLotExtra
         this.monthPrice = monthPrice;
     }
 
-    public Long getPayEndTime()
-    {
-        return payEndTime;
-    }
-
-    public void setPayEndTime(Long payEndTime)
-    {
-        this.payEndTime = payEndTime;
-    }
-
-    public Long getPayStartTime()
-    {
-        return payStartTime;
-    }
-
-    public void setPayStartTime(Long payStartTime)
-    {
-        this.payStartTime = payStartTime;
-    }
-
     public String getPerTimePrice()
     {
         return perTimePrice;
@@ -49,5 +28,15 @@ public class ParkLotExtra
     public void setPerTimePrice(String perTimePrice)
     {
         this.perTimePrice = perTimePrice;
+    }
+
+    public String getManagePrice()
+    {
+        return managePrice;
+    }
+
+    public void setManagePrice(String managePrice)
+    {
+        this.managePrice = managePrice;
     }
 }

@@ -2,7 +2,6 @@ package estate.service.impl;
 
 import estate.dao.BaseDao;
 import estate.dao.FeeItemOrderDao;
-import estate.entity.database.FeeItemOrderEntity;
 import estate.service.FeeItemOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +20,9 @@ public class FeeItemOrderServiceImpl implements FeeItemOrderService
     @Autowired
     private FeeItemOrderDao feeItemOrderDao;
 
-    @Override
-    public ArrayList<FeeItemOrderEntity> getFeeItemsByPropertyID(Integer id)
-    {
-        return feeItemOrderDao.getFeeItemOrdersByPropertyID(id);
-    }
+//    @Override
+//    public ArrayList<FeeItemOrderEntity> getFeeItemsByPropertyID(Integer id)
+//    {
+//        return feeItemOrderDao.getFeeItemOrdersByPropertyID(id);
+//    }
 }

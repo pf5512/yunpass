@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-9-24.
+ *
  */
 public interface FeeItemOrderDao
 {
@@ -15,11 +16,11 @@ public interface FeeItemOrderDao
      * @return
      */
     ArrayList<FeeItemOrderEntity> getFeeItemOrdersByPropertyID(Integer id);
-
-    //TODO 需要将删除改为放入回收站
-    /**
-     * 通过费用id删除该费用的所有绑定关系
-     * @param id
-     */
-    void deleteAllByFeeItemID(Integer id);
+//
+//    //TODO 需要将删除改为放入回收站
+//    /**
+//     * 通过费用id删除该费用的所有绑定关系
+//     * @param id
+//     */
+//    void deleteAllByFeeItemID(Integer id);
 }

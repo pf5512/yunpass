@@ -4,9 +4,9 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="estate.entity.database.BillEntity" table="bill" schema="" catalog="PropertySystem">
-        <id name="id">
-            <column name="id" sql-type="int unsigned" not-null="true"/>
+    <class name="estate.entity.database.PropertyBillEntity" table="property_bill" schema="" catalog="PropertySystem">
+        <id name="pbId">
+            <column name="pb_id" sql-type="int unsigned" not-null="true"/>
         </id>
         <property name="propertyId">
             <column name="property_id" sql-type="int unsigned"/>
@@ -15,7 +15,7 @@
             <column name="fee_item_fee" sql-type="varchar"/>
         </property>
         <property name="payStatus">
-            <column name="pay_status" sql-type="tinyint" default="0"/>
+            <column name="pay_status" sql-type="tinyint"/>
         </property>
         <property name="payType">
             <column name="pay_type" sql-type="tinyint"/>
@@ -27,10 +27,10 @@
             <column name="bill_generation_time" sql-type="bigint"/>
         </property>
         <property name="overdueFee">
-            <column name="overdue_fee" sql-type="decimal" precision="11" scale="2" default="0.00"/>
+            <column name="overdue_fee" sql-type="decimal" precision="11" scale="2"/>
         </property>
         <property name="payer">
-            <column name="payer" sql-type="varchar" length="45" default=""/>
+            <column name="payer" sql-type="varchar" length="45"/>
         </property>
     </class>
 </hibernate-mapping>

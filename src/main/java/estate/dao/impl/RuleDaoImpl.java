@@ -1,7 +1,6 @@
 package estate.dao.impl;
 
 import estate.dao.RuleDao;
-import estate.entity.database.RuleEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +21,20 @@ public class RuleDaoImpl implements RuleDao
         return sessionFactory.getCurrentSession();
     }
 
-    public Integer save(RuleEntity ruleEntity)
-    {
-        Session session=getSession();
-        session.saveOrUpdate(ruleEntity);
-        return ruleEntity.getRuleId();
-    }
-
-    public void delete(Integer ruleID)
-    {
-
-    }
-
-    public RuleEntity get(Integer ruleID)
-    {
-        return (RuleEntity) getSession().get(RuleEntity.class,ruleID);
-    }
+//    public Integer save(RuleEntity ruleEntity)
+//    {
+//        Session session=getSession();
+//        session.saveOrUpdate(ruleEntity);
+//        return ruleEntity.getRuleId();
+//    }
+//
+//    public void delete(Integer ruleID)
+//    {
+//
+//    }
+//
+//    public RuleEntity get(Integer ruleID)
+//    {
+//        return (RuleEntity) getSession().get(RuleEntity.class,ruleID);
+//    }
 }

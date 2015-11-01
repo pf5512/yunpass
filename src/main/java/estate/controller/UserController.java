@@ -232,29 +232,6 @@ public class UserController
 
     }
 
-    /**
-     * 获取租客列表
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/tenantList")
-    public TableData getAuthList(TableFilter tableFilter,HttpServletRequest request)
-    {
-        if(request.getParameter("search[value]")!=null)
-            tableFilter.setSearchValue(request.getParameter("search[value]"));
-        else
-            tableFilter.setSearchValue("");
-
-        try
-        {
-            return userService.getTenantList(tableFilter);
-        }
-        catch (Exception e)
-        {
-//            LogUtil.E(e.getClass()+e.getMessage());
-            return null;
-        }
-    }
 
     /**
      * 获取APP用户列表

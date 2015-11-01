@@ -24,7 +24,6 @@ public interface UserService
 
     TableData getOwnerList(TableFilter tableFilter);
 
-    TableData getTenantList(TableFilter tableFilter);
 
     TableData getAuthenticatedUserList(TableFilter tableFilter);
 
@@ -35,7 +34,6 @@ public interface UserService
      */
     TableData getAppUserList(TableFilter tableFilter);
 
-    TableData getList(TableFilter tableFilter,Object object);
 
     /**
      * 改变app用户的状态

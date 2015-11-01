@@ -1,7 +1,5 @@
 package estate.service;
 
-import estate.entity.database.FeeItemOrderEntity;
-
 import java.util.ArrayList;
 
 /**
@@ -15,5 +13,5 @@ public interface FeeItemOrderService
      * @param id
      * @return
      */
-    ArrayList<FeeItemOrderEntity> getFeeItemsByPropertyID(Integer id);
+//    ArrayList<FeeItemOrderEntity> getFeeItemsByPropertyID(Integer id);
 }

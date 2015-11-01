@@ -1,6 +1,5 @@
 package estate.service;
 
-import estate.entity.database.FeeItemEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 
@@ -17,7 +16,7 @@ public interface FeeService
      * 增加费用项目
      * @param feeItemEntity
      */
-    void estateFeeAdd(FeeItemEntity feeItemEntity);
+//    void estateFeeAdd(FeeItemEntity feeItemEntity);
 
     /**
      * 根据datatable过滤条件返回datatable格式的项目列表

@@ -5,7 +5,6 @@ import estate.common.util.Convert;
 import estate.dao.*;
 import estate.entity.database.AppUserEntity;
 import estate.entity.database.OwnerEntity;
-import estate.entity.database.TenantEntity;
 import estate.entity.display.Owner;
 import estate.entity.display.Tenant;
 import estate.entity.json.TableData;
@@ -32,15 +31,9 @@ public class UserServiceImpl implements UserService
     @Autowired
     private PropertyService propertyService;
     @Autowired
-    private FamilyService familyService;
-    @Autowired
     private BaseDao baseDao;
     @Autowired
     private PropertyOwnerInfoDao propertyOwnerInfoDao;
-    @Autowired
-    private TenantDao tenantDao;
-    @Autowired
-    private FamilyDao familyDao;
 
 
     @Override
@@ -92,7 +85,7 @@ public class UserServiceImpl implements UserService
             owner.setAuthenticationTime(Convert.num2time(ownerEntity.getAuthenticationTime()));
             owner.setBirthday(Convert.num2time(ownerEntity.getBirthday()));
 
-            owner.setFamilies(familyService.getFamiliesByOwnerID(ownerEntity.getId()));
+//            owner.setFamilies(familyService.getFamiliesByOwnerID(ownerEntity.getId()));
 //            owner.setPropertyEntities(propertyService.getPropertiesByString(ownerEntity.getPropertyIdList()));
 
             owners.add(owner);
@@ -102,33 +95,6 @@ public class UserServiceImpl implements UserService
         return tableData;
     }
 
-    public TableData getTenantList(TableFilter tableFilter)
-    {
-        TableData tableData=userDao.getTenantList(tableFilter);
-        ArrayList<TenantEntity> entities = (ArrayList<TenantEntity>) tableData.getJsonString();
-        ArrayList<Tenant> tenans=new ArrayList<Tenant>();
-
-        for(TenantEntity tenantEntity:entities)
-        {
-            Tenant tenant=new Tenant();
-
-            tenant.setBirthday(Convert.num2time(tenantEntity.getBirthday()));
-            tenant.setSex(Convert.num2sex(tenantEntity.getSex()));
-            tenant.setName(tenantEntity.getName());
-            tenant.setAuthenticationTime(Convert.num2time(tenantEntity.getAuthenticationTime()));
-            tenant.setStartTime(Convert.num2time(tenantEntity.getStartTime()));
-            tenant.setEndTime(Convert.num2time(tenantEntity.getEndTime()));
-            tenant.setIdentityType(Convert.num2idtype(tenantEntity.getIdentityType()));
-            tenant.setIdentityCode(tenantEntity.getIdentityCode());
-            tenant.setPhone(tenantEntity.getPhone());
-            tenant.setUrgentName(tenantEntity.getUrgentName());
-            tenant.setUrgentPhone(tenantEntity.getUrgentPhone());
-
-            tenans.add(tenant);
-        }
-        tableData.setJsonString(tenans);
-        return tableData;
-    }
 
     public TableData getAuthenticatedUserList(TableFilter tableFilter)
     {
@@ -198,33 +164,4 @@ public class UserServiceImpl implements UserService
         return userDao.getAllAppUser();
     }
 
-
-    @Override
-    public TableData getList(TableFilter tableFilter, Object object)
-    {
-        TableData tableData=userDao.getTenantList(tableFilter);
-        ArrayList<TenantEntity> entities = (ArrayList<TenantEntity>) tableData.getJsonString();
-        ArrayList<Tenant> tenans=new ArrayList<Tenant>();
-
-        for(TenantEntity tenantEntity:entities)
-        {
-            Tenant tenant=new Tenant();
-
-            tenant.setBirthday(Convert.num2time(tenantEntity.getBirthday()));
-            tenant.setSex(Convert.num2sex(tenantEntity.getSex()));
-            tenant.setName(tenantEntity.getName());
-            tenant.setAuthenticationTime(Convert.num2time(tenantEntity.getAuthenticationTime()));
-            tenant.setStartTime(Convert.num2time(tenantEntity.getStartTime()));
-            tenant.setEndTime(Convert.num2time(tenantEntity.getEndTime()));
-            tenant.setIdentityType(Convert.num2idtype(tenantEntity.getIdentityType()));
-            tenant.setIdentityCode(tenantEntity.getIdentityCode());
-            tenant.setPhone(tenantEntity.getPhone());
-            tenant.setUrgentName(tenantEntity.getUrgentName());
-            tenant.setUrgentPhone(tenantEntity.getUrgentPhone());
-
-            tenans.add(tenant);
-        }
-        tableData.setJsonString(tenans);
-        return tableData;
-    }
 }
