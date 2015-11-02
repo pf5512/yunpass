@@ -221,7 +221,7 @@ CREATE TABLE `fee_item` (
   PRIMARY KEY (`fi_id`),
   KEY `FK_dkxt8mdgrp38dbw0py16g89en` (`village_id`),
   CONSTRAINT `FK_dkxt8mdgrp38dbw0py16g89en` FOREIGN KEY (`village_id`) REFERENCES `village` (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,7 +230,7 @@ CREATE TABLE `fee_item` (
 
 LOCK TABLES `fee_item` WRITE;
 /*!40000 ALTER TABLE `fee_item` DISABLE KEYS */;
-INSERT INTO `fee_item` VALUES (1,'2',NULL,2,'',NULL,10.22,'day',145440515150,155440515150,144440515150,154440515150,1,5,'{\"monthPrice\":\"300\",\"perTimePrice\":\"15\",\"managePrice\":\"200\"}',14405151510,1),(7,'1',NULL,2,NULL,NULL,10.22,'month',1447084800000,1448467200000,1446307200000,1451577600000,1,5,'{\"monthPrice\":\"100\",\"perTimePrice\":\"4\",\"managePrice\":\"200\"}',1446450581474,1),(8,'1',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"120\",\"perTimePrice\":\"5\",\"managePrice\":\"300\"}',1446450830751,1),(9,'2',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"300.00\"}',1446450860702,1),(10,'3',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"100.00\"}',1446450874550,1),(11,'3',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,5,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"100.00\"}',1446450880651,1),(12,NULL,NULL,NULL,'per',200.00,NULL,NULL,NULL,NULL,1446307200000,1451577600000,0,5,NULL,1446451793705,1);
+INSERT INTO `fee_item` VALUES (1,'2',NULL,2,'',NULL,10.22,'day',145440515150,155440515150,144440515150,154440515150,1,5,'{\"monthPrice\":\"300\",\"perTimePrice\":\"15\",\"managePrice\":\"200\"}',14405151510,1),(7,'1',NULL,2,NULL,NULL,10.22,'month',1447084800000,1448467200000,1446307200000,1451577600000,1,5,'{\"monthPrice\":\"100\",\"perTimePrice\":\"4\",\"managePrice\":\"200\"}',1446450581474,1),(8,'1',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"120\",\"perTimePrice\":\"5\",\"managePrice\":\"300\"}',1446450830751,1),(9,'2',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"300.00\"}',1446450860702,1),(11,'3',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,5,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"100.00\"}',1446450880651,1),(13,'清洁费','清洁',1,'per',100.00,NULL,NULL,NULL,NULL,1446307200000,1451577600000,0,5,NULL,1446452294030,1),(16,'所属',NULL,0,'family',22.00,22.00,'day',1447084800000,1447257600000,1446307200000,1451577600000,1,5,NULL,1446453262641,1);
 /*!40000 ALTER TABLE `fee_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +249,7 @@ CREATE TABLE `fee_item_order` (
   PRIMARY KEY (`id`),
   KEY `FK_2eom30ry9yaakqhlrplfvs9u9` (`fee_item_id`),
   CONSTRAINT `FK_2eom30ry9yaakqhlrplfvs9u9` FOREIGN KEY (`fee_item_id`) REFERENCES `fee_item` (`fi_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,6 +258,7 @@ CREATE TABLE `fee_item_order` (
 
 LOCK TABLES `fee_item_order` WRITE;
 /*!40000 ALTER TABLE `fee_item_order` DISABLE KEYS */;
+INSERT INTO `fee_item_order` VALUES (1,5,16,NULL);
 /*!40000 ALTER TABLE `fee_item_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,7 +378,7 @@ CREATE TABLE `parking_lot` (
   PRIMARY KEY (`pl_id`),
   KEY `FK_4kgpj7bke3cswtrv8jh1vkb70` (`brake_id`),
   CONSTRAINT `FK_4kgpj7bke3cswtrv8jh1vkb70` FOREIGN KEY (`brake_id`) REFERENCES `brake` (`brake_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,7 +387,7 @@ CREATE TABLE `parking_lot` (
 
 LOCK TABLES `parking_lot` WRITE;
 /*!40000 ALTER TABLE `parking_lot` DISABLE KEYS */;
-INSERT INTO `parking_lot` VALUES (1,'CW001',NULL,'蓝光米兰香洲道闸一',2,NULL,1,6,0),(2,'CW002',NULL,'车位地址二',1,'巴拉巴拉',1,6,0),(3,'CW009',NULL,'园区一道闸一',2,'',1,5,0);
+INSERT INTO `parking_lot` VALUES (1,'CW001',NULL,'蓝光米兰香洲道闸一',2,NULL,1,6,0),(2,'CW002',NULL,'车位地址二',1,'巴拉巴拉',1,6,0),(3,'CW009',NULL,'园区一道闸一',2,'',1,5,0),(4,'CW0010',NULL,'园区一道闸一的车位',3,'',1,5,0);
 /*!40000 ALTER TABLE `parking_lot` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -673,4 +674,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-02 16:12:23
+-- Dump completed on 2015-11-02 22:22:41
