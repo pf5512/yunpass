@@ -16,32 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `apartment`
---
-
-DROP TABLE IF EXISTS `apartment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `apartment` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `unit_code` int(11) DEFAULT NULL COMMENT '楼栋单元号',
-  `code` int(11) DEFAULT NULL COMMENT '房号',
-  `building_id` int(10) unsigned DEFAULT NULL,
-  `property_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `apartment`
---
-
-LOCK TABLES `apartment` WRITE;
-/*!40000 ALTER TABLE `apartment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `apartment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `app_user`
 --
 
@@ -68,98 +42,6 @@ LOCK TABLES `app_user` WRITE;
 /*!40000 ALTER TABLE `app_user` DISABLE KEYS */;
 INSERT INTO `app_user` VALUES ('13398485955','123456',NULL,'Ryon',1446084081053,1,NULL),('13981111434','1234567',NULL,'xiaozhang',155515151500,1,NULL),('15114052120','123456',NULL,'xiaoming',155212121000,1,NULL),('18144240528','123456',NULL,'kangbiao',144444505050,1,NULL);
 /*!40000 ALTER TABLE `app_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `authenticated_record`
---
-
-DROP TABLE IF EXISTS `authenticated_record`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `authenticated_record` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `applicant` varchar(45) DEFAULT NULL COMMENT '申请人\n',
-  `application_time` bigint(25) DEFAULT NULL,
-  `application_type` tinyint(2) DEFAULT NULL COMMENT '1.亲属2租户3物业认可人员',
-  `auth_id` int(10) unsigned DEFAULT NULL COMMENT '授权人id即业主id（owner_id）或者是物业管理人员具有相应权限的id（console_user_id）',
-  `auth_result` tinyint(4) DEFAULT NULL,
-  `auth_time` bigint(25) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `authenticated_record`
---
-
-LOCK TABLES `authenticated_record` WRITE;
-/*!40000 ALTER TABLE `authenticated_record` DISABLE KEYS */;
-/*!40000 ALTER TABLE `authenticated_record` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `authenticated_user`
---
-
-DROP TABLE IF EXISTS `authenticated_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `authenticated_user` (
-  `au_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `identity_id` varchar(45) DEFAULT NULL,
-  `owner_relationship` varchar(20) DEFAULT NULL,
-  `birthday` bigint(25) DEFAULT NULL,
-  `register_time` bigint(25) DEFAULT NULL,
-  `sex` tinyint(2) DEFAULT NULL,
-  `bound_time` bigint(25) DEFAULT NULL,
-  `is_bound` tinyint(1) DEFAULT NULL,
-  `familycol` varchar(45) DEFAULT NULL,
-  `owner_id` int(10) unsigned DEFAULT NULL,
-  `user_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`au_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `authenticated_user`
---
-
-LOCK TABLES `authenticated_user` WRITE;
-/*!40000 ALTER TABLE `authenticated_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `authenticated_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bill`
---
-
-DROP TABLE IF EXISTS `bill`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bill` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `property_id` int(10) unsigned DEFAULT NULL,
-  `fee_item_fee` varchar(255) DEFAULT NULL COMMENT '存放由fee_item_id《＝》fee_amount组成的键值对，以逗号间隔。',
-  `pay_status` tinyint(2) DEFAULT '0',
-  `pay_type` tinyint(2) DEFAULT NULL,
-  `pay_time` bigint(25) DEFAULT NULL,
-  `bill_generation_time` bigint(25) DEFAULT NULL,
-  `overdue_fee` decimal(11,2) DEFAULT '0.00',
-  `payer` varchar(45) DEFAULT NULL COMMENT '付款人',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bill`
---
-
-LOCK TABLES `bill` WRITE;
-/*!40000 ALTER TABLE `bill` DISABLE KEYS */;
-INSERT INTO `bill` VALUES (185,1,'绿化费:55.00;清洁费:1.00',0,NULL,NULL,1445342542163,NULL,NULL),(186,2,'绿化费:55.00;清洁费:1.00',0,NULL,NULL,1445342542437,NULL,NULL),(187,7,'楼道维修费:322.00;管理费:6752.00;维护费:55.00',0,NULL,NULL,1445342542509,NULL,NULL),(188,8,'楼道维修费:322.00;管理费:3488.00;维护费:55.00',0,NULL,NULL,1445342542559,NULL,NULL),(189,9,'楼道维修费:322.00;管理费:3456.00;维护费:55.00',0,NULL,NULL,1445342542614,NULL,NULL),(190,10,'楼道维修费:322.00;管理费:3424.00;维护费:55.00',0,NULL,NULL,1445342542703,NULL,NULL),(191,11,'楼道维修费:322.00;管理费:3360.00;管理费:3360.00;维护费:55.00',0,NULL,NULL,1445342542764,NULL,NULL),(192,24,'快递寄存费:2320677.00;费用一:65934.00',0,NULL,NULL,1444900130987,NULL,NULL),(193,28,'费用一:57552.00',0,NULL,NULL,1444900131055,NULL,NULL);
-/*!40000 ALTER TABLE `bill` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -312,43 +194,6 @@ INSERT INTO `console_user` VALUES (1,'123456','admin',NULL,NULL,'admin',NULL,NUL
 UNLOCK TABLES;
 
 --
--- Table structure for table `family`
---
-
-DROP TABLE IF EXISTS `family`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `family` (
-  `family_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `phone` varchar(15) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `sex` tinyint(2) DEFAULT NULL,
-  `birthday` bigint(25) DEFAULT NULL,
-  `urgent_name` varchar(45) DEFAULT NULL,
-  `urgent_phone` varchar(15) DEFAULT NULL,
-  `identity_type` tinyint(2) DEFAULT NULL,
-  `identity_code` varchar(45) DEFAULT NULL,
-  `owner_relationship` varchar(20) DEFAULT NULL,
-  `authentication_time` bigint(25) DEFAULT NULL COMMENT '放到审批记录表',
-  `vehicle_id_list` varchar(50) DEFAULT NULL,
-  `auth_status` tinyint(2) DEFAULT NULL,
-  `owner_id` int(10) unsigned DEFAULT NULL,
-  `property_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`family_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `family`
---
-
-LOCK TABLES `family` WRITE;
-/*!40000 ALTER TABLE `family` DISABLE KEYS */;
-INSERT INTO `family` VALUES (2,'18224425362','康彪的家属',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,1),(4,'13688195630','xcz',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,2);
-/*!40000 ALTER TABLE `family` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `fee_item`
 --
 
@@ -357,16 +202,26 @@ DROP TABLE IF EXISTS `fee_item`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fee_item` (
   `fi_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
   `decription` varchar(200) DEFAULT NULL,
-  `fee_type_id` int(10) unsigned DEFAULT NULL,
-  `rule_id` int(10) unsigned DEFAULT NULL,
-  `is_periodic` tinyint(1) DEFAULT NULL,
+  `fee_type` tinyint(2) DEFAULT NULL,
+  `unit` varchar(20) DEFAULT NULL,
+  `unit_price` decimal(11,2) DEFAULT NULL COMMENT '单位价格',
+  `overdue_unit_price` decimal(11,2) DEFAULT NULL,
+  `overdue_unit` varchar(10) DEFAULT NULL,
+  `pay_start_time` bigint(25) DEFAULT NULL,
+  `pay_end_time` bigint(25) DEFAULT NULL,
+  `effective_start_time` bigint(25) DEFAULT NULL,
+  `effective_end_time` bigint(25) DEFAULT NULL,
+  `is_periodic` tinyint(2) DEFAULT NULL,
   `village_id` int(10) unsigned DEFAULT NULL,
+  `extend_info` varchar(255) DEFAULT NULL,
+  `add_time` bigint(25) DEFAULT NULL,
+  `is_effective` tinyint(2) DEFAULT '1',
   PRIMARY KEY (`fi_id`),
-  KEY `FK_mqd7psd6dy1apcdpf38h51m9v` (`rule_id`),
-  CONSTRAINT `FK_mqd7psd6dy1apcdpf38h51m9v` FOREIGN KEY (`rule_id`) REFERENCES `rule` (`rule_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+  KEY `FK_dkxt8mdgrp38dbw0py16g89en` (`village_id`),
+  CONSTRAINT `FK_dkxt8mdgrp38dbw0py16g89en` FOREIGN KEY (`village_id`) REFERENCES `village` (`village_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,7 +230,7 @@ CREATE TABLE `fee_item` (
 
 LOCK TABLES `fee_item` WRITE;
 /*!40000 ALTER TABLE `fee_item` DISABLE KEYS */;
-INSERT INTO `fee_item` VALUES (1,'维护费','',0,3,1,4),(2,'楼道维修费','653653',0,2,1,4),(4,'绿化费',NULL,0,4,1,5),(5,'清洁费',NULL,0,5,1,5),(10,'管理费',NULL,0,10,NULL,4),(17,'快递寄存费;1441123200000;14211111111000',NULL,0,17,NULL,6),(19,'服务费','提供物业服务',1,19,0,NULL),(20,'物管费;1444492800000;1444752000000',NULL,0,20,NULL,7),(21,'费用一;1445270400000;1446134400000',NULL,0,21,NULL,6),(22,'1','{\"payStartTime\":1443628800000,\"payEndTime\":1446048000000,\"monthPrice\":\"5545.5\",\"perTimePrice\":\"5.5\"}',2,22,NULL,4),(24,'2','{\"payStartTime\":1443628800000,\"payEndTime\":1443888000000,\"monthPrice\":\"545\",\"perTimePrice\":\"5.5\"}',2,24,NULL,6),(25,'2','{\"payStartTime\":1443628800000,\"payEndTime\":1444060800000,\"monthPrice\":\"66\",\"perTimePrice\":\"2\"}',2,25,NULL,5);
+INSERT INTO `fee_item` VALUES (1,'2',NULL,2,'',NULL,10.22,'day',145440515150,155440515150,144440515150,154440515150,1,5,'{\"monthPrice\":\"300\",\"perTimePrice\":\"15\",\"managePrice\":\"200\"}',14405151510,1),(7,'1',NULL,2,NULL,NULL,10.22,'month',1447084800000,1448467200000,1446307200000,1451577600000,1,5,'{\"monthPrice\":\"100\",\"perTimePrice\":\"4\",\"managePrice\":\"200\"}',1446450581474,1),(8,'1',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"120\",\"perTimePrice\":\"5\",\"managePrice\":\"300\"}',1446450830751,1),(9,'2',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"300.00\"}',1446450860702,1),(10,'3',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"100.00\"}',1446450874550,1),(11,'3',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,5,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"100.00\"}',1446450880651,1),(12,NULL,NULL,NULL,'per',200.00,NULL,NULL,NULL,NULL,1446307200000,1451577600000,0,5,NULL,1446451793705,1);
 /*!40000 ALTER TABLE `fee_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -394,7 +249,7 @@ CREATE TABLE `fee_item_order` (
   PRIMARY KEY (`id`),
   KEY `FK_2eom30ry9yaakqhlrplfvs9u9` (`fee_item_id`),
   CONSTRAINT `FK_2eom30ry9yaakqhlrplfvs9u9` FOREIGN KEY (`fee_item_id`) REFERENCES `fee_item` (`fi_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=230 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -403,33 +258,7 @@ CREATE TABLE `fee_item_order` (
 
 LOCK TABLES `fee_item_order` WRITE;
 /*!40000 ALTER TABLE `fee_item_order` DISABLE KEYS */;
-INSERT INTO `fee_item_order` VALUES (168,4,2,0),(169,5,2,0),(170,6,2,0),(171,7,2,0),(172,8,2,0),(173,9,2,0),(174,10,2,0),(175,11,2,0),(176,1,4,0),(177,2,4,0),(178,3,4,0),(179,1,5,0),(180,2,5,0),(181,3,5,0),(189,11,10,0),(190,4,10,0),(191,5,10,0),(192,6,10,0),(193,7,10,0),(194,8,10,0),(195,9,10,0),(196,10,10,0),(197,11,10,0),(198,24,17,0),(223,24,21,0),(224,28,21,0),(225,7,1,0),(226,8,1,0),(227,9,1,0),(228,10,1,0),(229,11,1,0);
 /*!40000 ALTER TABLE `fee_item_order` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `fee_type`
---
-
-DROP TABLE IF EXISTS `fee_type`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fee_type` (
-  `ft_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  `description` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`ft_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fee_type`
---
-
-LOCK TABLES `fee_type` WRITE;
-/*!40000 ALTER TABLE `fee_type` DISABLE KEYS */;
-INSERT INTO `fee_type` VALUES (1,'车位费',''),(2,'物业服务费',NULL),(3,'物业费',NULL);
-/*!40000 ALTER TABLE `fee_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -452,7 +281,7 @@ CREATE TABLE `notice` (
   PRIMARY KEY (`notice_id`),
   KEY `FK_1nyd0erg10vfu0etf8fc8h0va` (`cu_id`),
   CONSTRAINT `FK_1nyd0erg10vfu0etf8fc8h0va` FOREIGN KEY (`cu_id`) REFERENCES `console_user` (`cu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -481,7 +310,7 @@ CREATE TABLE `open_door_record` (
   `description` varchar(100) DEFAULT NULL,
   `level` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`odr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -490,6 +319,7 @@ CREATE TABLE `open_door_record` (
 
 LOCK TABLES `open_door_record` WRITE;
 /*!40000 ALTER TABLE `open_door_record` DISABLE KEYS */;
+INSERT INTO `open_door_record` VALUES (14,'18144240528',1446128156307,NULL,0,'手机问题',0);
 /*!40000 ALTER TABLE `open_door_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -651,6 +481,37 @@ INSERT INTO `property` VALUES (28,'A001','半山蓝湾一单元',1,115.55,1,5,1,
 UNLOCK TABLES;
 
 --
+-- Table structure for table `property_bill`
+--
+
+DROP TABLE IF EXISTS `property_bill`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `property_bill` (
+  `pb_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `property_id` int(10) unsigned DEFAULT NULL,
+  `fee_item_fee` varchar(255) DEFAULT NULL COMMENT '存放由fee_item_id《＝》fee_amount组成的键值对，以逗号间隔。',
+  `pay_status` tinyint(2) DEFAULT '0',
+  `pay_type` tinyint(2) DEFAULT NULL,
+  `pay_time` bigint(25) DEFAULT NULL,
+  `bill_generation_time` bigint(25) DEFAULT NULL,
+  `overdue_fee` decimal(11,2) DEFAULT '0.00',
+  `payer` varchar(45) DEFAULT NULL COMMENT '付款人',
+  PRIMARY KEY (`pb_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `property_bill`
+--
+
+LOCK TABLES `property_bill` WRITE;
+/*!40000 ALTER TABLE `property_bill` DISABLE KEYS */;
+INSERT INTO `property_bill` VALUES (1,28,'管理费:99;楼道维护:100',0,NULL,NULL,NULL,0.00,NULL),(2,31,'管理费:999;楼道维护1000',0,NULL,NULL,NULL,0.00,NULL);
+/*!40000 ALTER TABLE `property_bill` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `property_owner_info`
 --
 
@@ -709,7 +570,7 @@ CREATE TABLE `repair` (
   KEY `FK_cwawwq5yle93o0u418f6r9t2l` (`repair_man_id`),
   CONSTRAINT `FK_cwawwq5yle93o0u418f6r9t2l` FOREIGN KEY (`repair_man_id`) REFERENCES `repair_man` (`rp_id`),
   CONSTRAINT `FK_oc5vf2v77386b82n98ejj4qcd` FOREIGN KEY (`cu_id`) REFERENCES `console_user` (`cu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -718,7 +579,7 @@ CREATE TABLE `repair` (
 
 LOCK TABLES `repair` WRITE;
 /*!40000 ALTER TABLE `repair` DISABLE KEYS */;
-INSERT INTO `repair` VALUES (17,'test','testcontent','testcontent','18144240528',1,1445601726069,1445601733972,1445601752302,'25',3,'22','很好',1,NULL),(18,'test','afdsfdfasfd','afdsfdfasfd','18144240528',2,1445696919683,1445696962017,1445697047070,'28,29',2,NULL,NULL,1,NULL),(19,'楼道扶手坏了','坏了','坏了','18144240528',1,1445700172158,1445700190803,NULL,'30,31',1,NULL,NULL,1,NULL),(20,'屋顶漏水','漏水','漏水','18144240528',NULL,1445700222119,NULL,NULL,'32',0,NULL,NULL,NULL,NULL),(21,'椅子','椅子坏了','椅子坏了','18144240528',2,1446105475363,1446115337155,NULL,'',1,NULL,NULL,1,NULL);
+INSERT INTO `repair` VALUES (17,'test','testcontent','testcontent','18144240528',1,1445601726069,1445601733972,1445601752302,'25',3,'22','很好',1,NULL),(18,'test','afdsfdfasfd','afdsfdfasfd','18144240528',2,1445696919683,1445696962017,1445697047070,'28,29',2,NULL,NULL,1,NULL),(19,'楼道扶手坏了','坏了','坏了','18144240528',1,1445700172158,1445700190803,NULL,'30,31',1,NULL,NULL,1,NULL),(20,'屋顶漏水','漏水','漏水','18144240528',NULL,1445700222119,NULL,NULL,'32',0,NULL,NULL,NULL,NULL),(21,'椅子','椅子坏了','椅子坏了','18144240528',2,1446105475363,1446115337155,NULL,'',1,NULL,NULL,1,NULL),(22,'第一次测试','啦啦啦','啦啦啦','13398485955',NULL,1446119325317,NULL,NULL,'',0,NULL,NULL,NULL,NULL),(23,'第四次测试','擦擦擦','擦擦擦','13398485955',NULL,1446119698642,NULL,NULL,'',0,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `repair` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -748,62 +609,6 @@ INSERT INTO `repair_man` VALUES (1,'15114052120','小明'),(2,'18144240528','小
 UNLOCK TABLES;
 
 --
--- Table structure for table `rule`
---
-
-DROP TABLE IF EXISTS `rule`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `unit_price` decimal(11,2) DEFAULT NULL COMMENT '单位价格',
-  `unit` varchar(10) DEFAULT NULL,
-  `description` varchar(100) DEFAULT NULL,
-  `overdue_unit_price` decimal(11,2) DEFAULT NULL,
-  `overdue_unit` varchar(10) DEFAULT NULL,
-  `start_time` bigint(25) DEFAULT NULL,
-  `end_time` bigint(25) DEFAULT NULL,
-  PRIMARY KEY (`rule_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rule`
---
-
-LOCK TABLES `rule` WRITE;
-/*!40000 ALTER TABLE `rule` DISABLE KEYS */;
-INSERT INTO `rule` VALUES (2,322.00,'family',NULL,5.00,'day',1441555200000,1443542400000),(3,55.00,'family',NULL,55.00,'day',NULL,NULL),(4,55.00,'family',NULL,454.00,'day',NULL,NULL),(5,1.00,'family',NULL,2.00,'day',NULL,NULL),(6,32.00,'squre',NULL,NULL,NULL,1441814400000,1442419200000),(7,32.00,'per',NULL,NULL,NULL,1441814400000,1442419200000),(8,56.00,'per',NULL,NULL,NULL,1441814400000,1441641600000),(9,43.00,'squre',NULL,NULL,NULL,1441641600000,1444233600000),(10,32.00,'squre',NULL,3.00,'month',1422720000000,1454601600000),(11,32.00,'squre',NULL,4.00,'day',1441036800000,1441382400000),(12,3.00,'squre',NULL,3.00,'day',NULL,NULL),(13,2.00,'per',NULL,NULL,NULL,NULL,NULL),(14,21.00,'per',NULL,NULL,NULL,NULL,NULL),(15,3.00,'per',NULL,NULL,NULL,1441641600000,1442160000000),(16,3.00,'per',NULL,NULL,NULL,1441641600000,1442160000000),(17,2323.00,'squre',NULL,12.00,'day',1441036800000,1442937600000),(18,21.00,'squre',NULL,NULL,NULL,1441036800000,1442246400000),(19,55.00,'squre',NULL,NULL,NULL,1444060800000,1469030400000),(20,1.50,'squre',NULL,3.00,'day',1444492800000,1444752000000),(21,66.00,'squre',NULL,99.00,'month',1443628800000,1446220800000),(22,55.55,NULL,NULL,5.00,'day',1443628800000,1451577600000),(24,55.55,NULL,NULL,6.00,'month',1443628800000,1454256000000),(25,99.00,NULL,NULL,33.00,'day',1443628800000,1448899200000);
-/*!40000 ALTER TABLE `rule` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `shop`
---
-
-DROP TABLE IF EXISTS `shop`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shop` (
-  `property_id` int(10) unsigned DEFAULT NULL,
-  `code` varchar(45) DEFAULT NULL COMMENT '街道门牌号',
-  `village_id` int(11) DEFAULT NULL,
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `shop`
---
-
-LOCK TABLES `shop` WRITE;
-/*!40000 ALTER TABLE `shop` DISABLE KEYS */;
-INSERT INTO `shop` VALUES (1,'2121hg',1,1),(NULL,'b222',1,2),(NULL,'b222',1,3),(NULL,'b222',1,4),(6,'b222',1,5);
-/*!40000 ALTER TABLE `shop` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ssid_secret`
 --
 
@@ -829,44 +634,8 @@ CREATE TABLE `ssid_secret` (
 
 LOCK TABLES `ssid_secret` WRITE;
 /*!40000 ALTER TABLE `ssid_secret` DISABLE KEYS */;
-INSERT INTO `ssid_secret` VALUES (28,1,3,1,NULL,'YC_D_001','123456789',NULL),(29,1,2,2,NULL,'YC_D_002','123456789','123456'),(30,5,2,1,NULL,'YC_D_003','12345678',NULL),(31,NULL,NULL,1,NULL,'YC_D_004','123456789',NULL),(32,NULL,NULL,2,NULL,'YC_D_005','123456789','123456'),(33,NULL,NULL,1,NULL,'YC_D_006','12345678',NULL),(34,NULL,NULL,1,NULL,'YC_D_007','123456789',NULL),(35,NULL,NULL,2,NULL,'YC_D_008','123456789','123456'),(36,NULL,NULL,1,NULL,'YC_D_009','12345678',NULL),(37,NULL,NULL,1,NULL,'YC_D_0010','123456789',NULL),(38,NULL,NULL,2,NULL,'YC_D_0011','123456789','123456'),(39,NULL,NULL,1,NULL,'YC_D_0012','12345678',NULL),(40,NULL,NULL,1,NULL,'YC_D_0013','123456',''),(41,5,1,2,NULL,'YC_D_0014','1234565','01234567');
+INSERT INTO `ssid_secret` VALUES (28,1,3,1,NULL,'YC_D_001','123456789',NULL),(29,1,2,2,NULL,'YC_D_002','123456789','123456'),(30,5,2,1,NULL,'YC_D_003','12345678',NULL),(31,NULL,NULL,1,NULL,'YC_D_004','123456789',NULL),(32,7,1,2,NULL,'YC_D_005','123456789','123456'),(33,NULL,NULL,1,NULL,'YC_D_006','12345678',NULL),(34,NULL,NULL,1,NULL,'YC_D_007','123456789',NULL),(35,NULL,NULL,2,NULL,'YC_D_008','123456789','123456'),(36,2,3,1,NULL,'YC_D_009','12345678',NULL),(37,NULL,NULL,1,NULL,'YC_D_0010','123456789',NULL),(38,NULL,NULL,2,NULL,'YC_D_0011','123456789','123456'),(39,NULL,NULL,1,NULL,'YC_D_0012','12345678',NULL),(40,NULL,NULL,1,NULL,'YC_D_0013','123456',''),(41,5,1,2,NULL,'YC_D_0014','1234565','01234567');
 /*!40000 ALTER TABLE `ssid_secret` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tenant`
---
-
-DROP TABLE IF EXISTS `tenant`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tenant` (
-  `tenant_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `phone` varchar(15) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `sex` tinyint(2) DEFAULT NULL,
-  `birthday` bigint(25) DEFAULT NULL,
-  `urgent_name` varchar(45) DEFAULT NULL,
-  `urgent_phone` varchar(15) DEFAULT NULL,
-  `identity_type` tinyint(2) DEFAULT NULL,
-  `identity_code` varchar(45) DEFAULT NULL,
-  `start_time` bigint(25) DEFAULT NULL,
-  `end_time` bigint(25) DEFAULT NULL,
-  `authentication_time` bigint(25) DEFAULT NULL,
-  `auth_status` tinyint(2) DEFAULT NULL,
-  `property_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`tenant_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tenant`
---
-
-LOCK TABLES `tenant` WRITE;
-/*!40000 ALTER TABLE `tenant` DISABLE KEYS */;
-INSERT INTO `tenant` VALUES (4,'18224489343','康彪的租户',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,1),(5,'18224489258','康彪的租户',0,813772800000,'何科松','18224489342',0,'511321199305205852',NULL,NULL,NULL,0,7),(6,'18224456832','小明的租客',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,1);
-/*!40000 ALTER TABLE `tenant` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -904,4 +673,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-29 19:33:09
+-- Dump completed on 2015-11-02 16:12:23
