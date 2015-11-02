@@ -44,12 +44,6 @@ public interface PropertyService
      */
     ArrayList<PropertyEntity> getByBuildingID(Integer id);
 
-    /**
-     * 根据APP用户的电话号码返回该app用户名下所有的物业
-     * @param phone
-     * @return
-     */
-    ArrayList<PropertyEntity> getProperitiesByAppUserPhone(String phone);
 
     /**
      * 通过物业编号获取物业信息
@@ -65,12 +59,13 @@ public interface PropertyService
      */
     ArrayList<PropertyEntity> getPropertyByPhoneRole(String phone, Byte userRole);
 
+
     /**
-     * 通过园区id获取该园区下的所有物业
-     * @param id
+     * 根据物业类型获取数量
+     * @param type
      * @return
      */
-    ArrayList<PropertyEntity> getAllPropertyByVillageID(Integer id);
+    Integer getNumByType(byte type);
 
 
 }

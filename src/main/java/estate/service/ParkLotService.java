@@ -3,6 +3,7 @@ package estate.service;
 import estate.entity.database.ParklotOwnerInfoEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.ArrayList;
 
@@ -27,4 +28,6 @@ public interface ParkLotService
      * @return
      */
     ArrayList<ParklotOwnerInfoEntity> getByPhone(String phone);
+
+    Integer countByType(byte type);
 }

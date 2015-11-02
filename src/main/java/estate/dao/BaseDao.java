@@ -51,4 +51,6 @@ public interface BaseDao
      */
     Integer count(String table);
 
+    Integer count(Class cls);
+
 }

@@ -92,18 +92,6 @@ public class PropertyServiceImpl implements PropertyService
 
 
     @Override
-    public ArrayList<PropertyEntity> getProperitiesByAppUserPhone(String phone)
-    {
-//        AppUserEntity appUserEntity;
-//        appUserEntity= (AppUserEntity) baseDao.get(phone,AppUserEntity.class);
-//        if (appUserEntity==null)
-//            return null;
-//        int userRole=appUserEntity.getUserRole();
-//        return propertyDao.getPropertiesByPhoneRole(phone,userRole);
-        return null;
-    }
-
-    @Override
     public PropertyEntity getByCode(String code) throws EntityTypeErrorException
     {
         return (PropertyEntity) baseDao.getByCode(code, Entity.PROPERTY);
@@ -117,9 +105,9 @@ public class PropertyServiceImpl implements PropertyService
     }
 
     @Override
-    public ArrayList<PropertyEntity> getAllPropertyByVillageID(Integer id)
+    public Integer getNumByType(byte type)
     {
-        return propertyDao.getAllProperty();
+        return propertyDao.countByType(type);
     }
 
 }

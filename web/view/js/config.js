@@ -12,6 +12,10 @@ urlConfig.home="/oa/view";
 //用户登陆
 urlConfig.login=host+"auth/login";
 
+//数据统计
+urlConfig.propertyStatis=host+"statis/property";
+urlConfig.parkLotStatis=host+"statis/parkLot";
+urlConfig.systemInfoStatis=host+"statis/systemInfo";
 
 urlConfig.setVillageIDCookie=host+"public/setcookie/";
 

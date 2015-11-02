@@ -52,4 +52,10 @@ public class BaseServiceImpl implements BaseService
     {
         baseDao.delete(object);
     }
+
+    @Override
+    public Integer count(Class cls)
+    {
+        return baseDao.count(cls);
+    }
 }

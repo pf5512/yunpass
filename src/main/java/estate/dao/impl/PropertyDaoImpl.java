@@ -97,17 +97,6 @@ public class PropertyDaoImpl implements PropertyDao
     }
 
     @Override
-    public ArrayList<PropertyEntity> getAllProperty()
-    {
-        Session session=getSession();
-        String hql="from PropertyEntity";
-        List list=session.createQuery(hql).list();
-        if (list.size()>0)
-            return (ArrayList<PropertyEntity>) list;
-        return null;
-    }
-
-    @Override
     public PropertyEntity getByCode(String code)
     {
         Session session=getSession();
@@ -117,6 +106,14 @@ public class PropertyDaoImpl implements PropertyDao
             return (PropertyEntity) list.get(0);
         else
             return null;
+    }
+
+    @Override
+    public Integer countByType(byte type)
+    {
+        Session session=getSession();
+        String hql="from PropertyEntity t where t.type=:type";
+        return session.createQuery(hql).setByte("type",type).list().size();
     }
 
 

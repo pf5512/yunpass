@@ -60,4 +60,12 @@ public class ParkLotDaoImpl implements ParkLotDao
         tableData.setJsonString(entities);
         return tableData;
     }
+
+    @Override
+    public Integer countByType(byte type)
+    {
+        Session session=getSession();
+        String hql="from ParkingLotEntity t where t.type=:type";
+        return session.createQuery(hql).setByte("type",type).list().size();
+    }
 }

@@ -21,4 +21,6 @@ public interface BaseService
 
     void delete(Object object);
 
+    Integer count(Class cls);
+
 }

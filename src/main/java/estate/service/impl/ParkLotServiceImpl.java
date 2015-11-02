@@ -46,4 +46,10 @@ public class ParkLotServiceImpl implements ParkLotService
     {
         return parkLotOwnerInfoDao.getByPhone(phone);
     }
+
+    @Override
+    public Integer countByType(byte type)
+    {
+        return parkLotDao.countByType(type);
+    }
 }

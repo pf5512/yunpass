@@ -122,4 +122,14 @@ public class BaseDaoImpl implements BaseDao
         return ((Long)session.createQuery(hql).uniqueResult()).intValue();
     }
 
+    @Override
+    public Integer count(Class cls)
+    {
+        Session session=getSession();
+        String entity=cls.getSimpleName();
+        String hql="from "+entity+" t";
+        List list=session.createQuery(hql).list();
+        return list.size();
+    }
+
 }

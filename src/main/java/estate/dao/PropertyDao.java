@@ -29,18 +29,18 @@ public interface PropertyDao
      */
     ArrayList<PropertyEntity> getPropertiesByPhoneRole(String phone,Byte role);
 
-
-    /**
-     * 获取所有的物业
-     * @return
-     */
-    ArrayList<PropertyEntity> getAllProperty();
-
     /**
      * 通过编号获取物业信息
      * @param code
      * @return
      */
     PropertyEntity getByCode(String code);
+
+    /**
+     * 通过类型计数
+     * @param type
+     * @return
+     */
+    Integer countByType(byte type);
 
 }

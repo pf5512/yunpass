@@ -10,4 +10,6 @@ import estate.entity.json.TableFilter;
 public interface ParkLotDao
 {
     TableData getList(TableFilter tableFilter);
+
+    Integer countByType(byte type);
 }
