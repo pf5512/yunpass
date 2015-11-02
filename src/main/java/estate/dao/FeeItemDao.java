@@ -9,14 +9,8 @@ import estate.entity.json.TableFilter;
  */
 public interface FeeItemDao
 {
+    TableData getList(TableFilter tableFilter,byte feeType);
 
-//    void delete(Integer feeItemID);
-//
-//
-//    TableData getList(TableFilter tableFilter,int feeType);
-//
-//    Integer count(int feeType);
-//
     /**
      * 通过园区id和车位费类型返回车位费信息
      * @param villageID

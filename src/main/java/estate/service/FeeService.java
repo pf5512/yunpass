@@ -23,13 +23,13 @@ public interface FeeService
      * @param tableFilter
      * @return
      */
-    TableData feeList(TableFilter tableFilter,int feeType);
+    TableData feeList(TableFilter tableFilter,byte feeType);
 
     /**
      * 会同时删除与之相关的规则
      * @param id
      */
-    void deleteFee(Integer id);
+//    void deleteFee(Integer id);
 
     //TODO 去除删除费用信息的隐患
     /**
@@ -37,7 +37,7 @@ public interface FeeService
      * @param buildingIDs
      * @param feeItemID
      */
-    void relateBuilding(ArrayList<Integer> buildingIDs,Integer feeItemID);
+//    void relateBuilding(ArrayList<Integer> buildingIDs,Integer feeItemID);
 
     /**
      * 通过园区id和车位类型获取费用信息,用来防止对一个园区添加多个相同类型的车位费用信息

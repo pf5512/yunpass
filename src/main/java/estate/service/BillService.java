@@ -1,5 +1,6 @@
 package estate.service;
 
+import estate.entity.database.UserBillEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.exception.PropertyNotBindFeeItemException;
@@ -14,7 +15,7 @@ public interface BillService
 {
 
 
-    ArrayList<Object> getBillByPhone(String phone,Byte status,Long startTime,Long endTime);
+    UserBillEntity getBillByPhone(String phone,Byte status,Long startTime,Long endTime);
 
     /**
      * 根据物业id生成这个物业的账单

@@ -1,10 +1,12 @@
 package estate.controller;
 
 import estate.common.Config;
+import estate.common.config.FeeType;
 import estate.common.config.UserType;
 import estate.common.util.Convert;
 import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
+import estate.entity.database.FeeItemEntity;
 import estate.entity.database.OwnerEntity;
 import estate.entity.database.PropertyEntity;
 import estate.entity.json.BasicJson;
@@ -30,8 +32,8 @@ import java.util.ArrayList;
 @RequestMapping("/web/fee")
 public class FeeController
 {
-//    @Autowired
-//    private FeeService feeService;
+    @Autowired
+    private FeeService feeService;
 //    @Autowired
 //    private BillService billService;
     @Autowired
@@ -42,92 +44,90 @@ public class FeeController
     private UserService userService;
 
 
-//    @RequestMapping(value = "/add/{feeType}")
-//    public BasicJson addFeeItem(@PathVariable String feeType,HttpServletRequest request)
-//    {
-//        RuleEntity ruleEntity=new RuleEntity();
-//        FeeItemEntity feeItemEntity=new FeeItemEntity();
-//        BasicJson basicJson=new BasicJson(false);
-//
-//        try
-//        {
-//            ruleEntity.setStartTime(Convert.time2num(request.getParameter("start_time")));
-//            ruleEntity.setEndTime(Convert.time2num(request.getParameter("end_time")));
-//            ruleEntity.setUnit(request.getParameter("unit_type"));
-//            ruleEntity.setUnitPrice(request.getParameter("fee_unit_price"));
-//            feeItemEntity.setVillageId(Integer.valueOf(request.getParameter("villageId")));
-//            switch (feeType)
-//            {
-//                case "estate":
-//                    ruleEntity.setOverdueUnit(request.getParameter("overdue_unit_type"));
-//                    ruleEntity.setOverdueUnitPrice(request.getParameter("overdue_unit_price"));
-//                    feeItemEntity.setRuleEntity(ruleEntity);
-//                    String payStartTime=String.valueOf(Convert.time2num(request.getParameter("pay_start_time")));
-//                    String payEndTime=String.valueOf(Convert.time2num(request.getParameter("pay_end_time")));
-//                    feeItemEntity.setName(request.getParameter("fee_name") + ";" + payStartTime + ";" + payEndTime);
-//                    feeItemEntity.setFeeTypeId(Config.ESTATE);
-//                    break;
-//                case "service":
-//                    feeItemEntity.setName(request.getParameter("fee_name"));
-//                    feeItemEntity.setDecription(request.getParameter("description"));
-//                    feeItemEntity.setRuleEntity(ruleEntity);
-//
-//                    feeItemEntity.setFeeTypeId(Config.SERVICE);
-//                    feeItemEntity.setIsPeriodic(Config.FALSE);
-//                    break;
-//                case "parkingLot":
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            basicJson.getErrorMsg().setDescription("参数有误!");
-//            return basicJson;
-//        }
-//
-//        try
-//        {
-//            feeService.estateFeeAdd(feeItemEntity);
-//        }
-//        catch (Exception e)
-//        {
-//            basicJson.getErrorMsg().setDescription("费用信息增加失败,请重试");
-//            return basicJson;
-//        }
-//
-//        basicJson.setStatus(true);
-//        basicJson.setJsonString(feeItemEntity);
-//        return basicJson;
-//    }
+    @RequestMapping(value = "/add/{feeTypeString}")
+    public BasicJson addFeeItem(@PathVariable String feeTypeString,FeeItemEntity feeItemEntity,HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        try
+        {
+            feeItemEntity.setPayStartTime(Convert.time2num(request.getParameter("payStartTimeRaw")));
+            feeItemEntity.setPayEndTime(Convert.time2num(request.getParameter("payEndTimeRaw")));
+            feeItemEntity.setEffectiveStartTime(Convert.time2num(request.getParameter("effectiveStartTimeRaw")));
+            feeItemEntity.setEffectiveEndTime(Convert.time2num(request.getParameter("effectiveEndTimeRaw")));
+            feeItemEntity.setIsEffective(Config.TRUE);
+            feeItemEntity.setAddTime(System.currentTimeMillis());
+            switch (feeTypeString)
+            {
+                case "estate":
+                    feeItemEntity.setIsPeriodic(Config.TRUE);
 
-//
+                    String payStartTime=String.valueOf(Convert.time2num(request.getParameter("pay_start_time")));
+                    String payEndTime=String.valueOf(Convert.time2num(request.getParameter("pay_end_time")));
+                    feeItemEntity.setName(request.getParameter("fee_name") + ";" + payStartTime + ";" + payEndTime);
+                    break;
+                case "service":
+                    feeItemEntity.setFeeType(FeeType.SERVICE);
+                    feeItemEntity.setIsPeriodic(Config.FALSE);
+                    break;
+                case "parkLot":
+                    if (feeService.getParkLotFeeByVillageIdType(feeItemEntity.getVillageId(),feeItemEntity.getName())!=null)
+                    {
+                        basicJson.getErrorMsg().setDescription("该园区已经配置该类别车位的费用信息");
+                        return basicJson;
+                    }
+                    feeItemEntity.setFeeType(FeeType.PARKING_LOT);
+                    feeItemEntity.setIsPeriodic(Config.TRUE);
+
+                    ParkLotExtra parkLotExtra=new ParkLotExtra();
+                    parkLotExtra.setMonthPrice(request.getParameter("monthPrice"));
+                    parkLotExtra.setPerTimePrice(request.getParameter("perTimePrice"));
+                    parkLotExtra.setManagePrice(request.getParameter("managePrice"));
+                    feeItemEntity.setExtendInfo(GsonUtil.getGson().toJson(parkLotExtra));
+                    break;
+                default:
+                    basicJson.getErrorMsg().setDescription("请求路径错误");
+                    return basicJson;
+            }
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("参数有误!");
+            return basicJson;
+        }
+
+        try
+        {
+            baseService.save(feeItemEntity);
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("费用信息增加失败,请重试");
+            return basicJson;
+        }
+        basicJson.setStatus(true);
+        basicJson.setJsonString(feeItemEntity);
+        return basicJson;
+    }
+
+
 //    @RequestMapping(value = "/add/parkLot")
 //    public BasicJson addParkLotFee(HttpServletRequest request)
 //    {
 //        BasicJson basicJson=new BasicJson();
 //        FeeItemEntity feeItemEntity=new FeeItemEntity();
-//        RuleEntity ruleEntity=new RuleEntity();
 //        ParkLotExtra parkLotExtra=new ParkLotExtra();
 //
 //        try
 //        {
 //            parkLotExtra.setMonthPrice(request.getParameter("monthPrice"));
 //            parkLotExtra.setPerTimePrice(request.getParameter("perTimePrice"));
-//            parkLotExtra.setPayEndTime(Convert.time2num(request.getParameter("payEndTime")));
-//            parkLotExtra.setPayStartTime(Convert.time2num(request.getParameter("payStartTime")));
+//            parkLotExtra.setManagePrice(request.getParameter("managePrice"));
 //
-//            ruleEntity.setStartTime(Convert.time2num(request.getParameter("startTime")));
-//            ruleEntity.setEndTime(Convert.time2num(request.getParameter("endTime")));
-//            ruleEntity.setOverdueUnitPrice(request.getParameter("overdueUnitPrice"));
-//            ruleEntity.setOverdueUnit(request.getParameter("overdueUnit"));
-//            ruleEntity.setUnitPrice(request.getParameter("unitPrice"));
-//            feeItemEntity.setRuleEntity(ruleEntity);
 //            feeItemEntity.setName(request.getParameter("parkLotType"));
 //            feeItemEntity.setDecription(GsonUtil.getGson().toJson(parkLotExtra));
 //            feeItemEntity.setVillageId(Integer.valueOf(request.getParameter("villageId")));
-//            feeItemEntity.setFeeTypeId(Config.PARKING_LOT);
 //        }
 //        catch (Exception e)
 //        {
@@ -155,40 +155,36 @@ public class FeeController
 //        return basicJson;
 //    }
 
-//    @RequestMapping(value = "/list/{feeType}")
-//    public TableData feeList(@PathVariable String feeType, TableFilter tableFilter,HttpServletRequest request)
-//    {
-//        LogUtil.E(FeeController.class.getName());
-//        if(request.getParameter("search[value]")!=null)
-//            tableFilter.setSearchValue(request.getParameter("search[value]"));
-//        else
-//            tableFilter.setSearchValue("");
-//        TableData tableData=new TableData(false);
-//        try
-//        {
-//            switch (feeType)
-//            {
-//                case "estate":
-//                    return feeService.feeList(tableFilter,Config.ESTATE);
-//                case "service":
-//                    return feeService.feeList(tableFilter,Config.SERVICE);
-//                case "parkLot":
-//                    return feeService.feeList(tableFilter,Config.PARKING_LOT);
-//                default:
-//                    tableData.getErrorMsg().setCode("1000525");
-//                    tableData.getErrorMsg().setDescription("请求路径错误");
-//                    return tableData;
-//            }
-//
-//        }
-//        catch (Exception e)
-//        {
-////            LogUtil.E(e.getMessage(),"FeeController");
-//            tableData.getErrorMsg().setCode("1000520");
-//            tableData.getErrorMsg().setDescription("获取费用列表失败,请重试");
-//            return tableData;
-//        }
-//    }
+    @RequestMapping(value = "/list/{feeType}")
+    public TableData feeList(@PathVariable String feeType, TableFilter tableFilter,HttpServletRequest request)
+    {
+        tableFilter.setSearchValue(request.getParameter("search[value]"));
+
+        TableData tableData=new TableData(false);
+        try
+        {
+            switch (feeType)
+            {
+                case "estate":
+                    return feeService.feeList(tableFilter,FeeType.ESTATE);
+                case "service":
+                    return feeService.feeList(tableFilter,FeeType.SERVICE);
+                case "parkLot":
+                    return feeService.feeList(tableFilter, FeeType.PARKING_LOT);
+                default:
+                    tableData.getErrorMsg().setCode("1000525");
+                    tableData.getErrorMsg().setDescription("请求路径错误");
+                    return tableData;
+            }
+
+        }
+        catch (Exception e)
+        {
+            tableData.getErrorMsg().setCode(e.getMessage());
+            tableData.getErrorMsg().setDescription("获取费用列表失败,请重试");
+            return tableData;
+        }
+    }
 
 //    /**
 //     * 将物业和费用项目绑定

@@ -5,6 +5,7 @@ import estate.common.config.BillPayStatus;
 import estate.common.config.ParkLotOwnerRole;
 import estate.common.util.Convert;
 import estate.common.util.GsonUtil;
+import estate.common.util.LogUtil;
 import estate.dao.*;
 import estate.entity.database.*;
 import estate.entity.json.ParkLotExtra;
@@ -37,7 +38,7 @@ public class BillServiceImpl implements BillService
     private FeeItemDao feeItemDao;
 
     @Override
-    public ArrayList<Object> getBillByPhone(String phone, Byte status, Long startTime, Long endTime)
+    public UserBillEntity getBillByPhone(String phone, Byte status, Long startTime, Long endTime)
     {
         UserBillEntity userBillEntity=new UserBillEntity();
         StringBuilder serviceBill=new StringBuilder();
@@ -54,6 +55,22 @@ public class BillServiceImpl implements BillService
                 Integer propertyId = propertyOwnerInfoEntity.getPropertyEntity().getId();
                 ArrayList<PropertyBillEntity> propertyBillEntities = billDao
                         .getPropertyBillByPropertyID(propertyId, BillPayStatus.UNPAY, null, null);
+                if (propertyBillEntities!=null)
+                {
+                    int temp2 = 0;
+                    for (PropertyBillEntity propertyBillEntity : propertyBillEntities)
+                    {
+                        if (temp2 == 0)
+                        {
+                            propertyBill.append(";").append(propertyBillEntity.getFeeItemFee());
+                        } else
+                        {
+                            propertyBill.append(propertyBillEntity.getFeeItemFee());
+                        }
+                        temp2++;
+                    }
+                }
+
             }
             userBillEntity.setPropertyBill(propertyBill.toString());
         }
@@ -65,103 +82,103 @@ public class BillServiceImpl implements BillService
             int temp=0;
             for (ParklotOwnerInfoEntity parklotOwnerInfoEntity : parklotOwnerInfoEntities)
             {
-                FeeItemEntity feeItemEntity= (FeeItemEntity) feeItemDao.getParkLotByVillageIdType
-                        (parklotOwnerInfoEntity.getParkingLotEntity().getVillageId(),
+                LogUtil.E(GsonUtil.getGson().toJson(parklotOwnerInfoEntity));
+                FeeItemEntity feeItemEntity = (FeeItemEntity) feeItemDao.getParkLotByVillageIdType
+                        (parklotOwnerInfoEntity.getParkingLotEntity().getBrakeEntity().getVillageId(),
                                 String.valueOf(parklotOwnerInfoEntity.getParkingLotEntity().getType()));
-                ParkLotExtra parkLotExtra=(GsonUtil.getGson().fromJson(feeItemEntity.getExtendInfo(), ParkLotExtra.class));
-                switch (parklotOwnerInfoEntity.getOwnerType())
+                if (feeItemEntity != null)
                 {
-                    case ParkLotOwnerRole.OWNER:
-                        if (temp==0)
-                        {
+                    ParkLotExtra parkLotExtra = (GsonUtil.getGson().fromJson(feeItemEntity.getExtendInfo(), ParkLotExtra.class));
+                    switch (parklotOwnerInfoEntity.getOwnerType())
+                    {
+                        case ParkLotOwnerRole.OWNER:
+                            if (temp == 0)
+                            {
 
-                            parkLotBill
-                                    .append("车位管理费(")
-                                    .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
-                                    .append("):")
-                                    .append(parkLotExtra.getManagePrice());
-                        }
-                        else
-                        {
-                            parkLotBill
-                                    .append(";")
-                                    .append("车位管理费(")
-                                    .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
-                                    .append("):")
-                                    .append(parkLotExtra.getManagePrice());
-                        }
-                        break;
-                    case ParkLotOwnerRole.TEMP:
-                        parkLotExtra.getPerTimePrice();
-                        if (temp==0)
-                        {
+                                parkLotBill
+                                        .append("车位管理费(")
+                                        .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
+                                        .append("):")
+                                        .append(parkLotExtra.getManagePrice());
+                            } else
+                            {
+                                parkLotBill
+                                        .append(";")
+                                        .append("车位管理费(")
+                                        .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
+                                        .append("):")
+                                        .append(parkLotExtra.getManagePrice());
+                            }
+                            break;
+                        case ParkLotOwnerRole.TEMP:
+                            parkLotExtra.getPerTimePrice();
+                            if (temp == 0)
+                            {
 
-                            parkLotBill
-                                    .append("车位费(")
-                                    .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
-                                    .append("):")
-                                    .append(parkLotExtra.getPerTimePrice());
-                        }
-                        else
-                        {
-                            parkLotBill
-                                    .append(";")
-                                    .append("车位费(")
-                                    .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
-                                    .append("):")
-                                    .append(parkLotExtra.getPerTimePrice());
-                        }
-                        break;
-                    case ParkLotOwnerRole.TENANT:
-                        parkLotExtra.getMonthPrice();
-                        if (temp==0)
-                        {
+                                parkLotBill
+                                        .append("车位费(")
+                                        .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
+                                        .append("):")
+                                        .append(parkLotExtra.getPerTimePrice());
+                            } else
+                            {
+                                parkLotBill
+                                        .append(";")
+                                        .append("车位费(")
+                                        .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
+                                        .append("):")
+                                        .append(parkLotExtra.getPerTimePrice());
+                            }
+                            break;
+                        case ParkLotOwnerRole.TENANT:
+                            parkLotExtra.getMonthPrice();
+                            if (temp == 0)
+                            {
 
-                            parkLotBill
-                                    .append("车位月租费(")
-                                    .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
-                                    .append("):")
-                                    .append(parkLotExtra.getMonthPrice());
-                        }
-                        else
-                        {
-                            parkLotBill
-                                    .append(";")
-                                    .append("车位月租费(")
-                                    .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
-                                    .append("):")
-                                    .append(parkLotExtra.getMonthPrice());
-                        }
-                        break;
-                    case ParkLotOwnerRole.USER:
-                        if (temp==0)
-                        {
+                                parkLotBill
+                                        .append("车位月租费(")
+                                        .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
+                                        .append("):")
+                                        .append(parkLotExtra.getMonthPrice());
+                            } else
+                            {
+                                parkLotBill
+                                        .append(";")
+                                        .append("车位月租费(")
+                                        .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
+                                        .append("):")
+                                        .append(parkLotExtra.getMonthPrice());
+                            }
+                            break;
+                        case ParkLotOwnerRole.USER:
+                            if (temp == 0)
+                            {
 
-                            parkLotBill
-                                    .append("车位管理费(")
-                                    .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
-                                    .append("):")
-                                    .append(parkLotExtra.getManagePrice());
-                        }
-                        else
-                        {
-                            parkLotBill
-                                    .append(";")
-                                    .append("车位管理费(")
-                                    .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
-                                    .append("):")
-                                    .append(parkLotExtra.getManagePrice());
-                        }
-                        break;
-                    default:
-                        break;
+                                parkLotBill
+                                        .append("车位管理费(")
+                                        .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
+                                        .append("):")
+                                        .append(parkLotExtra.getManagePrice());
+                            } else
+                            {
+                                parkLotBill
+                                        .append(";")
+                                        .append("车位管理费(")
+                                        .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
+                                        .append("):")
+                                        .append(parkLotExtra.getManagePrice());
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    temp++;
                 }
-                temp++;
             }
             userBillEntity.setParkLotBill(parkLotBill.toString());
         }
 
-        return null;
+        return userBillEntity;
     }
 
     @Override

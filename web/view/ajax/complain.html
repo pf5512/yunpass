@@ -148,7 +148,7 @@
                         var imgList = "";
                         var pathString = result.jsonString.split(",");
                         $.each(pathString, function (index, value) {
-                            imgList += '<img max-width="100%" src="' + value + '" alt=""/><hr/>';
+                            imgList += '<img style="max-width:100%" src="' + value + '" alt=""/><hr/>';
                         });
                         $("#picArea").html(imgList);
                     }

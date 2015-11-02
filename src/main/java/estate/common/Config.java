@@ -17,12 +17,4 @@ public class Config
     //系统真假常量
     public static final Byte FALSE=0;
     public static final Byte TRUE=1;
-
-
-
-    //费用类型相关配置
-    public static final int ESTATE=0;
-    public static final int SERVICE=1;
-    public static final int PARKING_LOT=2;
-
 }

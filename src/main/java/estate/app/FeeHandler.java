@@ -1,5 +1,6 @@
 package estate.app;
 
+import estate.common.config.BillPayStatus;
 import estate.common.util.Convert;
 import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
@@ -23,6 +24,20 @@ import java.util.ArrayList;
 @RequestMapping(value = "/api/fee")
 public class FeeHandler
 {
+
+    @Autowired
+    private BillService billService;
+
+    @RequestMapping(value = "/getBill")
+    public BasicJson getBill(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+
+        basicJson.setJsonString(billService.getBillByPhone("18144240528", BillPayStatus.UNPAY,null,null));
+
+        basicJson.setStatus(true);
+        return basicJson;
+    }
 
     /**
      * 获取用户绑定的所有物业的张账单

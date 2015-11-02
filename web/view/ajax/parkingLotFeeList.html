@@ -31,9 +31,10 @@
                         <th>按次计费</th>
                         <th>收费时间</th>
                         <th>生效时间</th>
-                        <th>迟滞金单价</th>
                         <th>迟滞金规则</th>
-                        <th>删除</th>
+                        <th>添加时间</th>
+                        <th>所属园区</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,9 +49,10 @@
                         <th>按次计费</th>
                         <th>收费时间</th>
                         <th>生效时间</th>
-                        <th>迟滞金单价</th>
                         <th>迟滞金规则</th>
-                        <th>删除</th>
+                        <th>添加时间</th>
+                        <th>所属园区</th>
+                        <th>操作</th>
                     </tr>
                     </tfoot>
                 </table>
@@ -80,7 +82,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">车位类型</label>
                                 <div class="col-sm-8">
-                                    <select name="parkLotType" id="" class="form-control">
+                                    <select name="name" id="" class="form-control">
                                         <option value="">--请选择---</option>
                                         <option value="1">小型车位</option>
                                         <option value="2">中型车位</option>
@@ -92,7 +94,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">管理费用</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="unitPrice"  class="form-control" placeholder="">
+                                    <input type="text" name="managePrice"  class="form-control" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -110,21 +112,21 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">收费时间</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control input_date" name="payStartTime"
+                                    <input type="text" class="form-control input_date" name="payStartTimeRaw"
                                            placeholder="开始时间">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control input_date" name="payEndTime"
+                                    <input type="text" class="form-control input_date" name="payEndTimeRaw"
                                            placeholder="结束时间">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">生效时间</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control input_date" name="startTime" placeholder="">
+                                    <input type="text" class="form-control input_date" name="effectiveStartTimeRaw" placeholder="">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control input_date" name="endTime" placeholder="">
+                                    <input type="text" class="form-control input_date" name="effectiveEndTimeRaw" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -226,7 +228,7 @@
                         }
                     }
                 },
-                parkLotType: {
+                name: {
                     validators: {
                         notEmpty: {
                             message: '请选择车位类型'
@@ -255,7 +257,7 @@
                         }
                     }
                 },
-                unitPrice: {
+                managePrice: {
                     validators: {
                         notEmpty: {
                             message: '车位管理费不能为空'
@@ -313,7 +315,7 @@
                 }
             },{
                 "targets": 1,
-                "data": "ruleEntity.unitPrice",
+                "data": "parkLotExtra.managePrice",
                 "orderable": false,
                 "searchable": false
 
@@ -331,45 +333,59 @@
 
             },{
                 "targets": 4,
-                "data": "parkLotExtra",
+                "data": "payStartTime",
                 "orderable": false,
                 "searchable": false,
                 "render": function ( data, type, row ) {
-                    var start=formatDate(data.payStartTime,"yyyy-MM-dd");
-                    var end=formatDate(data.payEndTime,"yyyy-MM-dd");
+                    var start=formatDate(row.payStartTime,"yyyy-MM-dd");
+                    var end=formatDate(row.payEndTime,"yyyy-MM-dd");
                     return start+"&nbsp;至&nbsp;"+end;
                 }
 
             },{
                 "targets": 5,
-                "data": "ruleEntity.startTime",
+                "data": "effectiveStartTime",
                 "orderable": false,
                 "searchable": false,
                 "render": function ( data, type, row ) {
-                    var start=formatDate(row.ruleEntity.startTime,"yyyy-MM-dd");
-                    var end=formatDate(row.ruleEntity.endTime,"yyyy-MM-dd");
+                    var start=formatDate(row.effectiveStartTime,"yyyy-MM-dd");
+                    var end=formatDate(row.effectiveEndTime,"yyyy-MM-dd");
                     return start+"&nbsp;至&nbsp;"+end;
                 }
             },{
                 "targets": 6,
-                "data": "ruleEntity.overdueUnitPrice",
-                "orderable": false,
-                "searchable": false
-            },{
-                "targets": 7,
-                "data": "ruleEntity.overdueUnit",
+                "data": "overdueUnit",
                 "orderable": false,
                 "searchable": false,
                 "render": function ( data, type, row ) {
                     if(data=="day")
-                        return "每天";
+                        return row.overdueUnitPrice+"/每天";
                     else if(data=="month")
-                        return "每月";
+                        return row.overdueUnitPrice+"/每月";
                     else
                         return "--";
                 }
             },{
-                "targets": 8,//删除
+                "targets": 7,
+                "data": "addTime",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    return formatDate(data,"yyyy-MM-dd");
+                }
+            },{
+                "targets": 8,
+                "data": "villageEntity",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    if(data!=null)
+                        return data.name+"("+data.code+")";
+                    else
+                        return "--";
+                }
+            },{
+                "targets": 9,//删除
                 "data": null,
                 "orderable": false,
                 "searchable": false,

@@ -40,7 +40,7 @@ public class BillDaoImpl implements BillDao
     public ArrayList<PropertyBillEntity> getPropertyBillByPropertyID(Integer propertyID, Byte status, Long startTime, Long endTime)
     {
         Session session=getSession();
-        StringBuilder hql=new StringBuilder("from PropertyBillEntity t where t.propertyId=:id ");
+        StringBuilder hql=new StringBuilder("from PropertyBillEntity t where t.propertyId=").append(propertyID);
         if (status!=null)
             hql.append(" and t.payStatus=").append(status);
         if (startTime!=null&&endTime==null)

@@ -27,11 +27,11 @@
                     <tr>
                         <th>序号</th>
                         <th>费用名</th>
-                        <th>单价</th>
                         <th>收费规则</th>
                         <th>生效时间</th>
-                        <th>编辑</th>
-                        <th>删除</th>
+                        <th>添加时间</th>
+                        <th>所属园区</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,11 +42,11 @@
                     <tr>
                         <th>序号</th>
                         <th>费用名</th>
-                        <th>单价</th>
                         <th>收费规则</th>
                         <th>生效时间</th>
-                        <th>编辑</th>
-                        <th>删除</th>
+                        <th>添加时间</th>
+                        <th>所属园区</th>
+                        <th>操作</th>
                     </tr>
                     </tfoot>
                 </table>
@@ -76,13 +76,13 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">费用名称</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="fee_name" class="form-control" placeholder="">
+                                    <input type="text" name="name" class="form-control" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">费用单价</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="fee_unit_price"  class="form-control" placeholder="">
+                                    <input type="text" name="unitPrice"  class="form-control" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -90,13 +90,13 @@
                                 <div class="col-sm-8">
                                     <div class="radio-inline">
                                         <label>
-                                            <input type="radio" checked="" name="unit_type" value="squre">按平米
+                                            <input type="radio" checked="" name="unit" value="squre">按平米
                                             <i class="fa fa-circle-o"></i>
                                         </label>
                                     </div>
                                     <div class="radio-inline">
                                         <label>
-                                            <input type="radio" checked="" name="unit_type" value="per"> 按次
+                                            <input type="radio" checked="" name="unit" value="per"> 按次
                                             <i class="fa fa-circle-o"></i>
                                         </label>
                                     </div>
@@ -105,18 +105,18 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">有效时间</label>
                                 <div class="col-sm-4">
-                                    <input type="text" id="start_time" class="form-control input_date" name="start_time"
+                                    <input type="text" id="effectiveStartTimeRaw" class="form-control input_date" name="effectiveStartTimeRaw"
                                            placeholder="开始时间">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" id="end_time" class="form-control input_date" name="end_time"
+                                    <input type="text" id="effectiveEndTimeRaw" class="form-control input_date" name="effectiveEndTimeRaw"
                                            placeholder="结束时间">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">费用说明</label>
                                 <div class="col-sm-8">
-                                    <textarea  class="form-control" rows="5" name="description"
+                                    <textarea  class="form-control" rows="5" name="decription"
                                                placeholder="输入服务的相关说明或者注意事项"></textarea>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
 
         var fields = $("#serviceFeeFrom").serializeArray();
         console.log(fields);
-        if($('#start_time').val()==""||$('#end_time').val()=="")
+        if($('#effectiveStartTimeRaw').val()==""||$('#effectiveEndTimeRaw').val()=="")
         {
             alert("请选择时间");
         }
@@ -203,7 +203,7 @@
                         }
                     }
                 },
-                fee_name: {
+                name: {
                     validators: {
                         notEmpty: {
                             message: '费用名不能为空'
@@ -214,7 +214,7 @@
                         }
                     }
                 },
-                fee_unit_price: {
+                unitPrice: {
                     validators: {
                         notEmpty: {
                             message: '单价不能为空'
@@ -262,51 +262,53 @@
             },{
                 "targets": 1,
                 "data": "name",
-                "visible": true,
                 "orderable": false,
-                "searchable": true
+                "searchable": false
 
             },{
                 "targets": 2,
-                "data": "ruleEntity.unitPrice",
+                "data": "unit",
                 "visible": true,
                 "orderable": false,
-                "searchable": true
-
+                "searchable": true,
+                "render": function ( data, type, row ) {
+                    if(data=="squre")
+                        return row.unitPrice+"/每平米";
+                    else if(data="per")
+                        return row.unitPrice+"/每次";
+                    else
+                        return "--";
+                }
             },{
                 "targets": 3,
-                "data": "ruleEntity.unit",
+                "data": "effectiveStartTime",
                 "visible": true,
                 "orderable": false,
                 "searchable": true,
                 "render": function ( data, type, row ) {
-                    return langConvert[data];
+                    var start=formatDate(row.effectiveStartTime,"yyyy-MM-dd");
+                    var end=formatDate(row.effectiveEndTime,"yyyy-MM-dd");
+                    return start+"&nbsp;至&nbsp;"+end;
                 }
-
-
             },{
                 "targets": 4,
-                "data": "ruleEntity.startTime",
-                "visible": true,
-                "orderable": false,
-                "searchable": true,
-                "render": function ( data, type, row ) {
-//                    console.log(row);
-                    var start_date=new Date();
-                    var end_date=new Date();
-                    start_date.setTime(data);
-                    end_date.setTime(row.ruleEntity.endTime);
-                    var str=start_date.toLocaleDateString().replace(/\//g, "-")+"&nbsp;&nbsp;至&nbsp;&nbsp;"+end_date.toLocaleDateString().replace(/\//g, "-");
-                    return str;
-                }
-
-            },{
-                "targets": 5,//删除
-                "data": null,
+                "data": "addTime",
                 "orderable": false,
                 "searchable": false,
-                "defaultContent":
-                        "<button id='editRow' class='btn btn-primary' type='button'>编辑</button>"
+                "render": function ( data, type, row ) {
+                    return formatDate(data,"yyyy-MM-dd");
+                }
+            },{
+                "targets": 5,
+                "data": "villageEntity",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    if(data!=null)
+                        return data.name+"("+data.code+")";
+                    else
+                        return "--";
+                }
             },{
                 "targets": 6,//删除
                 "data": null,

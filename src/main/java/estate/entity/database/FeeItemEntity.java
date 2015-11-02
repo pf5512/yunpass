@@ -4,10 +4,11 @@ import java.math.BigDecimal;
 
 /**
  * Created by kangbiao on 15-11-1.
+ *
  */
 public class FeeItemEntity
 {
-    private int fiId;
+    private int id;
     private String name;
     private String decription;
     private Byte feeType;
@@ -24,16 +25,8 @@ public class FeeItemEntity
     private String extendInfo;
     private Long addTime;
     private Byte isEffective;
+    private VillageEntity villageEntity;
 
-    public int getFiId()
-    {
-        return fiId;
-    }
-
-    public void setFiId(int fiId)
-    {
-        this.fiId = fiId;
-    }
 
     public String getName()
     {
@@ -195,58 +188,24 @@ public class FeeItemEntity
         this.isEffective = isEffective;
     }
 
-    @Override
-    public boolean equals(Object o)
+
+    public VillageEntity getVillageEntity()
     {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FeeItemEntity that = (FeeItemEntity) o;
-
-        if (fiId != that.fiId) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (decription != null ? !decription.equals(that.decription) : that.decription != null) return false;
-        if (feeType != null ? !feeType.equals(that.feeType) : that.feeType != null) return false;
-        if (unit != null ? !unit.equals(that.unit) : that.unit != null) return false;
-        if (unitPrice != null ? !unitPrice.equals(that.unitPrice) : that.unitPrice != null) return false;
-        if (overdueUnitPrice != null ? !overdueUnitPrice.equals(that.overdueUnitPrice) : that.overdueUnitPrice != null)
-            return false;
-        if (overdueUnit != null ? !overdueUnit.equals(that.overdueUnit) : that.overdueUnit != null) return false;
-        if (payStartTime != null ? !payStartTime.equals(that.payStartTime) : that.payStartTime != null) return false;
-        if (payEndTime != null ? !payEndTime.equals(that.payEndTime) : that.payEndTime != null) return false;
-        if (effectiveStartTime != null ? !effectiveStartTime.equals(that.effectiveStartTime) : that.effectiveStartTime != null)
-            return false;
-        if (effectiveEndTime != null ? !effectiveEndTime.equals(that.effectiveEndTime) : that.effectiveEndTime != null)
-            return false;
-        if (isPeriodic != null ? !isPeriodic.equals(that.isPeriodic) : that.isPeriodic != null) return false;
-        if (villageId != null ? !villageId.equals(that.villageId) : that.villageId != null) return false;
-        if (extendInfo != null ? !extendInfo.equals(that.extendInfo) : that.extendInfo != null) return false;
-        if (addTime != null ? !addTime.equals(that.addTime) : that.addTime != null) return false;
-        if (isEffective != null ? !isEffective.equals(that.isEffective) : that.isEffective != null) return false;
-
-        return true;
+        return villageEntity;
     }
 
-    @Override
-    public int hashCode()
+    public void setVillageEntity(VillageEntity villageEntity)
     {
-        int result = fiId;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (decription != null ? decription.hashCode() : 0);
-        result = 31 * result + (feeType != null ? feeType.hashCode() : 0);
-        result = 31 * result + (unit != null ? unit.hashCode() : 0);
-        result = 31 * result + (unitPrice != null ? unitPrice.hashCode() : 0);
-        result = 31 * result + (overdueUnitPrice != null ? overdueUnitPrice.hashCode() : 0);
-        result = 31 * result + (overdueUnit != null ? overdueUnit.hashCode() : 0);
-        result = 31 * result + (payStartTime != null ? payStartTime.hashCode() : 0);
-        result = 31 * result + (payEndTime != null ? payEndTime.hashCode() : 0);
-        result = 31 * result + (effectiveStartTime != null ? effectiveStartTime.hashCode() : 0);
-        result = 31 * result + (effectiveEndTime != null ? effectiveEndTime.hashCode() : 0);
-        result = 31 * result + (isPeriodic != null ? isPeriodic.hashCode() : 0);
-        result = 31 * result + (villageId != null ? villageId.hashCode() : 0);
-        result = 31 * result + (extendInfo != null ? extendInfo.hashCode() : 0);
-        result = 31 * result + (addTime != null ? addTime.hashCode() : 0);
-        result = 31 * result + (isEffective != null ? isEffective.hashCode() : 0);
-        return result;
+        this.villageEntity = villageEntity;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 }
