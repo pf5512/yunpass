@@ -11,6 +11,15 @@ public interface FeeItemDao
 {
     TableData getList(TableFilter tableFilter,byte feeType);
 
+
+    /**
+     * 通过费用类型和费用id删除费用.
+     * @param feeType
+     * @param id
+     */
+    void deleteByFeeTypeID(byte feeType,Integer id);
+
+
     /**
      * 通过园区id和车位费类型返回车位费信息
      * @param villageID

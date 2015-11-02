@@ -13,12 +13,6 @@ public interface FeeService
 {
 
     /**
-     * 增加费用项目
-     * @param feeItemEntity
-     */
-//    void estateFeeAdd(FeeItemEntity feeItemEntity);
-
-    /**
      * 根据datatable过滤条件返回datatable格式的项目列表
      * @param tableFilter
      * @return
@@ -26,10 +20,12 @@ public interface FeeService
     TableData feeList(TableFilter tableFilter,byte feeType);
 
     /**
-     * 会同时删除与之相关的规则
+     * 根据费用类型和id删除费用,物业费会检查是否有依赖
+     * @param feeType
      * @param id
      */
-//    void deleteFee(Integer id);
+    void deleteFee(byte feeType,Integer id);
+
 
     //TODO 去除删除费用信息的隐患
     /**

@@ -96,6 +96,9 @@
       <column name="add_time" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="is_effective" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6" def="MQ=="/>
       <primary-key name="PRIMARY" columns="fi_id"/>
+      <foreign-key name="FK_dkxt8mdgrp38dbw0py16g89en" columns="village_id" ref-table="village" ref-schema="" ref-catalog="PropertySystem" ref-columns="village_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_2eom30ry9yaakqhlrplfvs9u9" table="fee_item_order" schema="" catalog="PropertySystem" columns="fee_item_id"/>
+      <index name="FK_dkxt8mdgrp38dbw0py16g89en" unique="false" columns="village_id"/>
     </table>
     <table name="fee_item_order" schema="" catalog="PropertySystem" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -103,6 +106,8 @@
       <column name="fee_item_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5YWB6K646YeN5aSN77yI5LiA5qyh5oCn55qE6LS555So77yJ"/>
       <column name="is_billed" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_2eom30ry9yaakqhlrplfvs9u9" columns="fee_item_id" ref-table="fee_item" ref-schema="" ref-catalog="PropertySystem" ref-columns="fi_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_2eom30ry9yaakqhlrplfvs9u9" unique="false" columns="fee_item_id"/>
     </table>
     <table name="notice" schema="" catalog="PropertySystem" type="TABLE">
       <column name="notice_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -264,6 +269,7 @@
       <primary-key name="PRIMARY" columns="village_id"/>
       <exported-key name="FK_2ue9kp9ltdrva3k3ib2hgx0yh" table="brake" schema="" catalog="PropertySystem" columns="village_id"/>
       <exported-key name="FK_6odky3rdk3fxudn5blwdw34ny" table="building" schema="" catalog="PropertySystem" columns="village_id"/>
+      <exported-key name="FK_dkxt8mdgrp38dbw0py16g89en" table="fee_item" schema="" catalog="PropertySystem" columns="village_id"/>
     </table>
   </data-source>
 </component>

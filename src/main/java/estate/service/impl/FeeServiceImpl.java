@@ -30,7 +30,6 @@ public class FeeServiceImpl implements FeeService
     private RuleDao ruleDao;
     @Autowired
     private BaseDao baseDao;
-
     @Autowired
     private FeeItemDao feeItemDao;
     @Autowired
@@ -69,6 +68,7 @@ public class FeeServiceImpl implements FeeService
                     parkLotFeeInfo.setAddTime(feeItemEntity.getAddTime());
                     parkLotFeeInfo.setIsPeriodic(feeItemEntity.getIsPeriodic());
                     parkLotFeeInfo.setVillageEntity(feeItemEntity.getVillageEntity());
+                    parkLotFeeInfo.setId(feeItemEntity.getId());
                     parkLotFeeInfos.add(parkLotFeeInfo);
                 }
                 tableData.setJsonString(parkLotFeeInfos);
@@ -77,6 +77,12 @@ public class FeeServiceImpl implements FeeService
         }
         else
             return feeItemDao.getList(tableFilter,feeType);
+    }
+
+    @Override
+    public void deleteFee(byte feeType, Integer id)
+    {
+        feeItemDao.deleteByFeeTypeID(feeType,id);
     }
 
     @Override

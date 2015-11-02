@@ -143,20 +143,29 @@
     });
 
 
-    //编辑数据
-    $('#estateListTable tbody').on( 'click', 'button#editRow', function () {
+    $('#serviceFeeListTable tbody').on( 'click', 'button#delRowBtn', function () {
         var data = editTable.row($(this).parents('tr') ).data();
-        var fields = $("#estateFeeFrom").serializeArray();
-        console.log(data);
-        console.log(fields);
-//        jQuery.each( fields, function(i, field){
-//            console.log(field);
-//            $(field).val(data[i]);
-//        });
-        $(":input[name='action']").val("edit");
-        $("#formModel").modal("show");//弹出框show
-        $("#formModel").find('.modal-title').text("编辑费用项目");
-
+        var con=confirm("确定删除(只会没有订购的费用可以被删除)?");
+        if(con)
+            $.ajax({
+                type: "post",
+                async: false,
+                url: urlConfig.deleteFee+"service/"+data.id,
+                dataType: "json", //返回数据形式为json
+                success: function (result) {
+                    if (result.status) {
+                        alert("删除成功");
+                        editTable.ajax.reload( null, false );
+                    }
+                    else
+                    {
+                        alert(result.errorMsg.description);
+                    }
+                },
+                error: function () {
+                    alert("服务器连接失败,请重试!");
+                }
+            });
     });
 
     //ajax添加物业费项目
@@ -167,18 +176,19 @@
         console.log(fields);
         if($('#effectiveStartTimeRaw').val()==""||$('#effectiveEndTimeRaw').val()=="")
         {
-            alert("请选择时间");
+            alert("请选择生效时间范围");
         }
         else
         $.ajax({
             type: "post",
             async: false,
-            url: urlConfig.addServiceFee,
+            url: urlConfig.addFee+"service",
             data: fields,
             dataType: "json", //返回数据形式为json
             success: function (result) {
                 if (result.status) {
                     alert("添加成功");
+                    editTable.ajax.reload( null, false );
                 }
                 else
                 {
@@ -247,7 +257,7 @@
             "processing":true,
             "serverSide": true,
             "ajax":{
-                "url": urlConfig.serviceFeeList,
+                "url": urlConfig.feeList+"service",
                 "dataSrc": "jsonString"
             },
             "columnDefs": [{
@@ -315,7 +325,7 @@
                 "orderable": false,
                 "searchable": false,
                 "defaultContent":
-                        "<button id='delRow' class='btn btn-primary' type='button'>删除</button>"
+                        "<button id='delRowBtn' class='btn btn-primary' type='button'>删除</button>"
             }],
             "aaSorting": [[ 1, "asc" ]],
             "autoWidth":false,

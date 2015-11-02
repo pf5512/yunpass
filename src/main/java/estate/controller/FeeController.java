@@ -34,16 +34,18 @@ public class FeeController
 {
     @Autowired
     private FeeService feeService;
-//    @Autowired
-//    private BillService billService;
-    @Autowired
-    private PropertyService propertyService;
     @Autowired
     private BaseService baseService;
     @Autowired
     private UserService userService;
 
-
+    /**
+     * 增加三种费用
+     * @param feeTypeString
+     * @param feeItemEntity
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/add/{feeTypeString}")
     public BasicJson addFeeItem(@PathVariable String feeTypeString,FeeItemEntity feeItemEntity,HttpServletRequest request)
     {
@@ -59,11 +61,8 @@ public class FeeController
             switch (feeTypeString)
             {
                 case "estate":
+                    feeItemEntity.setFeeType(FeeType.ESTATE);
                     feeItemEntity.setIsPeriodic(Config.TRUE);
-
-                    String payStartTime=String.valueOf(Convert.time2num(request.getParameter("pay_start_time")));
-                    String payEndTime=String.valueOf(Convert.time2num(request.getParameter("pay_end_time")));
-                    feeItemEntity.setName(request.getParameter("fee_name") + ";" + payStartTime + ";" + payEndTime);
                     break;
                 case "service":
                     feeItemEntity.setFeeType(FeeType.SERVICE);
@@ -107,54 +106,16 @@ public class FeeController
             return basicJson;
         }
         basicJson.setStatus(true);
-        basicJson.setJsonString(feeItemEntity);
         return basicJson;
     }
 
-
-//    @RequestMapping(value = "/add/parkLot")
-//    public BasicJson addParkLotFee(HttpServletRequest request)
-//    {
-//        BasicJson basicJson=new BasicJson();
-//        FeeItemEntity feeItemEntity=new FeeItemEntity();
-//        ParkLotExtra parkLotExtra=new ParkLotExtra();
-//
-//        try
-//        {
-//            parkLotExtra.setMonthPrice(request.getParameter("monthPrice"));
-//            parkLotExtra.setPerTimePrice(request.getParameter("perTimePrice"));
-//            parkLotExtra.setManagePrice(request.getParameter("managePrice"));
-//
-//            feeItemEntity.setName(request.getParameter("parkLotType"));
-//            feeItemEntity.setDecription(GsonUtil.getGson().toJson(parkLotExtra));
-//            feeItemEntity.setVillageId(Integer.valueOf(request.getParameter("villageId")));
-//        }
-//        catch (Exception e)
-//        {
-//            basicJson.getErrorMsg().setDescription("参数错误\n"+e.getMessage());
-//            return basicJson;
-//        }
-//
-//        if (feeService.getParkLotFeeByVillageIdType(feeItemEntity.getVillageId(),feeItemEntity.getName())!=null)
-//        {
-//            basicJson.getErrorMsg().setDescription("该园区已经配置该类别车位的费用信息");
-//            return basicJson;
-//        }
-//        try
-//        {
-//            feeService.estateFeeAdd(feeItemEntity);
-//        }
-//        catch (Exception e)
-//        {
-//            basicJson.getErrorMsg().setDescription("添加车位费出错\n"+e.getMessage());
-//            return basicJson;
-//        }
-//
-//        basicJson.setJsonString(feeItemEntity);
-//        basicJson.setStatus(true);
-//        return basicJson;
-//    }
-
+    /**
+     * 获取三种费用数据
+     * @param feeType
+     * @param tableFilter
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/list/{feeType}")
     public TableData feeList(@PathVariable String feeType, TableFilter tableFilter,HttpServletRequest request)
     {
@@ -176,7 +137,6 @@ public class FeeController
                     tableData.getErrorMsg().setDescription("请求路径错误");
                     return tableData;
             }
-
         }
         catch (Exception e)
         {
@@ -186,6 +146,47 @@ public class FeeController
         }
     }
 
+    /**
+     * 删除费用信息
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/delete/{feeTypeString}/{feeItemId}")
+    public BasicJson feeDelete(@PathVariable(value = "feeTypeString") String feeTypeString,
+                               @PathVariable(value = "feeItemId") Integer feeItemId,
+                               HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        try
+        {
+            switch (feeTypeString)
+            {
+                case "estate":
+                    feeService.deleteFee(FeeType.ESTATE, feeItemId);
+                    break;
+                case "service":
+                    feeService.deleteFee(FeeType.SERVICE,feeItemId);
+                    break;
+                case "parkLot":
+                    feeService.deleteFee(FeeType.PARKING_LOT,feeItemId);
+                    break;
+                default:
+                    basicJson.getErrorMsg().setDescription("请求路径错误");
+                    return basicJson;
+            }
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("该费用已绑定,不能删除!");
+            return basicJson;
+        }
+        basicJson.setStatus(true);
+        return basicJson;
+    }
+
+
+    
 //    /**
 //     * 将物业和费用项目绑定
 //     * @param request
@@ -221,28 +222,6 @@ public class FeeController
 //        return basicJson;
 //    }
 
-//    /**
-//     * 删除费用信息
-//     * @param request
-//     * @return
-//     */
-//    @RequestMapping(value = "/delete/{feeId}")
-//    public BasicJson feeDelete(@PathVariable Integer feeId,HttpServletRequest request)
-//    {
-//        BasicJson basicJson=new BasicJson(false);
-//        try
-//        {
-//            feeService.deleteFee(feeId);
-//        }
-//        catch (Exception e)
-//        {
-////            LogUtil.E(e.getMessage(), "FeeController");
-//            basicJson.getErrorMsg().setDescription("删除出错,请重试");
-//            return basicJson;
-//        }
-//        basicJson.setStatus(true);
-//        return basicJson;
-//    }
 ////
 //    @RequestMapping(value = "/getBillList")
 //    public TableData getBillList(TableFilter tableFilter,HttpServletRequest request)

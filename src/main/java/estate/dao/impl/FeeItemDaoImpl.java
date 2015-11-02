@@ -55,11 +55,20 @@ public class FeeItemDaoImpl implements FeeItemDao
         return tableData;
     }
 
+    @Override
+    public void deleteByFeeTypeID(byte feeType, Integer id)
+    {
+        Session session=getSession();
+        String hql="delete from FeeItemEntity t where t.feeType=:feeType and t.id=:id";
+        session.createQuery(hql).setByte("feeType",feeType).setInteger("id",id).executeUpdate();
+
+    }
+
     public Integer count(byte feeType)
     {
         Session session=getSession();
         String hql="select count(*) from FeeItemEntity t where t.feeType=:feeType";
-        return ((Long)session.createQuery(hql).setByte("feeType",feeType).uniqueResult()).intValue();
+        return ((Long)session.createQuery(hql).setByte("feeType", feeType).uniqueResult()).intValue();
     }
 
     @Override

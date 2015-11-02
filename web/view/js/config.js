@@ -23,15 +23,9 @@ urlConfig.pushNotice=host+"notice/pushNotice/";
 
 
 //费用相关的URL
-urlConfig.addParkLotFee=host+"fee/add/parkLot";
-urlConfig.addFee=host+"fee/add/estate";
-urlConfig.feeList=host+"fee/list/estate";
-urlConfig.parkLotFeeList=host+"fee/list/parkLot";
+urlConfig.addFee=host+"fee/add/";
+urlConfig.feeList=host+"fee/list/";
 urlConfig.deleteFee=host+"fee/delete/";
-urlConfig.addServiceFee=host+"fee/add/service";
-urlConfig.serviceFeeList=host+"fee/list/service";
-urlConfig.addParkingLotFee=host+"fee/add/parkingLot";
-urlConfig.parkingLotFeeList=host+"fee/list/parkingLot";
 urlConfig.relateFeeToBuilding=host+"fee/relateBuilding";
 urlConfig.getBillList=host+"fee/getBillList";
 urlConfig.generateAllBill=host+"fee/getnerateAllBill";
