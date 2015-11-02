@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0b5f5215-7de0-429d-a80e-a54810a3e6d3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/estate/controller/FeeController.java" afterPath="$PROJECT_DIR$/src/main/java/estate/controller/FeeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/estate/dao/FeeItemDao.java" afterPath="$PROJECT_DIR$/src/main/java/estate/dao/FeeItemDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/estate/dao/impl/FeeItemDaoImpl.java" afterPath="$PROJECT_DIR$/src/main/java/estate/dao/impl/FeeItemDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/estate/service/FeeService.java" afterPath="$PROJECT_DIR$/src/main/java/estate/service/FeeService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/estate/service/impl/FeeServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/estate/service/impl/FeeServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/js/config.js" afterPath="$PROJECT_DIR$/web/view/js/config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/ajax/estateFeeList.html" afterPath="$PROJECT_DIR$/web/view/ajax/estateFeeList.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/index.html" afterPath="$PROJECT_DIR$/web/view/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/ajax/parkingLotFeeList.html" afterPath="$PROJECT_DIR$/web/view/ajax/parkingLotFeeList.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/ajax/serviceFeeList.html" afterPath="$PROJECT_DIR$/web/view/ajax/serviceFeeList.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="estateOA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -866,12 +855,12 @@
       <workItem from="1446123177507" duration="3586000" />
       <workItem from="1446185216327" duration="10289000" />
       <workItem from="1446377031480" duration="10748000" />
-      <workItem from="1446433578070" duration="20757000" />
+      <workItem from="1446433578070" duration="20879000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110419000" />
+    <option name="totallyTimeSpent" value="110541000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1056" extended-state="7" />
