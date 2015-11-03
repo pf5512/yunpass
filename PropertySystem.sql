@@ -311,7 +311,7 @@ CREATE TABLE `open_door_record` (
   `description` varchar(100) DEFAULT NULL,
   `level` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`odr_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +320,7 @@ CREATE TABLE `open_door_record` (
 
 LOCK TABLES `open_door_record` WRITE;
 /*!40000 ALTER TABLE `open_door_record` DISABLE KEYS */;
-INSERT INTO `open_door_record` VALUES (14,'18144240528',1446128156307,NULL,0,'手机问题',0);
+INSERT INTO `open_door_record` VALUES (14,'18144240528',1446128156307,NULL,0,'手机问题',0),(15,'18144240528',1446560966923,NULL,0,'description',1);
 /*!40000 ALTER TABLE `open_door_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -706,4 +706,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-03 22:17:20
+-- Dump completed on 2015-11-03 22:34:56

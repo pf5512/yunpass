@@ -10,6 +10,9 @@
             <column name="odr_id" sql-type="int unsigned" not-null="true"/>
             <generator class="identity"/>
         </id>
+        <property name="symbol">
+            <column name="symbol" sql-type="varchar" length="45" />
+        </property>
         <property name="phone">
             <column name="phone" sql-type="varchar" length="15"/>
         </property>
