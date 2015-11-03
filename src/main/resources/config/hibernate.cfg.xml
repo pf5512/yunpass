@@ -9,9 +9,6 @@
         <property name="hbm2ddl.auto">update</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/PropertySystem</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <mapping resource="estate/entity/database/FeeItemEntity.hbm.xml"/>
-        <mapping resource="estate/entity/database/PropertyBillEntity.hbm.xml"/>
-        <mapping resource="estate/entity/database/FeeItemOrderEntity.hbm.xml"/>
     </session-factory>
 
 </hibernate-configuration>

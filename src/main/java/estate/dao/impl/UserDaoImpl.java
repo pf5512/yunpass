@@ -3,6 +3,7 @@ package estate.dao.impl;
 import estate.common.config.UserType;
 import estate.dao.UserDao;
 import estate.entity.database.AppUserEntity;
+import estate.entity.database.UserInfoEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import org.hibernate.Query;
@@ -17,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by kangbiao on 15-9-16.
+ *
  */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao
@@ -244,6 +246,17 @@ public class UserDaoImpl implements UserDao
         List list=session.createQuery(hql).list();
         if (list.size()>0)
             return (ArrayList<AppUserEntity>) list;
+        return null;
+    }
+
+    @Override
+    public UserInfoEntity getUserDetailByPhone(String phone)
+    {
+        Session session=getSession();
+        String hql="from UserInfoEntity t where t.phone=:phone";
+        List list=session.createQuery(hql).setString("phone",phone).list();
+        if (list.size()>0)
+            return (UserInfoEntity) list.get(0);
         return null;
     }
 }

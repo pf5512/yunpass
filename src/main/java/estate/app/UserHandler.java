@@ -1,13 +1,13 @@
 package estate.app;
 
-import estate.common.config.AppUserStatus;
-import estate.common.config.BindStatus;
-import estate.common.config.UserType;
+import estate.common.config.*;
+import estate.common.util.Convert;
 import estate.common.util.LogUtil;
 import estate.common.util.VerifyCodeGenerate;
 import estate.entity.database.AppUserEntity;
 import estate.entity.database.PropertyEntity;
 import estate.entity.database.PropertyOwnerInfoEntity;
+import estate.entity.database.UserInfoEntity;
 import estate.entity.json.BasicJson;
 import estate.service.BaseService;
 import estate.service.PropertyOwnerService;
@@ -254,23 +254,57 @@ public class UserHandler
                     return basicJson;
                 }
                 break;
-//            case "getProfile":
-//                try
-//                {
-//                    Object o=userService.getUserInfoByPhoneRole(phone, role);
-//                    if (o==null)
-//                    {
-//                        basicJson.getErrorMsg().setDescription("获取用户信息失败");
-//                        return basicJson;
-//                    }
-//                    basicJson.setJsonString(o);
-//                }
-//                catch (Exception e)
-//                {
-//                    basicJson.getErrorMsg().setDescription("获取用户信息出错");
-//                    return basicJson;
-//                }
-//                break;
+            case "getProfile":
+                try
+                {
+                    UserInfoEntity userInfoEntity=userService.getUserDetailByPhone(phone);
+                    if (userInfoEntity==null)
+                    {
+                        basicJson.getErrorMsg().setDescription("获取用户信息失败");
+                        return basicJson;
+                    }
+                    basicJson.setJsonString(userInfoEntity);
+                }
+                catch (Exception e)
+                {
+                    basicJson.getErrorMsg().setDescription("获取用户信息出错");
+                    return basicJson;
+                }
+                break;
+            case "submitProfile":
+                UserInfoEntity userInfoEntity;
+                try
+                {
+                    userInfoEntity=userService.getUserDetailByPhone(phone);
+                    userInfoEntity.setName(request.getParameter("name"));
+                    userInfoEntity.setBirthday(Convert.time2num(request.getParameter("birthday")));
+                    userInfoEntity.setUrgentName(request.getParameter("urgentName"));
+                    userInfoEntity.setUrgentPhone(request.getParameter("urgentPhone"));
+                    byte cardType= Byte.parseByte(request.getParameter("identityType"));
+                    CardType.checkType(cardType);
+                    userInfoEntity.setIdentityType(cardType);
+                    userInfoEntity.setIdentityCode(request.getParameter("identityCode"));
+                    byte sex= Byte.parseByte(request.getParameter("sex"));
+                    Sex.checkType(sex);
+                    userInfoEntity.setSex(sex);
+                }
+                catch (Exception e)
+                {
+                    basicJson.getErrorMsg().setCode(e.getMessage());
+                    basicJson.getErrorMsg().setDescription("参数格式错误");
+                    return basicJson;
+                }
+
+                try
+                {
+                    baseService.save(userInfoEntity);
+                }
+                catch (Exception e)
+                {
+                    basicJson.getErrorMsg().setDescription("保存出错,请稍后重试");
+                    return basicJson;
+                }
+                break;
             default:
                 basicJson.getErrorMsg().setDescription("请求路径错误!");
                 return basicJson;

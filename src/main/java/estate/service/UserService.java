@@ -1,6 +1,7 @@
 package estate.service;
 
 import estate.entity.database.AppUserEntity;
+import estate.entity.database.UserInfoEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.exception.AppUserNotExitException;
@@ -49,12 +50,14 @@ public interface UserService
      */
     Object getUserInfoByPhoneRole(String phone, int type);
 
+
     /**
-     * 通过App用户的电话返回该用户的详细信息
+     * 通过APP用户手机号码获取用户详细信息
      * @param phone
      * @return
      */
-    Object getUserDetailByPhone(String phone) throws AppUserNotExitException;
+    UserInfoEntity getUserDetailByPhone(String phone);
+
 
 
     /**

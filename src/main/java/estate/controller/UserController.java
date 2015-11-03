@@ -266,11 +266,6 @@ public class UserController
         {
             basicJson.setJsonString(userService.getUserDetailByPhone(phone));
         }
-        catch (AppUserNotExitException e)
-        {
-            basicJson.getErrorMsg().setDescription(e.getMessage());
-            return basicJson;
-        }
         catch (Exception e)
         {
             basicJson.getErrorMsg().setDescription("获取详细信息出错");

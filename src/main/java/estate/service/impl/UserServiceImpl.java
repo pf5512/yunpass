@@ -5,6 +5,7 @@ import estate.common.util.Convert;
 import estate.dao.*;
 import estate.entity.database.AppUserEntity;
 import estate.entity.database.OwnerEntity;
+import estate.entity.database.UserInfoEntity;
 import estate.entity.display.Owner;
 import estate.entity.display.Tenant;
 import estate.entity.json.TableData;
@@ -123,13 +124,17 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public Object getUserDetailByPhone(String phone) throws AppUserNotExitException
+    public UserInfoEntity getUserDetailByPhone(String phone)
     {
-//        AppUserEntity appUserEntity= (AppUserEntity) baseDao.get(phone,AppUserEntity.class);
-//        if (appUserEntity==null)
-//            throw new AppUserNotExitException("该用户不存在");
-//        return userDao.getUserInfoByPhoneRole(phone,appUserEntity.getUserRole());
-        return null;
+        UserInfoEntity userInfoEntity= userDao.getUserDetailByPhone(phone);
+        if (userInfoEntity==null)
+        {
+            UserInfoEntity userInfoEntity1 = new UserInfoEntity();
+            userInfoEntity1.setPhone(phone);
+            baseDao.save(userInfoEntity1);
+            return userInfoEntity1;
+        }
+        return userInfoEntity;
     }
 
 

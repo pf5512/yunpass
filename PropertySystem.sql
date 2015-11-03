@@ -221,7 +221,7 @@ CREATE TABLE `fee_item` (
   PRIMARY KEY (`fi_id`),
   KEY `FK_dkxt8mdgrp38dbw0py16g89en` (`village_id`),
   CONSTRAINT `FK_dkxt8mdgrp38dbw0py16g89en` FOREIGN KEY (`village_id`) REFERENCES `village` (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -640,6 +640,38 @@ INSERT INTO `ssid_secret` VALUES (28,1,3,1,NULL,'YC_D_001','123456789',NULL),(29
 UNLOCK TABLES;
 
 --
+-- Table structure for table `user_info`
+--
+
+DROP TABLE IF EXISTS `user_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_info` (
+  `ui_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `phone` varchar(15) NOT NULL COMMENT '手机号码',
+  `birthday` bigint(25) DEFAULT NULL,
+  `name` varchar(15) DEFAULT NULL,
+  `sex` tinyint(2) DEFAULT NULL,
+  `urgent_name` varchar(15) DEFAULT NULL,
+  `urgent_phone` varchar(15) DEFAULT NULL,
+  `identity_type` tinyint(2) DEFAULT NULL,
+  `identity_code` varchar(25) DEFAULT NULL,
+  `vehicle_list` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ui_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_info`
+--
+
+LOCK TABLES `user_info` WRITE;
+/*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
+INSERT INTO `user_info` VALUES (1,'18144240528',770054400000,'康彪',1,'小明','15114052120',1,'510704199405281715',NULL);
+/*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `village`
 --
 
@@ -674,4 +706,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-02 22:22:41
+-- Dump completed on 2015-11-03 20:29:32
