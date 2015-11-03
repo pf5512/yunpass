@@ -126,15 +126,7 @@ public class UserServiceImpl implements UserService
     @Override
     public UserInfoEntity getUserDetailByPhone(String phone)
     {
-        UserInfoEntity userInfoEntity= userDao.getUserDetailByPhone(phone);
-        if (userInfoEntity==null)
-        {
-            UserInfoEntity userInfoEntity1 = new UserInfoEntity();
-            userInfoEntity1.setPhone(phone);
-            baseDao.save(userInfoEntity1);
-            return userInfoEntity1;
-        }
-        return userInfoEntity;
+         return userDao.getUserDetailByPhone(phone);
     }
 
 

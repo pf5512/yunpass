@@ -297,17 +297,30 @@
                             result.jsonString.identityType="身份证";
                         else if(result.jsonString.identityType==1)
                             result.jsonString.identityType="军官证";
+                        else
+                            result.jsonString.identityType="未设置";
                         if(result.jsonString.sex==0)
                             result.jsonString.sex="男";
                         else if(result.jsonString.sex==1)
                             result.jsonString.sex="女";
+                        else
+                            result.jsonString.sex="未设置";
+                        if(result.jsonString.name==null)
+                            result.jsonString.name="未设置";
+                        if(result.jsonString.identityCode==null)
+                            result.jsonString.identityCode="未设置";
+                        if(result.jsonString.urgentName==null)
+                            result.jsonString.urgentName="未设置";
+                        if(result.jsonString.urgentPhone==null)
+                            result.jsonString.urgentPhone="未设置";
+
                         console.log(result.jsonString);
                         html='<ul class="list-group">' +
-                                '<li class="list-group-item">姓名: <span id="code">'+result.jsonString.name+'</span></li>'+
+                                '<li class="list-group-item">真实姓名: <span id="code">'+result.jsonString.name+'</span></li>'+
                                 '<li class="list-group-item">性别: <span id="">'+result.jsonString.sex+'</span></li>'+
                                 '<li class="list-group-item">证件类型: <span id="status">'+result.jsonString.identityType+'</span></li>' +
                                 '<li class="list-group-item">证件号码: <span id="propertySquare">'+result.jsonString.identityCode+'</span></li>'+
-                                '<li class="list-group-item">紧急联系人: <span id="propertySquare">'+result.jsonString.urgentName+'('+result.jsonString.urgentPhone+'</span></li>'+
+                                '<li class="list-group-item">紧急联系人: <span id="propertySquare">'+result.jsonString.urgentName+'('+result.jsonString.urgentPhone+')</span></li>'+
                                 '</ul></br>';
                     }
                 }

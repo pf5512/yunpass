@@ -264,10 +264,18 @@ public class UserController
 
         try
         {
-            basicJson.setJsonString(userService.getUserDetailByPhone(phone));
+            UserInfoEntity userInfoEntity=userService.getUserDetailByPhone(phone);
+            if (userInfoEntity==null)
+            {
+                userInfoEntity=new UserInfoEntity();
+                userInfoEntity.setPhone(phone);
+                baseService.save(userInfoEntity);
+            }
+            basicJson.setJsonString(userInfoEntity);
         }
         catch (Exception e)
         {
+            basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("获取详细信息出错");
             return basicJson;
         }

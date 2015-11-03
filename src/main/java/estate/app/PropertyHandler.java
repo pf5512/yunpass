@@ -191,5 +191,4 @@ public class PropertyHandler
         basicJson.setStatus(true);
         return basicJson;
     }
-
 }

@@ -260,8 +260,9 @@ public class UserHandler
                     UserInfoEntity userInfoEntity=userService.getUserDetailByPhone(phone);
                     if (userInfoEntity==null)
                     {
-                        basicJson.getErrorMsg().setDescription("获取用户信息失败");
-                        return basicJson;
+                        userInfoEntity=new UserInfoEntity();
+                        userInfoEntity.setPhone(phone);
+                        baseService.save(userInfoEntity);
                     }
                     basicJson.setJsonString(userInfoEntity);
                 }
@@ -276,6 +277,11 @@ public class UserHandler
                 try
                 {
                     userInfoEntity=userService.getUserDetailByPhone(phone);
+                    if (userInfoEntity==null)
+                    {
+                        userInfoEntity=new UserInfoEntity();
+                        userInfoEntity.setPhone(phone);
+                    }
                     userInfoEntity.setName(request.getParameter("name"));
                     userInfoEntity.setBirthday(Convert.time2num(request.getParameter("birthday")));
                     userInfoEntity.setUrgentName(request.getParameter("urgentName"));
