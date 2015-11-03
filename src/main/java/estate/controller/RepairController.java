@@ -36,11 +36,6 @@ public class RepairController
     @RequestMapping(value = "/list")
     public TableData getList(TableFilter tableFilter,HttpServletRequest request)
     {
-        if (request.getParameter("search[value]")!=null)
-            tableFilter.setSearchValue(request.getParameter("search[value]"));
-        else
-            tableFilter.setSearchValue("");
-
         return repairService.getList(tableFilter);
     }
 

@@ -36,16 +36,13 @@ public class RepairDaoImpl implements RepairDao
         ArrayList<RepairEntity> entities;
         Query query;
 
-        if (!tableFilter.getSearchValue().equals(""))
-        {
-            String hql="from RepairEntity r where r.title like (?)";
-            query=session.createQuery(hql).setString(0,"%"+tableFilter.getSearchValue()+"%");
-        }
-        else
-        {
-            String hql = "from RepairEntity r";
-            query = session.createQuery(hql);
-        }
+        StringBuilder hql=new StringBuilder("from RepairEntity t where 1=1 ");
+        if (tableFilter.getSearchValue()!=null)
+            hql.append(" and t.phone like('%").append(tableFilter.getSearchValue()).append("%')");
+
+        hql.append(" order by t.status asc,t.submitTime desc");
+
+        query=session.createQuery(hql.toString());
         Integer count=query.list().size();
         entities=(ArrayList<RepairEntity>)query.setFirstResult(tableFilter.getStart()).setMaxResults(tableFilter
                 .getLength()).list();
