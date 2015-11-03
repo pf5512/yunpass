@@ -70,39 +70,8 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12" id="doorRecordList">
-                            <ul class="list-group">
-                                <li class="list-group-item">开门时间: <span id="name">2015-5-8 22:00:19</span></li>
-                                <li class="list-group-item">门禁代码: <span id="identityType">CDSESH</span></li>
-                            </ul>
-                            <ul class="list-group">
-                                <li class="list-group-item">开门时间: <span id="name1">2015-8-5 23:18:25</span></li>
-                                <li class="list-group-item">门禁代码: <span id="identityType1">CDSESH</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- 个人信息 -->
-<div class="modal fade" role="dialog" id="selfInfoModal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">个人信息</h4>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12" id="selfInfoList">
-                            <ul class="list-group">
+                        <div class="col-md-12" >
+                            <ul class="list-group" id="doorRecordList">
 
                             </ul>
                         </div>
@@ -115,6 +84,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 
 <!-- 物业信息 -->
 <div class="modal fade" role="dialog" id="propertyInfoModal">
@@ -128,9 +98,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12" id="propertyInfoList">
-                            <ul class="list-group">
+                            <ol class="list-group">
 
-                            </ul>
+                            </ol>
                         </div>
                     </div>
                 </div>
@@ -146,6 +116,47 @@
     var editTable;//全局的datatable变量
     $('#appUserListTable tbody').on( 'click', 'button#doorRecordBtn', function () {
         $("#doorRecordModal").modal("show");
+        var data = editTable.row($(this).parents('tr') ).data();
+        $.ajax({
+            type: "post",
+            async: false,
+            url: urlConfig.getDoorLog+data.phone,
+            dataType: "json",
+            success: function (result) {
+                if (result.status) {
+                    if(result.jsonString!=null)
+                    {
+                        var html="";
+                        for (var i in result.jsonString)
+                        {
+                            if(result.jsonString[i].status==0)
+                                result.jsonString[i].status="<font color='red'>失败</font>";
+                            else
+                                result.jsonString[i].status="<font color='green'>成功</font>";
+                            var date=formatDate(result.jsonString[i].openTime,"yyyy-MM-dd");
+                            html+='<li class="list-group-item">门禁代码:'+result.jsonString[i].symbol+
+                                    '&ensp;状态:'+result.jsonString[i].status+
+                                    '&ensp;描述:' +result.jsonString[i].description+
+                                    '&ensp;开门时间:' +date+
+                                    '</li>';
+                        }
+                        $("#doorRecordList").html(html);
+                    }
+                    else
+                    {
+                        $("#doorRecordList").html("暂无门禁记录");
+                    }
+                }
+                else
+                {
+                    $("#doorRecordList").html(result.errorMsg.description);
+                }
+            },
+            error: function () {
+                $("#doorRecordList").html("服务器连接失败");
+            }
+        });
+
     });
     $('#appUserListTable tbody').on( 'click', 'button#delRowBtn', function () {
         var data = editTable.row($(this).parents('tr') ).data();
@@ -280,6 +291,7 @@
     $('#appUserListTable tbody').on( 'click', 'button#selfInfoBtn', function () {
         $("#selfInfoModal").modal("show");
     });
+
     //显示绑定用户的详细信息
     function format ( d ) {
         console.log(d);

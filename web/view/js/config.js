@@ -69,6 +69,9 @@ urlConfig.secretList=host+"secret/list";
 urlConfig.secretSelect2List=host+"secret/select";
 urlConfig.setSecret=host+"secret/setSecret/";
 
+//门禁记录相关的url
+urlConfig.getDoorLog=host+"doorLog/getByPhone/";
+
 //物业信息相关的url
 urlConfig.modifyProperty=host+"property/modify";
 urlConfig.propertyList=host+"property/propertyList";
