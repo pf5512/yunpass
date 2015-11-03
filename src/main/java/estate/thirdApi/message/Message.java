@@ -90,6 +90,6 @@ public class Message
     @Test
     public void test()
     {
-        LogUtil.E(sendFindPasswordVerifyCode("15114052120", "101012"));
+        LogUtil.E(sendRegisterVerifyCode("18144240528", "101012"));
     }
 }
