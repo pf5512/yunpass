@@ -14,5 +14,8 @@
         <property name="authorization">
             <column name="authorization" sql-type="varchar"/>
         </property>
+        <property name="menu">
+            <column name="menu" sql-type="text" length="65535"/>
+        </property>
     </class>
 </hibernate-mapping>

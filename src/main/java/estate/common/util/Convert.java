@@ -170,6 +170,8 @@ public class Convert
      */
     public static ArrayList<Integer> string2ints(String string,String split)
     {
+        if (string.equals(""))
+            return null;
         String[] temp=string.split(split);
         ArrayList<Integer> ints=new ArrayList<>();
         for (String aTemp : temp)

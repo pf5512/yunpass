@@ -125,7 +125,7 @@ CREATE TABLE `complain` (
   PRIMARY KEY (`id`),
   KEY `FK_axsavu84vcq195a7mqw9x2xj4` (`cu_id`),
   CONSTRAINT `FK_axsavu84vcq195a7mqw9x2xj4` FOREIGN KEY (`cu_id`) REFERENCES `console_user` (`cu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,6 +149,7 @@ CREATE TABLE `console_group` (
   `cg_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `authorization` varchar(255) DEFAULT NULL,
+  `menu` text NOT NULL,
   PRIMARY KEY (`cg_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,7 +179,7 @@ CREATE TABLE `console_user` (
   `name` varchar(45) DEFAULT NULL,
   `identity_type` tinyint(4) DEFAULT NULL,
   `identity_id` varchar(45) DEFAULT NULL,
-  `remark` int(11) DEFAULT NULL COMMENT '物业人员收到的评价',
+  `last_login` bigint(25) NOT NULL,
   PRIMARY KEY (`cu_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -189,7 +190,7 @@ CREATE TABLE `console_user` (
 
 LOCK TABLES `console_user` WRITE;
 /*!40000 ALTER TABLE `console_user` DISABLE KEYS */;
-INSERT INTO `console_user` VALUES (1,'123456','admin',NULL,NULL,'admin',NULL,NULL,NULL);
+INSERT INTO `console_user` VALUES (1,'123456','admin',NULL,NULL,'admin',NULL,NULL,0);
 /*!40000 ALTER TABLE `console_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +231,7 @@ CREATE TABLE `fee_item` (
 
 LOCK TABLES `fee_item` WRITE;
 /*!40000 ALTER TABLE `fee_item` DISABLE KEYS */;
-INSERT INTO `fee_item` VALUES (1,'2',NULL,2,'',NULL,10.22,'day',145440515150,155440515150,144440515150,154440515150,1,5,'{\"monthPrice\":\"300\",\"perTimePrice\":\"15\",\"managePrice\":\"200\"}',14405151510,1),(7,'1',NULL,2,NULL,NULL,10.22,'month',1447084800000,1448467200000,1446307200000,1451577600000,1,5,'{\"monthPrice\":\"100\",\"perTimePrice\":\"4\",\"managePrice\":\"200\"}',1446450581474,1),(8,'1',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"120\",\"perTimePrice\":\"5\",\"managePrice\":\"300\"}',1446450830751,1),(9,'2',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"300.00\"}',1446450860702,1),(11,'3',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,5,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"100.00\"}',1446450880651,1),(13,'清洁费','清洁',1,'per',100.00,NULL,NULL,NULL,NULL,1446307200000,1451577600000,0,5,NULL,1446452294030,1),(16,'所属',NULL,0,'family',22.00,22.00,'day',1447084800000,1447257600000,1446307200000,1451577600000,1,5,NULL,1446453262641,1);
+INSERT INTO `fee_item` VALUES (1,'2',NULL,2,'',NULL,10.22,'day',145440515150,155440515150,144440515150,154440515150,1,5,'{\"monthPrice\":\"300\",\"perTimePrice\":\"15\",\"managePrice\":\"200\"}',14405151510,1),(7,'1',NULL,2,NULL,NULL,10.22,'month',1447084800000,1448467200000,1446307200000,1451577600000,1,5,'{\"monthPrice\":\"100\",\"perTimePrice\":\"4\",\"managePrice\":\"200\"}',1446450581474,1),(8,'1',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"120\",\"perTimePrice\":\"5\",\"managePrice\":\"300\"}',1446450830751,1),(9,'2',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,7,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"300.00\"}',1446450860702,1),(11,'3',NULL,2,NULL,NULL,2.00,'day',1446307200000,1446652800000,1446307200000,1456761600000,1,5,'{\"monthPrice\":\"130\",\"perTimePrice\":\"5.5\",\"managePrice\":\"100.00\"}',1446450880651,1),(13,'清洁费','清洁',1,'per',100.00,NULL,NULL,NULL,NULL,1446307200000,1451577600000,0,5,NULL,1446452294030,1),(16,'所属',NULL,0,'family',22.00,22.00,'day',1447084800000,1447257600000,1446307200000,1451577600000,1,5,'1',1446453262641,1);
 /*!40000 ALTER TABLE `fee_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,14 +243,14 @@ DROP TABLE IF EXISTS `fee_item_order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fee_item_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fio_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `property_id` int(10) unsigned DEFAULT NULL,
-  `fee_item_id` int(10) unsigned DEFAULT NULL COMMENT '允许重复（一次性的费用）',
+  `fee_item_id` int(10) unsigned DEFAULT NULL,
   `is_billed` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`fio_id`),
   KEY `FK_2eom30ry9yaakqhlrplfvs9u9` (`fee_item_id`),
   CONSTRAINT `FK_2eom30ry9yaakqhlrplfvs9u9` FOREIGN KEY (`fee_item_id`) REFERENCES `fee_item` (`fi_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +259,7 @@ CREATE TABLE `fee_item_order` (
 
 LOCK TABLES `fee_item_order` WRITE;
 /*!40000 ALTER TABLE `fee_item_order` DISABLE KEYS */;
-INSERT INTO `fee_item_order` VALUES (1,5,16,NULL);
+INSERT INTO `fee_item_order` VALUES (8,28,16,NULL),(9,29,16,NULL),(10,31,16,NULL);
 /*!40000 ALTER TABLE `fee_item_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +312,7 @@ CREATE TABLE `open_door_record` (
   `description` varchar(100) DEFAULT NULL,
   `level` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`odr_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +321,7 @@ CREATE TABLE `open_door_record` (
 
 LOCK TABLES `open_door_record` WRITE;
 /*!40000 ALTER TABLE `open_door_record` DISABLE KEYS */;
-INSERT INTO `open_door_record` VALUES (14,'18144240528',1446128156307,NULL,0,'手机问题',0),(15,'18144240528',1446560966923,NULL,0,'description',1);
+INSERT INTO `open_door_record` VALUES (14,'18144240528',1446128156307,NULL,0,'手机问题',0),(15,'18144240528',1446560966923,NULL,0,'description',1),(16,'18144240528',1446624038646,'ydsyfdsf',0,'description',1);
 /*!40000 ALTER TABLE `open_door_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -706,4 +707,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-03 22:34:56
+-- Dump completed on 2015-11-04 19:59:49

@@ -7,6 +7,7 @@ import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
 import estate.dao.*;
 import estate.entity.database.FeeItemEntity;
+import estate.entity.database.FeeItemOrderEntity;
 import estate.entity.database.PropertyEntity;
 import estate.entity.display.ParkLotFeeInfo;
 import estate.entity.json.ParkLotExtra;
@@ -17,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by kangbiao on 15-9-15.
@@ -83,6 +86,53 @@ public class FeeServiceImpl implements FeeService
     public void deleteFee(byte feeType, Integer id)
     {
         feeItemDao.deleteByFeeTypeID(feeType,id);
+    }
+
+    @Override
+    public void relateBuilding(ArrayList<Integer> buildingIDs, Integer feeItemID)
+    {
+        FeeItemEntity feeItemEntity= (FeeItemEntity) baseDao.get(feeItemID,FeeItemEntity.class);
+        if (feeItemEntity==null)
+            return;
+        feeItemOrderDao.deleteAllByFeeItemID(feeItemID);
+
+        if (buildingIDs==null)
+        {
+            feeItemEntity.setExtendInfo(null);
+            baseDao.save(feeItemEntity);
+            return;
+        }
+        ArrayList<Integer> propertyIDs=new ArrayList<>();
+        int count=0;
+        StringBuilder stringBuilder=new StringBuilder();
+        for (Integer buildingId: buildingIDs)
+        {
+            if (count==0)
+                stringBuilder.append(buildingId);
+            else
+                stringBuilder.append(",").append(buildingId);
+            ArrayList<PropertyEntity> propertyEntities=propertyDao.getPropertyByBuildingID(buildingId);
+            if (propertyEntities!=null)
+            {
+                propertyIDs.addAll(propertyEntities.stream().map(PropertyEntity::getId).collect(Collectors.toList()));
+            }
+            count++;
+        }
+        feeItemEntity.setExtendInfo(stringBuilder.toString());
+        baseDao.save(feeItemEntity);
+        if (propertyIDs.size()>0)
+        {
+            for (Integer propetyID:propertyIDs)
+            {
+                if (feeItemOrderDao.getByPropertyIdFeeItemId(propetyID,feeItemID)==null)
+                {
+                    FeeItemOrderEntity feeItemOrderEntity = new FeeItemOrderEntity();
+                    feeItemOrderEntity.setPropertyId(propetyID);
+                    feeItemOrderEntity.setFeeItemId(feeItemID);
+                    baseDao.save(feeItemOrderEntity);
+                }
+            }
+        }
     }
 
     @Override

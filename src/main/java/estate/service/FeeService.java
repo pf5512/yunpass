@@ -27,13 +27,12 @@ public interface FeeService
     void deleteFee(byte feeType,Integer id);
 
 
-    //TODO 去除删除费用信息的隐患
     /**
-     * 将费用和楼栋下的所有物业绑定在一起,执行操作钱会先删除数据库中所有该费用绑定的物业,有一定的隐患
+     * 将费用和楼栋下的所有物业绑定在一起
      * @param buildingIDs
      * @param feeItemID
      */
-//    void relateBuilding(ArrayList<Integer> buildingIDs,Integer feeItemID);
+    void relateBuilding(ArrayList<Integer> buildingIDs,Integer feeItemID);
 
     /**
      * 通过园区id和车位类型获取费用信息,用来防止对一个园区添加多个相同类型的车位费用信息

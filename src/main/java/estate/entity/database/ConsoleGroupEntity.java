@@ -2,12 +2,14 @@ package estate.entity.database;
 
 /**
  * Created by kangbiao on 15-9-13.
+ *
  */
 public class ConsoleGroupEntity
 {
     private int cgId;
     private String name;
     private String authorization;
+    private String menu;
 
     public int getCgId()
     {
@@ -66,5 +68,15 @@ public class ConsoleGroupEntity
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (authorization != null ? authorization.hashCode() : 0);
         return result;
+    }
+
+    public String getMenu()
+    {
+        return menu;
+    }
+
+    public void setMenu(String menu)
+    {
+        this.menu = menu;
     }
 }

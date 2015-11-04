@@ -13,8 +13,7 @@ public class ConsoleUserEntity
     private String name;
     private Byte identityType;
     private String identityId;
-    private Integer remark;
-
+    private Long lastLogin;
 
 
     public String getPassword()
@@ -87,16 +86,6 @@ public class ConsoleUserEntity
         this.identityId = identityId;
     }
 
-    public Integer getRemark()
-    {
-        return remark;
-    }
-
-    public void setRemark(Integer remark)
-    {
-        this.remark = remark;
-    }
-
     public int getId()
     {
         return id;
@@ -105,5 +94,15 @@ public class ConsoleUserEntity
     public void setId(int id)
     {
         this.id = id;
+    }
+
+    public Long getLastLogin()
+    {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Long lastLogin)
+    {
+        this.lastLogin = lastLogin;
     }
 }

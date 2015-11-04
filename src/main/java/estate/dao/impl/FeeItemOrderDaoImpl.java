@@ -37,4 +37,25 @@ public class FeeItemOrderDaoImpl implements FeeItemOrderDao
             return (ArrayList<FeeItemOrderEntity>) list;
         return null;
     }
+
+    @Override
+    public void deleteAllByFeeItemID(Integer id)
+    {
+        if (id==null)
+            return;
+        Session session=getSession();
+        String hql="delete from FeeItemOrderEntity t where t.feeItemId=:feeItemId";
+        session.createQuery(hql).setInteger("feeItemId",id).executeUpdate();
+    }
+
+    @Override
+    public FeeItemOrderEntity getByPropertyIdFeeItemId(Integer propertyID, Integer feeItemID)
+    {
+        Session session=getSession();
+        String hql="from FeeItemOrderEntity t where t.feeItemId=:feeItemId and t.propertyId=:propertyId";
+        List list=session.createQuery(hql).setInteger("feeItemId",feeItemID).setInteger("propertyId",propertyID).list();
+        if (list.size()>0)
+            return (FeeItemOrderEntity) list.get(0);
+        return null;
+    }
 }

@@ -60,6 +60,7 @@
       <column name="cg_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="name" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
       <column name="authorization" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="menu" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
       <primary-key name="PRIMARY" columns="cg_id"/>
     </table>
     <table name="console_user" schema="" catalog="PropertySystem" type="TABLE">
@@ -71,7 +72,7 @@
       <column name="name" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
       <column name="identity_type" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <column name="identity_id" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
-      <column name="remark" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="54mp5Lia5Lq65ZGY5pS25Yiw55qE6K+E5Lu3"/>
+      <column name="last_login" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="cu_id"/>
       <exported-key name="FK_axsavu84vcq195a7mqw9x2xj4" table="complain" schema="" catalog="PropertySystem" columns="cu_id"/>
       <exported-key name="FK_1nyd0erg10vfu0etf8fc8h0va" table="notice" schema="" catalog="PropertySystem" columns="cu_id"/>
@@ -101,11 +102,11 @@
       <index name="FK_dkxt8mdgrp38dbw0py16g89en" unique="false" columns="village_id"/>
     </table>
     <table name="fee_item_order" schema="" catalog="PropertySystem" type="TABLE">
-      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fio_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="property_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="fee_item_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5YWB6K646YeN5aSN77yI5LiA5qyh5oCn55qE6LS555So77yJ"/>
+      <column name="fee_item_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="is_billed" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
-      <primary-key name="PRIMARY" columns="id"/>
+      <primary-key name="PRIMARY" columns="fio_id"/>
       <foreign-key name="FK_2eom30ry9yaakqhlrplfvs9u9" columns="fee_item_id" ref-table="fee_item" ref-schema="" ref-catalog="PropertySystem" ref-columns="fi_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="FK_2eom30ry9yaakqhlrplfvs9u9" unique="false" columns="fee_item_id"/>
     </table>

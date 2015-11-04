@@ -187,40 +187,42 @@ public class FeeController
 
 
 
-//    /**
-//     * 将物业和费用项目绑定
-//     * @param request
-//     * @return
-//     */
-//    @RequestMapping(value = "/relateBuilding")
-//    public BasicJson relateBuilding(HttpServletRequest request)
-//    {
-//        BasicJson basicJson=new BasicJson();
-//        Integer feeItemID;
-//        ArrayList<Integer> buildingIDs;
-//        try
-//        {
-//            feeItemID=Integer.valueOf(request.getParameter("feeItemID"));
-//            buildingIDs=Convert.string2ints(request.getParameter("buildingIDs"),",");
-//        }
-//        catch (Exception e)
-//        {
-//            basicJson.getErrorMsg().setDescription("参数错误\n"+e.getMessage());
-//            return basicJson;
-//        }
-//        try
-//        {
-//            feeService.relateBuilding(buildingIDs,feeItemID);
-//        }
-//        catch (Exception e)
-//        {
-//            LogUtil.E(e.getMessage());
-//        }
-//        LogUtil.E(buildingIDs);
-//        LogUtil.E(feeItemID);
-//        basicJson.setStatus(true);
-//        return basicJson;
-//    }
+    /**
+     * 将物业和费用项目绑定
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/relateBuilding")
+    public BasicJson relateBuilding(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        Integer feeItemID;
+        ArrayList<Integer> buildingIDs;
+        try
+        {
+            feeItemID=Integer.valueOf(request.getParameter("feeItemID"));
+            buildingIDs=Convert.string2ints(request.getParameter("buildingIDs"),",");
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("参数错误");
+            return basicJson;
+        }
+        try
+        {
+            feeService.relateBuilding(buildingIDs, feeItemID);
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("关联失败");
+            return basicJson;
+        }
+
+        basicJson.setStatus(true);
+        return basicJson;
+    }
 
     @RequestMapping(value = "/getBillList")
     public TableData getBillList(TableFilter tableFilter,HttpServletRequest request)

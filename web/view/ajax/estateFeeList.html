@@ -215,6 +215,9 @@
     });
 
     $("#confirmSubmit").click(function(){
+        var con=confirm("该操作将重新初始化该费用绑定信息,\n确认操作?");
+        if(!con)
+            return;
         var buildingIDs="";
         var temp=0;
         $("#checkBoxArea").find("input:checkbox:checked").each(function(){
@@ -247,7 +250,6 @@
                 alert("服务器连接失败,请重试!");
             }
         });
-//        console.log(buildingIDs);
     });
 
     $('#estateListTable tbody').on( 'click', 'button#relateBuildingBtn', function () {

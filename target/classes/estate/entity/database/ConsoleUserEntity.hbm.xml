@@ -29,8 +29,8 @@
         <property name="identityId">
             <column name="identity_id" sql-type="varchar" length="45"/>
         </property>
-        <property name="remark">
-            <column name="remark" sql-type="int"/>
+        <property name="lastLogin">
+            <column name="last_login" sql-type="bigint"/>
         </property>
     </class>
 </hibernate-mapping>

@@ -6,7 +6,8 @@
 
     <class name="estate.entity.database.FeeItemOrderEntity" table="fee_item_order" schema="" catalog="PropertySystem">
         <id name="id">
-            <column name="id" sql-type="int unsigned" not-null="true"/>
+            <column name="fio_id" sql-type="int unsigned" not-null="true"/>
+            <generator class="identity"/>
         </id>
         <property name="propertyId">
             <column name="property_id" sql-type="int unsigned"/>
