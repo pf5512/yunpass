@@ -21,6 +21,16 @@
                 <div class="no-move"></div>
             </div>
             <div class="box-content no-padding">
+                <div class="box-content" style="padding-bottom:0px;padding-left: 30px">
+                    <div class="row" id="filterArea">
+                        <div class="col-md-3">
+                            <label for="villageList">所属园区</label>
+                            <select name="villageId" class="villageList">
+                            </select>
+                            <button id="doFilterBtn">确定</button>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="estateListTable">
                     <thead>
                     <tr>
@@ -209,6 +219,9 @@
 </div><!-- /.modal -->
 <script type="text/javascript">
     var editTable;//全局的datatable变量
+    $("#doFilterBtn").click(function(){
+        editTable.draw();
+    });
 
     $("#addEstateFee").click(function(){
         $("#estateFeeFormModal").modal("show");//弹出框show
@@ -264,7 +277,7 @@
             dataType: "json",
             success: function (result) {
                 if (result.status) {
-                    if(result.jsonString.length>0)
+                    if(result.jsonString!=null)
                     {
                         var option="";
                         for(var i in result.jsonString)
@@ -414,6 +427,9 @@
             "serverSide": true,
             "ajax":{
                 "url": urlConfig.feeList+"estate",
+                "data":function ( d ) {
+                    d.villageId=$("#filterArea .villageList option:selected").val();
+                },
                 "dataSrc": "jsonString"
             },
             "columnDefs": [{

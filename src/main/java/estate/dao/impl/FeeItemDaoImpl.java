@@ -42,7 +42,7 @@ public class FeeItemDaoImpl implements FeeItemDao
             hql.append(" and t.name like('%").append(tableFilter.getSearchValue()).append("%')");
         if (tableFilter.getVillageId()!=null)
             hql.append(" and t.villageId=").append(tableFilter.getVillageId());
-        hql.append(" order by t.villageId,t.addTime");
+        hql.append(" order by t.villageId,t.addTime desc");
         query=session.createQuery(hql.toString());
 
         Integer count=query.list().size();

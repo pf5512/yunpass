@@ -89,7 +89,7 @@ CREATE TABLE `building` (
   PRIMARY KEY (`building_id`),
   KEY `FK_6odky3rdk3fxudn5blwdw34ny` (`village_id`),
   CONSTRAINT `FK_6odky3rdk3fxudn5blwdw34ny` FOREIGN KEY (`village_id`) REFERENCES `village` (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ CREATE TABLE `building` (
 
 LOCK TABLES `building` WRITE;
 /*!40000 ALTER TABLE `building` DISABLE KEYS */;
-INSERT INTO `building` VALUES (1,5,'','G1B1','园区1的楼栋1'),(5,7,'独栋','LD001','楼栋一');
+INSERT INTO `building` VALUES (1,5,'','G1B1','园区1的楼栋1'),(5,7,'独栋','LD001','楼栋一'),(6,5,'','LD0093','园区一测试楼栋');
 /*!40000 ALTER TABLE `building` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,7 +250,7 @@ CREATE TABLE `fee_item_order` (
   PRIMARY KEY (`fio_id`),
   KEY `FK_2eom30ry9yaakqhlrplfvs9u9` (`fee_item_id`),
   CONSTRAINT `FK_2eom30ry9yaakqhlrplfvs9u9` FOREIGN KEY (`fee_item_id`) REFERENCES `fee_item` (`fi_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,7 +259,7 @@ CREATE TABLE `fee_item_order` (
 
 LOCK TABLES `fee_item_order` WRITE;
 /*!40000 ALTER TABLE `fee_item_order` DISABLE KEYS */;
-INSERT INTO `fee_item_order` VALUES (8,28,16,NULL),(9,29,16,NULL),(10,31,16,NULL);
+INSERT INTO `fee_item_order` VALUES (11,28,16,NULL),(12,29,16,NULL),(13,31,16,NULL);
 /*!40000 ALTER TABLE `fee_item_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -707,4 +707,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-04 19:59:49
+-- Dump completed on 2015-11-04 20:13:50
