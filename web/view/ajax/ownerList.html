@@ -35,9 +35,7 @@
                         <th>证件类型</th>
                         <th>证件号码</th>
                         <th>认证时间</th>
-                        <th>详细信息</th>
-                        <th>详细信息</th>
-                        <th>详细信息</th>
+                        <th>名下物业</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -53,9 +51,7 @@
                         <th>证件类型</th>
                         <th>证件号码</th>
                         <th>认证时间</th>
-                        <th>详细信息</th>
-                        <th>详细信息</th>
-                        <th>详细信息</th>
+                        <th>名下物业</th>
                         <th>操作</th>
                     </tr>
                     </tfoot>
@@ -70,21 +66,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">业主详细信息</h4>
+                <h4 class="modal-title">名下物业信息</h4>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12" id="ownerInfo">
-                            <h3>个人信息</h3>
-                            <ul class="list-group">
-                                <li class="list-group-item">姓名: <span id="name"></span></li>
-                                <li class="list-group-item">证件类型: <span id="identityType"></span></li>
-                                <li class="list-group-item">证件号码: <span id="identityCode"></span></li>
-                                <li class="list-group-item">认证时间: <span id="authenticationTime"></span></li>
-                                <li class="list-group-item">紧急联系人: <span id="urgent"></span></li>
-                            </ul>
-                            <h3>物业信息</h3>
                             <ul class="list-group" id="propertyInfo">
 
                             </ul>
@@ -188,7 +175,7 @@
             var data = editTable.row($(this).parents('tr') ).data();
             $.ajax({
                 type: "get",
-                async: false,
+                async: true,
                 url: urlConfig.deleteOwnerByPhone+data.phone,
                 dataType: "json", //返回数据形式为json
                 success: function (result) {
@@ -211,19 +198,11 @@
 
     //显示业主的个人信息和房产信息
     $('#ownerListTable').on( 'click', 'button#detailRow', function () {
+        $("#formModel").modal("show");
         var data = editTable.row($(this).parents('tr') ).data();
-        console.log(data);
-
-        $("#ownerInfo #name").text(data.name);
-        $("#ownerInfo #identityType").text(data.identityType);
-        $("#ownerInfo #identityCode").text(data.identityCode);
-        $("#ownerInfo #authenticationTime").text(data.authenticationTime);
-        $("#ownerInfo #identityType").text(data.identityType);
-        $("#ownerInfo #urgent").text(data.urgentName+"("+data.urgentPhone+")");
-
         $.ajax({
             type: "get",
-            async: false,
+            async: true,
             url: urlConfig.getPropertiesByOwnerPhone+data.phone,
             dataType: "json", //返回数据形式为json
             success: function (result) {
@@ -266,10 +245,9 @@
                 }
             },
             error: function () {
-                alert("服务器连接失败,请重试!");
+                $("#propertyInfo").html("服务器连接失败");
             }
         });
-        $("#formModel").modal("show");//弹出框show
     });
 
     //初始化表格数据
@@ -302,7 +280,15 @@
                 "data": "sex",
                 "visible": true,
                 "orderable": false,
-                "searchable": true
+                "searchable": true,
+                "render": function ( data, type, row ) {
+                    if(data==0)
+                        return "男";
+                    else if(data==1)
+                        return "女";
+                    else
+                        return "未设置";
+                }
 
             },{
                 "targets": 3,
@@ -316,7 +302,15 @@
                 "data": "identityType",
                 "visible": true,
                 "orderable": false,
-                "searchable": true
+                "searchable": true,
+                "render": function ( data, type, row ) {
+                    if(data==0)
+                        return "身份证";
+                    else if(data==1)
+                        return "军官证";
+                    else
+                        return "未设置";
+                }
 
             },{
                 "targets": 5,
@@ -330,31 +324,20 @@
                 "data": "authenticationTime",
                 "visible": true,
                 "orderable": false,
-                "searchable": true
+                "searchable": true,
+                "render": function ( data, type, row ) {
+                    return formatDate(data,"yyyy-MM-dd");
+                }
 
             },{
                 "targets": 7,
-                "data": "propertyIdList",
-                "visible": false,
-                "orderable": false,
-                "searchable": true
-
-            },{
-                "targets": 8,
-                "data": "vehicleIdIst",
-                "visible": false,
-                "orderable": false,
-                "searchable": true
-
-            },{
-                "targets": 9,
                 "data": null,
                 "orderable": false,
                 "searchable": false,
                 "defaultContent":
                         "<button id='detailRow' class='btn btn-primary' type='button'>查看</button>"
             },{
-                "targets": 10,//删除
+                "targets": 8,//删除
                 "data": null,
                 "orderable": false,
                 "searchable": false,

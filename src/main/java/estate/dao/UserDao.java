@@ -13,27 +13,19 @@ import java.util.ArrayList;
  */
 public interface UserDao
 {
-    /**
-     * 根据用户id获取用户信息
-     * @param phone
-     * @return
-     */
-    AppUserEntity getUserByPhone(String phone);
 
     /**
-     * 通过用户的电话和状态返回用户信息
-     * @param phone
-     * @param status
+     * 获取业主信息列表
+     * @param tableFilter
      * @return
      */
-    AppUserEntity getByPhoneStatus(String phone , Byte status);
-
     TableData getOwnerList(TableFilter tableFilter);
 
-    TableData getTenantList(TableFilter tableFilter);
-
-    TableData getAuthenticatedUserList(TableFilter tableFilter);
-
+    /**
+     * 获取app用户信息列表
+     * @param tableFilter
+     * @return
+     */
     TableData getAppUserList(TableFilter tableFilter);
 
     /**
@@ -50,20 +42,6 @@ public interface UserDao
      * @param type
      */
     void deleteUserByPhone(String phone,byte type);
-
-    /**
-     * 通过物业id获取该物业的所有业主
-     * @param id
-     * @return
-     */
-    ArrayList<Object> getOwnersByPropertyID(Integer id);
-
-    /**
-     * 通过物业id获取该物业绑定的所有app用户
-     * @param id
-     * @return
-     */
-    ArrayList<Object> getAppUserByPropertyID(Integer id);
 
     /**
      * 获取所有的app用户

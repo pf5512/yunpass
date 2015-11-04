@@ -70,6 +70,11 @@ public class UserHandler
             basicJson.getErrorMsg().setDescription("登录失败,该用户已被禁用");
             return basicJson;
         }
+        if (appUserEntity.getStatus().equals(AppUserStatus.DELETE))
+        {
+            basicJson.getErrorMsg().setDescription("登录失败,该用户不存在");
+            return basicJson;
+        }
 
         basicJson.setStatus(true);
         request.getSession().setAttribute("phone", phone);
@@ -119,7 +124,6 @@ public class UserHandler
             return basicJson;
         }
 
-        LogUtil.E("verifycode:"+verifyCode);
         request.getSession().setAttribute("verifyCode", verifyCode);
         request.getSession().setAttribute("phone", phone);
 
@@ -181,7 +185,7 @@ public class UserHandler
         }
         catch (Exception e)
         {
-            LogUtil.E("错误:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("注册失败");
             return basicJson;
         }

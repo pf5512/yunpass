@@ -192,44 +192,17 @@ public class UserController
                     }
                 }
             }
-
-            userService.deleteOwner(phone);
+            userService.deleteOwner(phone,type);
         }
         catch (Exception e)
         {
-            LogUtil.E(e.getMessage());
-            basicJson.getErrorMsg().setCode("21233210");
+            basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("查询失败\n错误详情:"+e.getMessage());
             return basicJson;
         }
 
         basicJson.setStatus(true);
         return basicJson;
-    }
-
-    /**
-     * 获取认证用户的列表
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/authenticatedUserList")
-    public TableData getTenantList(TableFilter tableFilter,HttpServletRequest request)
-    {
-        if(request.getParameter("search[value]")!=null)
-            tableFilter.setSearchValue(request.getParameter("search[value]"));
-        else
-            tableFilter.setSearchValue("");
-
-        try
-        {
-            return userService.getAuthenticatedUserList(tableFilter);
-        }
-        catch (Exception e)
-        {
-//            LogUtil.E(e.getClass()+e.getMessage());
-            return null;
-        }
-
     }
 
 

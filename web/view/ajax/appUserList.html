@@ -392,9 +392,7 @@
                 "orderable": false,
                 "searchable": false,
                 "render": function ( data, type, row ) {
-                    var register_date=new Date();
-                    register_date.setTime(data);
-                    return register_date.toLocaleDateString().replace(/\//g, "-");
+                    return formatDate(data,"yyyy-MM-dd");
                 }
             },{
                 "targets": 5,
@@ -408,7 +406,7 @@
                     else if(data==0)
                         return "<font color='red'>禁用</font>";
                     else
-                        return "已删除";
+                        return "<font color='red'>已删除</font>";
                 }
             },{
                 "targets": 6,
@@ -437,7 +435,7 @@
                         return "<button id='changeStatus' status='disable' class='btn btn-primary' type='button'>禁用" +
                                 "</button>&ensp;<button id='delRowBtn' class='btn btn-primary' type='button'>删除</button>";
                     else
-                        return "<button id='changeStatus' status='enable' class='btn btn-primary' type='button'>启用" +
+                        return "<button id='changeStatus' status='enable' class='btn btn-primary' type='button'>恢复" +
                                 "</button>&ensp;<button id='delRowBtn' class='btn btn-primary' type='button'>删除</button>";
                 }
             }],

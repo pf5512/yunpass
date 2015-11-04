@@ -17,16 +17,11 @@ public interface UserService
 {
 
     /**
-     * app用户注册
-     * @param appUserEntity
-     * @param propertyID
+     * 获取业主信息
+     * @param tableFilter
+     * @return
      */
-    void register(AppUserEntity appUserEntity,Integer propertyID);
-
     TableData getOwnerList(TableFilter tableFilter);
-
-
-    TableData getAuthenticatedUserList(TableFilter tableFilter);
 
     /**
      * 获取app用户列表,同时返回每个用户绑定的房产id(1,2,3)
@@ -34,13 +29,6 @@ public interface UserService
      * @return
      */
     TableData getAppUserList(TableFilter tableFilter);
-
-
-    /**
-     * 改变app用户的状态
-     * @param appUserEntity
-     */
-    void changeAppUserStatus(AppUserEntity appUserEntity);
 
     /**
      * 通过用户的电话和类型获取用户信息
@@ -50,7 +38,6 @@ public interface UserService
      */
     Object getUserInfoByPhoneRole(String phone, int type);
 
-
     /**
      * 通过APP用户手机号码获取用户详细信息
      * @param phone
@@ -58,28 +45,15 @@ public interface UserService
      */
     UserInfoEntity getUserDetailByPhone(String phone);
 
-
-
     /**
      * 删除业主
      * @param phone
      */
-    void deleteOwner(String phone);
-
-    /**
-     * 通过物业id和用户类型返回该物业对应的用户信息
-     * @param id
-     * @return
-     */
-    ArrayList<Object> getUserInfoByProperityID(Integer id,int userType) throws UserTypeErrorException;
-
+    void deleteOwner(String phone,byte type);
 
     /**
      * 一次性获取所有的app用户
      * @return
      */
     ArrayList<AppUserEntity> getAllAppUser();
-
-
-
 }
