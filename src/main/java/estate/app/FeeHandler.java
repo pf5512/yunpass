@@ -4,6 +4,8 @@ import estate.common.config.BillPayStatus;
 import estate.common.util.Convert;
 import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
+import estate.entity.app.Bill;
+import estate.entity.database.UserBillEntity;
 import estate.entity.display.AppBill;
 import estate.entity.json.BasicJson;
 import estate.entity.json.Select2;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by kangbiao on 15-10-4.
@@ -33,8 +36,62 @@ public class FeeHandler
     {
         BasicJson basicJson=new BasicJson(false);
 
-        basicJson.setJsonString(billService.getBillByPhone("18144240528", BillPayStatus.UNPAY,null,null));
+        try
+        {
+            UserBillEntity userBillEntity=billService.getBillByPhone("18144240528", BillPayStatus.UNPAY,null,null);
+            LogUtil.E(GsonUtil.getGson().toJson(userBillEntity));
+            if (userBillEntity!=null)
+            {
+                ArrayList<Select2> select2s=new ArrayList<>();
+                String propertyBill=userBillEntity.getPropertyBill();
+                String parkLotBill=userBillEntity.getParkLotBill();
+                double total=0.00;
+                if (propertyBill!=null)
+                {
 
+                    for (String kv: Arrays.asList(propertyBill.split(";")))
+                    {
+                        try
+                        {
+                            Select2 select2 = new Select2();
+                            select2.setId(kv.split(":")[0]);
+                            select2.setText(kv.split(":")[1]);
+                            total+=Double.valueOf(kv.split(":")[1]);
+                            select2s.add(select2);
+                        }
+                        catch (Exception e){}
+                    }
+                }
+                if (parkLotBill!=null)
+                {
+
+                    for (String kv: Arrays.asList(parkLotBill.split(";")))
+                    {
+                        try
+                        {
+                            Select2 select2 = new Select2();
+                            select2.setId(kv.split(":")[0]);
+                            select2.setText(kv.split(":")[1]);
+                            total+=Double.valueOf(kv.split(":")[1]);
+                            select2s.add(select2);
+                        }
+                        catch (Exception e){}
+                    }
+                }
+                Bill bill=new Bill();
+                bill.setItems(select2s);
+                bill.setId(19);
+                bill.setTotal(String.valueOf(total));
+                bill.setBillTime(Convert.num2time(System.currentTimeMillis()));
+                basicJson.setJsonString(bill);
+            }
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("获取账单失败");
+            return basicJson;
+        }
         basicJson.setStatus(true);
         return basicJson;
     }

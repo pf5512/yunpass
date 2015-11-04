@@ -60,15 +60,17 @@ public class BillServiceImpl implements BillService
                     int temp2 = 0;
                     for (PropertyBillEntity propertyBillEntity : propertyBillEntities)
                     {
-                        if (temp2 == 0)
+                        if (temp!=0&&temp2 == 0)
                         {
                             propertyBill.append(";").append(propertyBillEntity.getFeeItemFee());
-                        } else
+                        }
+                        else if (temp2!=0)
                         {
-                            propertyBill.append(propertyBillEntity.getFeeItemFee());
+                            propertyBill.append(";").append(propertyBillEntity.getFeeItemFee());
                         }
                         temp2++;
                     }
+                    temp++;
                 }
 
             }
