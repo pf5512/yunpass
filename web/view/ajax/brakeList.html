@@ -173,6 +173,7 @@
                 success: function (result) {
                     if (result.status) {
                         alert("删除成功");
+                        editTable.ajax.reload(null, false);
                     }
                     else
                     {

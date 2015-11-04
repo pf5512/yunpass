@@ -89,6 +89,12 @@ public class SecretController
         return basicJson;
     }
 
+    /**
+     * 获取密钥列表
+     * @param tableFilter
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/list")
     public TableData getList(TableFilter tableFilter,HttpServletRequest request)
     {
@@ -105,6 +111,31 @@ public class SecretController
             tableData.getErrorMsg().setDescription("获取失败");
         }
         return tableData;
+    }
+
+    /**
+     * 删除密钥
+     * @param secretID
+     * @return
+     */
+    @RequestMapping(value = "/delete/{secretID}")
+    public BasicJson delete(@PathVariable(value = "secretID") Integer secretID)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        try
+        {
+            SsidSecretEntity ssidSecretEntity=new SsidSecretEntity();
+            ssidSecretEntity.setId(secretID);
+            baseService.delete(ssidSecretEntity);
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("删除失败,请检查依赖");
+            return basicJson;
+        }
+        basicJson.setStatus(true);
+        return basicJson;
     }
 
     /**

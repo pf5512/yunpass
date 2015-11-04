@@ -185,6 +185,7 @@
 
     //选择维修人员
     $('#repairListTable tbody').on( 'click', 'button#chooseRepirman', function () {
+        $("#chooseRepairManModel").modal("show");
         var data = editTable.row($(this).parents('tr') ).data();
         $("#chooseRepairManForm #repairID").val(data.id);
         $.ajax({
@@ -215,7 +216,6 @@
                 $("#repairManList").html('<option value="">--网络连接失败--</option>');
             }
         });
-        $("#chooseRepairManModel").modal("show");//弹出框show
     });
     function selectRepairMan(){
         $('#repairManList').select2();

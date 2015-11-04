@@ -68,6 +68,7 @@ urlConfig.addSecret=host+"secret/add";
 urlConfig.secretList=host+"secret/list";
 urlConfig.secretSelect2List=host+"secret/select";
 urlConfig.setSecret=host+"secret/setSecret/";
+urlConfig.deleteSecret=host+"secret/delete/";
 
 //门禁记录相关的url
 urlConfig.getDoorLog=host+"doorLog/getByPhone/";
