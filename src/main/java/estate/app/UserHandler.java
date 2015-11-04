@@ -70,11 +70,6 @@ public class UserHandler
             basicJson.getErrorMsg().setDescription("登录失败,该用户已被禁用");
             return basicJson;
         }
-        if (appUserEntity.getStatus().equals(AppUserStatus.DELETE))
-        {
-            basicJson.getErrorMsg().setDescription("登录失败,该用户不存在");
-            return basicJson;
-        }
 
         basicJson.setStatus(true);
         request.getSession().setAttribute("phone", phone);
@@ -333,7 +328,7 @@ public class UserHandler
     @RequestMapping(value = "/findPassword/{phone}",method = RequestMethod.GET)
     public BasicJson findPassword(@PathVariable String phone,HttpServletRequest request)
     {
-        BasicJson basicJson=new BasicJson();
+        BasicJson basicJson=new BasicJson(false);
         String verifyCode=VerifyCodeGenerate.create();
         String msg=Message.sendFindPasswordVerifyCode(phone,verifyCode);
         if (!msg.equals("succ"))
@@ -345,6 +340,7 @@ public class UserHandler
         request.getSession().setAttribute("verifyCode",verifyCode);
 
         basicJson.setStatus(true);
+        basicJson.setJsonString(request.getSession().getId());
         return basicJson;
     }
 
@@ -357,7 +353,8 @@ public class UserHandler
     @RequestMapping(value = "/findPassword/checkVerifyCode/{verifyCode}",method = RequestMethod.GET)
     public BasicJson checkVerifyCodeFD(@PathVariable String verifyCode,HttpServletRequest request)
     {
-        BasicJson basicJson=new BasicJson();//r
+        BasicJson basicJson=new BasicJson();
+        LogUtil.E("send:"+verifyCode+"  local:"+request.getSession().getAttribute("verifyCode"));
         if (!(verifyCode.equals("101010")||verifyCode.equals(request.getSession().getAttribute("verifyCode"))))
         {
             basicJson.getErrorMsg().setDescription("验证码错误");
