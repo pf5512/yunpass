@@ -9,6 +9,7 @@ import estate.entity.json.BasicJson;
 import estate.service.AuthorityService;
 import estate.service.BaseService;
 import estate.service.SsidSecretService;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,9 @@ import java.util.ArrayList;
 @RequestMapping("api/auth")
 public class AuthorityHandler
 {
+
+    private Logger logger= LogUtil.getLogger(this.getClass());
+
     @Autowired
     AuthorityService authorityService;
     @Autowired
@@ -54,13 +58,14 @@ public class AuthorityHandler
                 ssidSecretEntity=ssidSecretService.getSelfBySymbol(symbol);
                 if (ssidSecretEntity==null||ssidSecretEntity.getControlId()==null)
                 {
+                    logger.info("密钥未配置");
                     basicJson.getErrorMsg().setDescription("该密钥未配置!");
                     return basicJson;
                 }
             }
             catch (Exception e)
             {
-                LogUtil.E((e.getMessage()));
+                logger.error("获取门禁密钥异常:"+e.getMessage());
                 basicJson.getErrorMsg().setDescription("该ssid不存在!");
                 return basicJson;
             }
@@ -77,10 +82,10 @@ public class AuthorityHandler
         try
         {
             ids = authorityService.getAuthorityIDsByPhoneType(phone, ssidSecretEntity.getControlType());
-            LogUtil.E("ids:"+ids);
         }
         catch (Exception e)
         {
+            logger.error("获取权限时异常:"+e.getMessage());
             basicJson.getErrorMsg().setDescription("获取密钥失败");
             return basicJson;
         }
@@ -127,6 +132,7 @@ public class AuthorityHandler
         }
         catch (Exception e)
         {
+            logger.error("上传门禁记录异常:"+e.getMessage());
             basicJson.getErrorMsg().setDescription("保存出错-"+e.getMessage());
             return basicJson;
         }

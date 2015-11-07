@@ -530,7 +530,7 @@ CREATE TABLE `property_owner_info` (
   KEY `FK_7oq20rni7t96houjm1d7flnox` (`property_id`),
   KEY `FK_cmeyqayotl7586xjrqrlnvgm1` (`phone`),
   CONSTRAINT `FK_7oq20rni7t96houjm1d7flnox` FOREIGN KEY (`property_id`) REFERENCES `property` (`property_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -706,4 +706,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-04 22:13:01
+-- Dump completed on 2015-11-07 21:19:22

@@ -27,12 +27,14 @@ public class LogUtil
             URL url=LogUtil.class.getResource(path);
             source = new ConfigurationSource(new FileInputStream(new File(url.getPath())),url);
             Configurator.initialize(null, source);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (logger==null)
-            logger= LogManager.getLogger();
+    }
+
+    public static Logger getLogger(Class cls)
+    {
+        return LogManager.getLogger(cls);
     }
 
     public static void E(String message) {

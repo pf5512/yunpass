@@ -1,6 +1,7 @@
 package estate.filter.app;
 
 import estate.common.util.LogUtil;
+import org.junit.Test;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -67,5 +68,11 @@ public class AppFilterMain implements Filter
                 return false;
         }
         return true;
+    }
+
+    @Test
+    public void test()
+    {
+        LogUtil.getLogger(this.getClass()).error("sssssssss");
     }
 }

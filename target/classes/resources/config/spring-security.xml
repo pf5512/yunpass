@@ -11,13 +11,11 @@
     <!--<security:http pattern="/file/**" security="none"/>-->
 
     <bean>
-
         <security:http auto-config="true" use-expressions="false">
             <security:intercept-url pattern="/**" access="hasRole('USER')" />
             <security:form-login />
             <security:logout />
         </security:http>
-
     </bean>
 
     <!--<authentication-manager>-->
