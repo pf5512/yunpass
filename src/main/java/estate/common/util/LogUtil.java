@@ -38,26 +38,26 @@ public class LogUtil
     }
 
     public static void E(String message) {
-        logger.error(message);
+        LogManager.getLogger().error(message);
     }
 
     public static void E(Integer message) {
-        logger.error(message);
+        LogManager.getLogger().error(message);
     }
 
     public static void E(int message) {
-        logger.error(message);
+        LogManager.getLogger().error(message);
     }
 
     public static void E(Object message) {
-        logger.error(message);
+        LogManager.getLogger().error(message);
     }
 
     public static void E(Double message) {
-        logger.error(message);
+        LogManager.getLogger().error(message);
     }
 
     public static void I(String message) {
-        logger.info(message);
+        LogManager.getLogger().info(message);
     }
 }

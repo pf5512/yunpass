@@ -49,7 +49,6 @@ public class ParkLotDaoImpl implements ParkLotDao
             hql.append(" and t.brakeEntity.villageId=").append(tableFilter.getVillageId());
         if (tableFilter.getControlId()!=null)
             hql.append(" and t.brakeId=").append(tableFilter.getControlId());
-        LogUtil.E(hql.toString());
         query=session.createQuery(hql.toString());
         Integer count=query.list().size();
         entities=(ArrayList<ParkingLotEntity>)query

@@ -52,7 +52,15 @@ public class SsidSecretDaoImpl implements SsidSecretDao
             hql.append(" and t.symbol like('%")
                     .append(tableFilter.getSearchValue())
                     .append("%')");
-
+        if (tableFilter.getType()!=null)
+            hql.append(" and t.type=").append(tableFilter.getType());
+        if (tableFilter.getStatus()!=null)
+        {
+            if (tableFilter.getStatus()==4)
+                hql.append(" and (t.controlType=null or t.controlType='') ");
+            else
+                hql.append(" and t.controlType=").append(tableFilter.getStatus());
+        }
         query=session.createQuery(hql.toString());
         Integer count=query.list().size();
         entities= (ArrayList<SsidSecretEntity>) query
