@@ -12,6 +12,7 @@ import estate.exception.TypeErrorException;
 import estate.service.BaseService;
 import estate.service.BuildingService;
 import estate.service.SsidSecretService;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/web/secret")
 public class SecretController
 {
+    Logger logger=LogUtil.getLogger(this.getClass());
+
     @Autowired
     BuildingService buildingService;
     @Autowired
@@ -57,6 +60,7 @@ public class SecretController
         }
         catch (TypeErrorException e)
         {
+            logger.error("wifi密钥类型错误");
             basicJson.getErrorMsg().setDescription(e.getMessage());
             return basicJson;
         }
@@ -81,6 +85,7 @@ public class SecretController
         }
         catch (Exception e)
         {
+            logger.error("保存密钥到数据库失败:"+e.getMessage());
             basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("添加失败,请重试");
             return basicJson;
@@ -107,6 +112,7 @@ public class SecretController
         }
         catch (Exception e)
         {
+            logger.error("从数据库获取密钥列表失败:"+e.getMessage());
             tableData.getErrorMsg().setCode(e.getMessage());
             tableData.getErrorMsg().setDescription("获取失败");
         }
@@ -130,6 +136,7 @@ public class SecretController
         }
         catch (Exception e)
         {
+            logger.error("从数据库删除密钥失败:"+e.getMessage());
             basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("删除失败,请检查依赖");
             return basicJson;
@@ -153,6 +160,7 @@ public class SecretController
         }
         catch (Exception e)
         {
+            logger.error("从数据库获取未使用的密钥时失败:"+e.getMessage());
             basicJson.getErrorMsg().setDescription("获取数据失败");
             basicJson.getErrorMsg().setCode(e.getMessage()+"数据库异常");
             return basicJson;
@@ -181,6 +189,7 @@ public class SecretController
         }
         catch (Exception e)
         {
+            logger.error("客户端参数异常:"+e.getMessage());
             basicJson.getErrorMsg().setDescription("参数错误");
             return basicJson;
         }
@@ -209,6 +218,7 @@ public class SecretController
         }
         catch (Exception e)
         {
+            logger.error("更新密钥控制对象到数据库失败:"+e.getMessage());
             basicJson.getErrorMsg().setDescription("设置失败,请刷新重试");
             basicJson.getErrorMsg().setCode(e.getMessage());
             return basicJson;

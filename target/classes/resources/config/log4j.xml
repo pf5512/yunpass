@@ -30,6 +30,9 @@
             <appender-ref ref="Console"/>
             <appender-ref ref="FileError"/>
         </Logger>
+        <Root level="error">
+            <AppenderRef ref="FileError"/>
+            <AppenderRef ref="Console"/>
+        </Root>
     </Loggers>
 </Configuration>
-
