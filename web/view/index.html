@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 	<head>
 		<meta charset="utf-8">
 		<title>物业管理系统</title>
@@ -9,7 +9,6 @@
 		<link href="plugins/bootstrap/bootstrap.css" rel="stylesheet">
 		<link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
 		<link href="css/font-awesome.css" rel="stylesheet">
-		<!--<link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>-->
 		<link href="plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
 		<link href="plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
 		<link href="plugins/xcharts/xcharts.min.css" rel="stylesheet">
@@ -20,12 +19,6 @@
 				<script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
 				<script src="http://getbootstrap.com/docs-assets/js/respond.min.js"></script>
 		<![endif]-->
-		<!--<style>-->
-			<!--tr td,tr th-->
-			<!--{-->
-				<!--text-align: center;-->
-			<!--}-->
-		<!--</style>-->
 	</head>
 <body>
 <!--Start Header-->
@@ -129,8 +122,6 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="ajax-link" href="ajax/propertyList.html">物业信息</a></li>
-						<!--<li><a class="ajax-link" href="ajax/addVillage.html">增加园区</a></li>-->
-						<!--<li><a class="ajax-link" href="ajax/addBuilding.html">增加楼栋</a></li>-->
 						<li><a class="ajax-link" href="ajax/villageList.html">园区信息</a></li>
 						<li><a class="ajax-link" href="ajax/buildingList.html">楼栋信息</a></li>
 						<li><a class="ajax-link" href="ajax/addProperty.html">增加物业</a></li>
@@ -153,11 +144,7 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="ajax-link" href="ajax/ownerList.html">住户清单</a></li>
-						<!--<li><a class="ajax-link" href="ajax/addOwner.html">增加业主</a></li>-->
-						<!--<li><a class="ajax-link" href="ajax/tenantList.html">租户</a></li>-->
 						<li><a class="ajax-link" href="ajax/appUserList.html">APP账号管理</a></li>
-						<!--<li><a class="ajax-link" href="ajax/authenticatedUserList.html">授权用户</a></li>-->
-						<!--<li><a class="ajax-link" href="ajax/charts_flot.html">app登陆账号管理</a></li>-->
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -208,14 +195,14 @@
 						<span class="hidden-xs">后台用户管理</span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="ajax/secretConfig.html">用户组</a></li>
-						<li><a class="ajax-link" href="ajax/secretList.html">用户</a></li>
+						<li><a class="ajax-link" href="ajax/userGroup.html">用户组</a></li>
+						<li><a class="ajax-link" href="ajax/adminUser.html">用户</a></li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 		<!--Start Content-->
-		<div id="content" style="position: absolute;right: 0px" class="col-xs-12 col-sm-10">
+		<div id="content" style="position: absolute;right: 0" class="col-xs-12 col-sm-10">
 			<div class="preloader">
 				<img src="img/devoops_getdata.gif" class="devoops-getdata" alt="preloader"/>
 			</div>

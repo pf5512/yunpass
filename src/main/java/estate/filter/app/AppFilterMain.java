@@ -70,9 +70,4 @@ public class AppFilterMain implements Filter
         return true;
     }
 
-    @Test
-    public void test()
-    {
-        LogUtil.getLogger(this.getClass()).error("sssssssss");
-    }
 }

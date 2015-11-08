@@ -78,12 +78,14 @@ public class FeeHandler
                         catch (Exception e){}
                     }
                 }
+                ArrayList<Bill> bills=new ArrayList<>();
                 Bill bill=new Bill();
                 bill.setItems(select2s);
                 bill.setId(19);
                 bill.setTotal(String.valueOf(total));
                 bill.setBillTime(Convert.num2time(System.currentTimeMillis()));
-                basicJson.setJsonString(bill);
+                bills.add(bill);
+                basicJson.setJsonString(bills);
             }
         }
         catch (Exception e)

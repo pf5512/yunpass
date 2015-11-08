@@ -2,8 +2,8 @@
 <div class="row">
     <div id="breadcrumb" class="col-md-12">
         <ol class="breadcrumb">
-            <li><a href="#">物业管理</a></li>
-            <li><a href="#">园区查看</a></li>
+            <li><a href="#">后台用户管理</a></li>
+            <li><a href="#">用户组</a></li>
         </ol>
     </div>
 </div>
@@ -12,7 +12,7 @@
         <div class="box">
             <div class="box-header">
                 <div class="box-name">
-                    <button id="addVillageBtn" class="btn btn-info">添加园区</button>
+                    <button id="addGroupBtn" class="btn btn-info">添加用户组</button>
                 </div>
                 <div class="box-icons">
                     <a class="expand-link">
@@ -23,12 +23,12 @@
             </div>
             <div class="box-content no-padding">
                 <table class="table table-bordered table-striped table-hover table-heading table-datatable"
-                       id="villageListTable">
+                       id="groupListTable">
                     <thead>
                     <tr>
                         <th>序号</th>
-                        <th>园区编号</th>
-                        <th>园区名称</th>
+                        <th>组名</th>
+                        <th>组编号</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -219,7 +219,7 @@
                 "orderable": false,
                 "searchable": false,
                 "defaultContent":
-                "<button id='delRowBtn' class='btn btn-primary' type='button'>删除</button>"
+                        "<button id='delRowBtn' class='btn btn-primary' type='button'>删除</button>"
             }
             ],
             "aaSorting": [[ 0, "desc" ]],
