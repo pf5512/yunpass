@@ -4,8 +4,6 @@ import estate.entity.database.AppUserEntity;
 import estate.entity.database.UserInfoEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
-import estate.exception.AppUserNotExitException;
-import estate.exception.UserTypeErrorException;
 
 import java.util.ArrayList;
 

@@ -8,7 +8,6 @@ import estate.entity.database.*;
 import estate.entity.json.BasicJson;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
-import estate.exception.AppUserNotExitException;
 import estate.service.BaseService;
 import estate.service.PropertyOwnerService;
 import estate.service.PropertyService;

@@ -4,6 +4,7 @@ import estate.common.util.LogUtil;
 import estate.dao.ConsoleUserDao;
 import estate.entity.database.ConsoleUserEntity;
 import estate.entity.json.BasicJson;
+import estate.service.ConsoleUserService;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class AuthController
     Logger logger= LogUtil.getLogger(this.getClass());
 
     @Autowired
-    private ConsoleUserDao consoleUserDao;
+    private ConsoleUserService consoleUserService;
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public BasicJson login(HttpServletRequest request)
@@ -43,7 +44,7 @@ public class AuthController
             return basicJson;
         }
 
-        ConsoleUserEntity consoleUserEntity=consoleUserDao.getConsoleUserByPhone(username);
+        ConsoleUserEntity consoleUserEntity=consoleUserService.getConsoleUserByPhone(username);
         if (consoleUserEntity==null)
         {
             basicJson.getErrorMsg().setDescription("用户不存在");

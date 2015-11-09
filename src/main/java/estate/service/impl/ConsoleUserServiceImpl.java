@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by kangbiao on 15-9-16.
+ *
  */
 @Service("consoleUserService")
 public class ConsoleUserServiceImpl implements ConsoleUserService
@@ -16,4 +17,9 @@ public class ConsoleUserServiceImpl implements ConsoleUserService
     private ConsoleUserDao consoleUserDao;
 
 
+    @Override
+    public ConsoleUserEntity getConsoleUserByPhone(String username)
+    {
+        return consoleUserDao.getConsoleUserByPhone(username);
+    }
 }

@@ -2,6 +2,7 @@ package estate.entity.json;
 
 /**
  * Created by kangbiao on 15-9-22.
+ * 前段富文本图片上传结果信息实体类
  */
 public class KindEditor
 {

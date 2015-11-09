@@ -8,7 +8,6 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:config/applicationContext*.xml
-            <!--classpath:config/spring-security.xml-->
         </param-value>
     </context-param>
     <listener>

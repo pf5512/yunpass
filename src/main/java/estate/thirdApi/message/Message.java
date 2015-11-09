@@ -15,6 +15,13 @@ import java.net.*;
  */
 public class Message
 {
+    /**
+     * 消息发送
+     * @param mobile
+     * @param content
+     * @return
+     * @throws IOException
+     */
     public static String send(String mobile, String content) throws IOException
     {
         String sign="阳辰";

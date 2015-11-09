@@ -2,7 +2,7 @@ package estate.entity.statis;
 
 /**
  * Created by kangbiao on 15-11-2.
- *
+ * 扇形图数据实体类
  */
 public class PieData
 {

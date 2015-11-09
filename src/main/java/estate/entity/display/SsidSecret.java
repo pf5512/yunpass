@@ -1,10 +1,9 @@
 package estate.entity.display;
 
-import java.util.Objects;
 
 /**
  * Created by kangbiao on 15-10-29.
- *
+ * 包含控制对象信息的实体类,为适应后台显示
  */
 public class SsidSecret
 {

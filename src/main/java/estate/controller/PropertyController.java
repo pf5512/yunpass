@@ -1,7 +1,6 @@
 package estate.controller;
 
 import estate.common.config.UserType;
-import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
 import estate.entity.database.PropertyEntity;
 import estate.entity.database.PropertyOwnerInfoEntity;
@@ -9,8 +8,6 @@ import estate.entity.json.BasicJson;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.exception.EntityTypeErrorException;
-import estate.exception.PropertyNotBindFeeItemException;
-import estate.exception.UserTypeErrorException;
 import estate.service.*;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

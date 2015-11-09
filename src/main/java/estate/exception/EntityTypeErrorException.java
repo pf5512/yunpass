@@ -2,6 +2,7 @@ package estate.exception;
 
 /**
  * Created by kangbiao on 15-10-8.
+ * 尸体类型错误异常
  */
 public class EntityTypeErrorException extends Exception
 {

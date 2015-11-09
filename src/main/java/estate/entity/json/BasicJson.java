@@ -2,7 +2,7 @@ package estate.entity.json;
 
 /**
  * Created by kangbiao on 15-8-27.
- * 基础的json实体类
+ * 基础的json实体类,所有的数据返回基于该类
  */
 public class BasicJson
 {

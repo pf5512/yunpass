@@ -2,7 +2,7 @@ package estate.entity.json;
 
 /**
  * Created by kangbiao on 15-9-7.
- * datatable查询数据容器
+ * datatable查询数据容器,包含不同查询的过滤条件,有冗余
  */
 public class TableFilter
 {

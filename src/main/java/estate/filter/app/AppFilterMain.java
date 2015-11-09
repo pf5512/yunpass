@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-10-6.
- *
+ * app端的过滤器
  */
 public class AppFilterMain implements Filter
 {

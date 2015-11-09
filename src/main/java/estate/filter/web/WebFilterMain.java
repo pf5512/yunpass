@@ -1,9 +1,5 @@
 package estate.filter.web;
 
-import estate.common.util.GetVillage;
-import estate.common.util.GsonUtil;
-import estate.common.util.LogUtil;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-10-6.
- *
+ * web端过滤器
  */
 public class WebFilterMain implements Filter
 {
@@ -31,10 +27,7 @@ public class WebFilterMain implements Filter
         HttpServletResponse response = (HttpServletResponse) res;
 
         HttpSession session=request.getSession();
-//        LogUtil.E(GsonUtil.getGson().toJson(request.getCookies()));
-//        LogUtil.E("cookie:" + GetVillage.get(request, response));
         String path=request.getServletPath();
-//        LogUtil.E("path:  " + path);
         ArrayList<String> passUrl=new ArrayList<>();
 
         passUrl.add("/img/");
@@ -44,8 +37,6 @@ public class WebFilterMain implements Filter
         passUrl.add("/view/403.html");
         passUrl.add("/view/login.html");
         passUrl.add("/web/auth");
-
-//        LogUtil.E(GsonUtil.getGson().toJson(session.getAttribute("user")));
 
         if (this.isDoFilter(passUrl,path))
         {
