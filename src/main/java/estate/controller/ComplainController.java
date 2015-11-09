@@ -1,13 +1,14 @@
 package estate.controller;
 
+import estate.common.util.LogUtil;
 import estate.entity.database.ComplainEntity;
-import estate.entity.database.RepairEntity;
 import estate.entity.json.BasicJson;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.service.BaseService;
 import estate.service.ComplainService;
 import estate.service.PictureService;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/web/complain")
 public class ComplainController
 {
+
+    Logger logger= LogUtil.getLogger(this.getClass());
+
     @Autowired
     private ComplainService complainService;
     @Autowired
@@ -43,7 +47,7 @@ public class ComplainController
         }
         catch (Exception e)
         {
-//            LogUtil.E(e.getMessage());
+            logger.error("获取投诉列表失败:"+e.getMessage());
             return null;
         }
     }
@@ -73,6 +77,8 @@ public class ComplainController
         }
         catch (Exception e)
         {
+            logger.error("删除投诉失败:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("删除失败");
             return basicJson;
         }
@@ -98,6 +104,8 @@ public class ComplainController
         }
         catch (Exception e)
         {
+            logger.error("获取投诉图片失败:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("获取图片列表失败");
             return basicJson;
         }

@@ -4,7 +4,7 @@ import estate.exception.TypeErrorException;
 
 /**
  * Created by kangbiao on 15-10-10.
- *
+ * 报修状态类
  */
 public class RepairStatus
 {

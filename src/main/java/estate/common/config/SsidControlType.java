@@ -2,7 +2,7 @@ package estate.common.config;
 
 /**
  * Created by kangbiao on 15-10-29.
- *
+ * ssid控制对象类
  */
 public class SsidControlType
 {

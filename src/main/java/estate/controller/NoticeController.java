@@ -1,6 +1,7 @@
 package estate.controller;
 
 import estate.common.util.Convert;
+import estate.common.util.LogUtil;
 import estate.entity.database.AppUserEntity;
 import estate.entity.database.ConsoleUserEntity;
 import estate.entity.database.NoticeEntity;
@@ -12,6 +13,7 @@ import estate.service.NoticeService;
 import estate.service.PictureService;
 import estate.service.UserService;
 import estate.thirdApi.message.Message;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,10 +32,10 @@ import java.util.ArrayList;
 @RequestMapping("/web/notice")
 public class NoticeController
 {
+    Logger logger= LogUtil.getLogger(this.getClass());
+
     @Autowired
     private NoticeService noticeService;
-    @Autowired
-    private PictureService pictureService;
     @Autowired
     private BaseService baseService;
     @Autowired
@@ -66,12 +68,12 @@ public class NoticeController
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setCode("100103");
-            basicJson.getErrorMsg().setDescription("公告增加失败,请检查您的输入\n"+e.getMessage());
+            logger.error("增加公告异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("公告增加失败,请检查您的输入");
             return basicJson;
         }
         basicJson.setStatus(true);
-        basicJson.setJsonString(noticeEntity);
         return basicJson;
     }
 
@@ -107,17 +109,17 @@ public class NoticeController
         BasicJson basicJson=new BasicJson(false);
         NoticeEntity noticeEntity=new NoticeEntity();
         noticeEntity.setId(noticeID);
-
         try
         {
             baseService.delete(noticeEntity);
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setDescription("删除失败\n"+e.getMessage());
+            logger.error("删除公告时异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("删除失败");
             return basicJson;
         }
-
         basicJson.setStatus(true);
         return basicJson;
     }
@@ -131,7 +133,15 @@ public class NoticeController
     public TableData pageList(TableFilter tableFilter,HttpServletRequest request)
     {
         tableFilter.setSearchValue(request.getParameter("search[value]"));
-        return noticeService.getList(tableFilter);
+        try
+        {
+            return noticeService.getList(tableFilter);
+        }
+        catch (Exception e)
+        {
+            logger.error("获取公告列表异常:"+e.getMessage());
+            return null;
+        }
     }
 
     /**

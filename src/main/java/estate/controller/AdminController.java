@@ -1,7 +1,9 @@
 package estate.controller;
 
+import estate.common.util.LogUtil;
 import estate.entity.database.ConsoleUserEntity;
 import estate.entity.json.BasicJson;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminController
 {
 
+    Logger logger= LogUtil.getLogger(this.getClass());
+
     /**
      * 增加后台管理人员
      * @param consoleUserEntity
@@ -26,7 +30,6 @@ public class AdminController
     public BasicJson add(ConsoleUserEntity consoleUserEntity,HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson(false);
-
         basicJson.setStatus(true);
         return basicJson;
     }

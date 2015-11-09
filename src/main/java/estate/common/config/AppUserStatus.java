@@ -4,7 +4,7 @@ import estate.exception.TypeErrorException;
 
 /**
  * Created by kangbiao on 15-10-9.
- *
+ * app用户状态类
  */
 public class AppUserStatus
 {

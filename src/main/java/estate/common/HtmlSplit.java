@@ -2,6 +2,7 @@ package estate.common;
 
 /**
  * Created by kangbiao on 15-9-25.
+ * html头和尾的定义
  */
 public class HtmlSplit
 {

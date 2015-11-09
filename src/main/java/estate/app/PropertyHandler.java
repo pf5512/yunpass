@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-10-9.
- *
+ * 物业控制器,申请绑定,审核绑定,获取绑定,获取我的物业
  */
 @RestController
 @RequestMapping(value = "/api/property")
@@ -37,7 +37,7 @@ public class PropertyHandler
     /**
      * 用户申请绑定
      * @param request
-     * @return
+     * @return 返回操作结果
      */
     @RequestMapping(value = "/bind",method = RequestMethod.POST)
     public BasicJson bindOwner(HttpServletRequest request)
@@ -75,7 +75,7 @@ public class PropertyHandler
     /**
      * 获取我绑定的所有物业
      * @param request
-     * @return
+     * @return 返回我的所有物业
      */
     @RequestMapping(value = "/getMyPropery",method = RequestMethod.GET)
     public BasicJson getMyProperty(HttpServletRequest request)
@@ -112,9 +112,9 @@ public class PropertyHandler
     }
 
     /**
-     * 业主获取申请绑定到自己物业的用户
+     * 业主获取申请绑定到自己物业的用户,有status则按状态返回,无则返回所有
      * @param request
-     * @return
+     * @return 返回我的绑定
      */
     @RequestMapping(value = "/getBind")
     public BasicJson checkBind(HttpServletRequest request)
@@ -154,11 +154,11 @@ public class PropertyHandler
     }
 
     /**
-     * 业主审核
+     * 业主审核,refuse也是取消绑定的接口
      * @param operate 只能为agree或者refuse
-     * @param bindID
+     * @param bindID 绑定id
      * @param request
-     * @return
+     * @return 返回操作结果
      */
     @RequestMapping(value = "/submitBind/{operate}/{bindID}",method = RequestMethod.GET)
     public BasicJson submitBind(@PathVariable String operate,@PathVariable Integer bindID,HttpServletRequest request)

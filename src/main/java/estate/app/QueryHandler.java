@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by kangbiao on 15-10-7.
- *
+ * 查询控制器,园区,楼栋,物业的级联查询
  */
 @RestController
 @RequestMapping(value = "/api/query")
@@ -26,7 +26,7 @@ public class QueryHandler
     /**
      * 获取所有的园区
      * @param request
-     * @return
+     * @return 返回所有的园区
      */
     @RequestMapping(value = "/getAllVillage",method = RequestMethod.GET)
     public BasicJson getAllVillage(HttpServletRequest request)
@@ -48,10 +48,10 @@ public class QueryHandler
     }
 
     /**
-     * 根据园区id获取属于该园区的所有楼栋
+     * 根据园区id获取属于该园区的所有select2楼栋
      * @param villageID
      * @param request
-     * @return
+     * @return 根据园区id返回所有的楼栋
      */
     @RequestMapping(value = "/getBuilding/{villageID}",method = RequestMethod.GET)
     public BasicJson getBuildingByVillageID(@PathVariable Integer villageID,HttpServletRequest request)

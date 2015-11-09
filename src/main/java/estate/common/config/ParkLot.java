@@ -2,6 +2,7 @@ package estate.common.config;
 
 /**
  * Created by kangbiao on 15-10-15.
+ * 车位的类型(小中大)以及状态
  */
 public class ParkLot
 {

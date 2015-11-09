@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * Created by kangbiao on 15-10-10.
- *
+ * 增加投诉,获取投诉列表
  */
 @RestController
 @RequestMapping(value = "/api/complain")
@@ -38,7 +38,7 @@ public class ComplainHandler
     /**
      * 获取我的投诉
      * @param request
-     * @return
+     * @return 返回投诉数组
      */
     @RequestMapping(value = "/getMyComplain",method = RequestMethod.GET)
     public BasicJson getMyComplain(HttpServletRequest request)
@@ -85,9 +85,9 @@ public class ComplainHandler
 
     /**
      * 增加一个投诉
-     * @param complainEntity
+     * @param complainEntity 投诉实体
      * @param request
-     * @return
+     * @return 返回操作状态
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public BasicJson addComplain(ComplainEntity complainEntity,HttpServletRequest request)

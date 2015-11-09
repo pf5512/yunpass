@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-9-5.
- * 提供公告推送的API
+ * 公告控制器,根据id获取公告,根据数量获取最新的公告
  */
 @RestController
 @RequestMapping("/api/notice")
@@ -34,7 +34,8 @@ public class NoticeHandlder
     /**
      * 获取指定数量的公告,按时间排序
      * @param number 数量
-     * @return
+     * @param request
+     * @return 返回指定数量的公告
      */
     @RequestMapping(value = "/getSome/{number}",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public BasicJson getSome(@PathVariable Integer number,HttpServletRequest request)
@@ -75,8 +76,8 @@ public class NoticeHandlder
 
     /**
      * 根据id获取某个公告的详细信息
-     * @param noticeID
-     * @return
+     * @param noticeID 公告id
+     * @return 返回公告实体
      */
     @RequestMapping(value = "/get/{noticeID}")
     public BasicJson get(@PathVariable Integer noticeID)
@@ -96,8 +97,8 @@ public class NoticeHandlder
 
     /**
      * 获取该公告详情的webview显示
-     * @param noticeID
-     * @return
+     * @param noticeID 公告id
+     * @return 返回html代码
      */
     @RequestMapping(value = "/getContent/{noticeID}",produces = "text/html;charset=UTF-8")
     public String getCOntent(@PathVariable Integer noticeID)

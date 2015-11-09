@@ -1,8 +1,10 @@
 package estate.controller;
 
 import estate.common.util.Convert;
+import estate.common.util.LogUtil;
 import estate.entity.json.BasicJson;
 import estate.service.DoorLogService;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/web/doorLog")
 public class DoorLogController
 {
-
+    Logger logger= LogUtil.getLogger(this.getClass());
     @Autowired
     private DoorLogService doorLogService;
 
@@ -39,6 +41,7 @@ public class DoorLogController
         }
         catch (Exception e)
         {
+            logger.error("获取门禁记录时参数错误:"+e.getMessage());
             basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("获取门禁记录出错");
             return basicJson;

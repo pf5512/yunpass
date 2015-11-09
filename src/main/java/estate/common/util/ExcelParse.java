@@ -21,6 +21,7 @@ public class ExcelParse
     /**
      * 解析excel文件
      * @param path
+     * @return 返回解析后map
      * @throws Exception
      */
     public List<Map<String,String>> parseExcel(String path) throws Exception

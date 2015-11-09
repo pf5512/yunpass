@@ -27,7 +27,7 @@ import java.util.Objects;
 
 /**
  * Created by kangbiao on 15-9-21.
- * 登陆,登出,注册(获取验证码,核对验证码,绑定业主)
+ * 用户中心控制器,登陆,登出,注册(获取验证码,核对验证码,绑定业主),找回密码等
  */
 @RestController
 @RequestMapping("api/uc")

@@ -83,14 +83,15 @@ public class RSA{
 		
 		return false;
 	}
-	
+
 	/**
-	* 解密
-	* @param content 密文
-	* @param private_key 商户私钥
-	* @param input_charset 编码格式
-	* @return 解密后的字符串
-	*/
+	 * 解密
+	 * @param content
+	 * @param private_key
+	 * @param input_charset
+	 * @return
+	 * @throws Exception
+	 */
 	public static String decrypt(String content, String private_key, String input_charset) throws Exception {
         PrivateKey prikey = getPrivateKey(private_key);
 
@@ -121,12 +122,13 @@ public class RSA{
         return new String(writer.toByteArray(), input_charset);
     }
 
-	
+
 	/**
-	* 得到私钥
-	* @param key 密钥字符串（经过base64编码）
-	* @throws Exception
-	*/
+	 * 得到私钥
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
 	public static PrivateKey getPrivateKey(String key) throws Exception {
 
 		byte[] keyBytes;

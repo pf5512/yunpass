@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 /**
  * Created by kangbiao on 15-10-4.
- *
+ * 账单控制器,获取账单
  */
 @RestController
 @RequestMapping(value = "/api/fee")
@@ -31,6 +31,11 @@ public class FeeHandler
     @Autowired
     private BillService billService;
 
+    /**
+     * 获取账单
+     * @param request
+     * @return 以数组形式返回用户的账单
+     */
     @RequestMapping(value = "/getBill")
     public BasicJson getBill(HttpServletRequest request)
     {

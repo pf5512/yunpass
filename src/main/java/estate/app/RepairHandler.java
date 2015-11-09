@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * Created by kangbiao on 15-10-10.
- *
+ * 报修控制器 , 获取报修,评论报修,确认报修和提交报修
  */
 @RestController
 @RequestMapping(value = "/api/repair")

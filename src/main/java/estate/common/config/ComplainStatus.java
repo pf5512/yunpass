@@ -4,7 +4,7 @@ import estate.exception.TypeErrorException;
 
 /**
  * Created by kangbiao on 15-10-10.
- *
+ * 投诉状态
  */
 public class ComplainStatus
 {

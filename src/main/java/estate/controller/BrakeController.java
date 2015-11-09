@@ -1,11 +1,13 @@
 package estate.controller;
 
+import estate.common.util.LogUtil;
 import estate.entity.database.BrakeEntity;
 import estate.entity.json.BasicJson;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.service.BaseService;
 import estate.service.BrakeService;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/web/brake")
 public class BrakeController
 {
+    Logger logger= LogUtil.getLogger(this.getClass());
+
     @Autowired
     private BaseService baseService;
     @Autowired
@@ -44,6 +48,7 @@ public class BrakeController
         }
         catch (Exception e)
         {
+            logger.error("获取道闸列表异常:"+e.getMessage());
             return null;
         }
     }
@@ -65,6 +70,7 @@ public class BrakeController
         }
         catch (Exception e)
         {
+            logger.error("写入道闸到数据库失败"+e.getMessage());
             basicJson.getErrorMsg().setDescription("添加道闸信息失败\n详细信息:"+e.getMessage());
             return basicJson;
         }
@@ -105,6 +111,8 @@ public class BrakeController
         }
         catch (Exception e)
         {
+            logger.error("根据园区获取道闸失败:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("获取道闸信息失败\n"+e.getMessage());
             return basicJson;
         }

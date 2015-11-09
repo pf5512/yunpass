@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 /**
  * Created by kangbiao on 15-10-6.
- *
+ * gson单例获取
  */
 public class GsonUtil
 {

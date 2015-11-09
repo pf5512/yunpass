@@ -15,6 +15,7 @@ import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.exception.PropertyNotBindFeeItemException;
 import estate.service.*;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +33,13 @@ import java.util.ArrayList;
 @RequestMapping("/web/fee")
 public class FeeController
 {
+
+    Logger logger= LogUtil.getLogger(this.getClass());
+
     @Autowired
     private FeeService feeService;
     @Autowired
     private BaseService baseService;
-    @Autowired
-    private UserService userService;
 
     /**
      * 增加三种费用
@@ -90,6 +92,7 @@ public class FeeController
         }
         catch (Exception e)
         {
+            logger.error("客户端参数异常:"+e.getMessage());
             basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("参数有误!");
             return basicJson;
@@ -101,6 +104,7 @@ public class FeeController
         }
         catch (Exception e)
         {
+            logger.error("保存费用时异常:"+e.getMessage());
             basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("费用信息增加失败,请重试");
             return basicJson;
@@ -140,6 +144,7 @@ public class FeeController
         }
         catch (Exception e)
         {
+            logger.error("获取费用列表失败:"+e.getMessage());
             tableData.getErrorMsg().setCode(e.getMessage());
             tableData.getErrorMsg().setDescription("获取费用列表失败,请重试");
             return tableData;
@@ -177,6 +182,7 @@ public class FeeController
         }
         catch (Exception e)
         {
+            logger.error("删除费用失败:"+e.getMessage());
             basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("该费用已绑定,不能删除!");
             return basicJson;

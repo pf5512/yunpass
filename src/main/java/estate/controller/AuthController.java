@@ -1,8 +1,10 @@
 package estate.controller;
 
+import estate.common.util.LogUtil;
 import estate.dao.ConsoleUserDao;
 import estate.entity.database.ConsoleUserEntity;
 import estate.entity.json.BasicJson;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/web/auth")
 public class AuthController
 {
+    Logger logger= LogUtil.getLogger(this.getClass());
+
     @Autowired
     private ConsoleUserDao consoleUserDao;
 

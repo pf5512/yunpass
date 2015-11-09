@@ -2,7 +2,7 @@ package estate.common.config;
 
 /**
  * Created by kangbiao on 15-10-16.
- *
+ * 车位和用户的绑定关系
  */
 public class ParkLotOwnerRole
 {

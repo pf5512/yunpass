@@ -13,10 +13,10 @@ import java.util.ArrayList;
 public interface PropertyOwnerService
 {
     /**
-     * 通过用户的电话和物业ID以及绑定关系删除对应的业主物业绑定关系<br/>
-     *
+     * 通过用户的电话和物业ID以及绑定关系删除对应的业主物业绑定关系
      * @param phone
      * @param propertyID
+     * @param role
      */
     void deleteOwnerPropertyBind(String phone,Integer propertyID,Byte role);
 
@@ -52,8 +52,7 @@ public interface PropertyOwnerService
     ArrayList<PropertyOwnerInfoEntity> getByPhonePropertyID(String phone ,Integer propertyID);
 
     /**
-     * 通过物业id和用户角色返回绑定关系<br/>
-     * role为null则返回该物业的所有绑定
+     * 通过物业id和用户角色返回绑定关系,role为null则返回该物业的所有绑定
      * @param propertyID
      * @param role
      * @return

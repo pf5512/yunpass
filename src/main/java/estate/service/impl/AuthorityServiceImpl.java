@@ -23,14 +23,11 @@ public class AuthorityServiceImpl implements AuthorityService
     @Autowired
     private PropertyOwnerInfoDao propertyOwnerInfoDao;
     @Autowired
-    private BrakeDao brakeDao;
-    @Autowired
     private ParkLotOwnerInfoDao parkLotOwnerInfoDao;
 
     @Override
     public ArrayList<Integer> getAuthorityIDsByPhoneType(String phone, Byte type)
     {
-        LogUtil.E("type:"+type);
         ArrayList<Integer> ids=new ArrayList<>();
         if (type== SsidControlType.VILLAGE||type==SsidControlType.BUILDING)
         {

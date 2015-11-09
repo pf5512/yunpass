@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * Created by kangbiao on 15-10-6.
- *
+ * 验证码生成类
  */
 public class VerifyCodeGenerate
 {

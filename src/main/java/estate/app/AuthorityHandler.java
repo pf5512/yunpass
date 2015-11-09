@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-9-21.
- * 门禁权限,门禁记录上传
+ * 门禁权限,门禁记录上传,门禁密钥获取
  */
 @RestController
 @RequestMapping("api/auth")
@@ -40,9 +40,9 @@ public class AuthorityHandler
 
     /**
      * 获取门禁密钥
-     * @param symbol
+     * @param symbol 门禁编号
      * @param request
-     * @return
+     * @return 有权限则返回密钥,无则不返回
      */
     @RequestMapping(value = "/getSecret/{symbol}",method = RequestMethod.GET)
     public BasicJson getSsidSecret(@PathVariable String symbol,HttpServletRequest request)
@@ -114,9 +114,9 @@ public class AuthorityHandler
 
     /**
      * 上传门禁记录
-     * @param openDoorRecordEntity
+     * @param openDoorRecordEntity 门禁记录实体
      * @param request
-     * @return
+     * @return 返回操作状态
      */
     @RequestMapping(value = "/uploadDoorLog")
     public BasicJson uploadDoorLog(OpenDoorRecordEntity openDoorRecordEntity,HttpServletRequest request)

@@ -10,6 +10,7 @@ import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.service.BaseService;
 import estate.service.ParkLotService;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/web/parkLot")
 public class ParkLotController
 {
+
+    Logger logger= LogUtil.getLogger(this.getClass());
+
     @Autowired
     private BaseService baseService;
     @Autowired
@@ -40,16 +44,13 @@ public class ParkLotController
     public TableData getList(TableFilter tableFilter,HttpServletRequest request)
     {
         tableFilter.setSearchValue(request.getParameter("search[value]"));
-        if (tableFilter.getSearchValue().equals(""))
-            tableFilter.setSearchValue(null);
-
         try
         {
             return parkLotService.getList(tableFilter);
         }
         catch (Exception e)
         {
-            LogUtil.E(e.getMessage());
+            logger.error("获取车位列表失败:"+e.getMessage());
             return null;
         }
     }
@@ -72,7 +73,9 @@ public class ParkLotController
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setDescription("保存车位信息失败\n"+e.getMessage());
+            logger.error("保存车位信息失败:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("保存车位信息失败");
             return basicJson;
         }
         basicJson.setJsonString(parkingLotEntity);
@@ -95,7 +98,12 @@ public class ParkLotController
         return basicJson;
     }
 
-
+    /**
+     * 想车位增加用户
+     * @param parklotOwnerInfoEntity
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/addOwner")
     public BasicJson addOwner(ParklotOwnerInfoEntity parklotOwnerInfoEntity,HttpServletRequest request)
     {
@@ -130,6 +138,12 @@ public class ParkLotController
         return basicJson;
     }
 
+    /**
+     * 根据车位id获取该车位关联的用户
+     * @param parkLotID
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/getOwnerList/{parkLotID}")
     public BasicJson getOwnerList(@PathVariable Integer parkLotID,HttpServletRequest request)
     {
@@ -140,7 +154,9 @@ public class ParkLotController
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setDescription("获取绑定用户出错\n"+e.getMessage());
+            logger.error("获取车位的关联用户异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("获取绑定用户出错");
             return basicJson;
         }
 
@@ -149,7 +165,10 @@ public class ParkLotController
     }
 
     /**
-     * 解除绑定
+     * 解除车位和用户的绑定
+     * @param id
+     * @param request
+     * @return
      */
     @RequestMapping(value = "/deleteBind/{id}")
     public BasicJson deleteBind(@PathVariable Integer id,HttpServletRequest request)
@@ -163,7 +182,9 @@ public class ParkLotController
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setDescription("解除绑定失败\n"+e.getMessage());
+            logger.error("解除绑定异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("解除绑定失败");
             return basicJson;
         }
 

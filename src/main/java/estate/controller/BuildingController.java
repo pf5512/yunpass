@@ -8,6 +8,7 @@ import estate.entity.json.TableFilter;
 import estate.service.BaseService;
 import estate.service.BuildingService;
 import estate.service.PropertyService;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/web/building")
 public class BuildingController
 {
+
+    Logger logger= LogUtil.getLogger(this.getClass());
 
     @Autowired
     private BuildingService buildingService;
@@ -43,7 +46,7 @@ public class BuildingController
         }
         catch (Exception e)
         {
-            LogUtil.E(e.getMessage());
+            logger.error("获取楼栋列表失败:"+e.getMessage());
             return null;
         }
     }
@@ -64,7 +67,8 @@ public class BuildingController
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setCode("");
+            logger.error("增加楼栋失败:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
             basicJson.getErrorMsg().setDescription("楼栋信息添加失败\n详细信息:"+e.getMessage());
             return basicJson;
         }
@@ -98,7 +102,9 @@ public class BuildingController
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setDescription("删除失败\n"+e.getMessage());
+            logger.error("删除楼栋失败:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("删除失败");
             return basicJson;
         }
 

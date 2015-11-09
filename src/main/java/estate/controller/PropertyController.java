@@ -12,6 +12,7 @@ import estate.exception.EntityTypeErrorException;
 import estate.exception.PropertyNotBindFeeItemException;
 import estate.exception.UserTypeErrorException;
 import estate.service.*;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,9 @@ import java.util.ArrayList;
 @RequestMapping("/web/property")
 public class PropertyController
 {
+
+    Logger logger= LogUtil.getLogger(this.getClass());
+
     @Autowired
     private BaseService baseService;
     @Autowired
@@ -36,8 +40,6 @@ public class PropertyController
     private PropertyOwnerService propertyOwnerService;
     @Autowired
     protected UserService userService;
-    @Autowired
-    private FeeItemOrderService feeItemOrderService;
 
     /**
      * 增加物业信息
@@ -189,7 +191,6 @@ public class PropertyController
      * @param propertyID
      * @param request
      * @return
-     * @throws UserTypeErrorException
      */
     @RequestMapping(value = "/deleteProperty/{propertyID}")
     public BasicJson deleteProperty(@PathVariable Integer propertyID,HttpServletRequest request)

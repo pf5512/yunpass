@@ -4,7 +4,7 @@ import estate.exception.TypeErrorException;
 
 /**
  * Created by kangbiao on 15-10-28.
- *
+ * 性别
  */
 public class Sex
 {

@@ -4,7 +4,7 @@ import estate.exception.TypeErrorException;
 
 /**
  * Created by kangbiao on 15-9-24.
- *
+ * 用户角色
  */
 public class UserType
 {
