@@ -12,6 +12,10 @@ urlConfig.home="/oa/view";
 //用户登陆
 urlConfig.login=host+"auth/login";
 
+//后台用户管理相关的url
+urlConfig.addGroup=host+"admin/addGroup";
+urlConfig.addAdminUser=host+"admin/addAdminUser";
+
 //数据统计
 urlConfig.propertyStatis=host+"statis/property";
 urlConfig.parkLotStatis=host+"statis/parkLot";
