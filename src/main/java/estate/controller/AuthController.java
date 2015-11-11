@@ -4,6 +4,7 @@ import estate.common.util.LogUtil;
 import estate.dao.ConsoleUserDao;
 import estate.entity.database.ConsoleUserEntity;
 import estate.entity.json.BasicJson;
+import estate.service.BaseService;
 import estate.service.ConsoleUserService;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,14 @@ public class AuthController
 
     @Autowired
     private ConsoleUserService consoleUserService;
+    @Autowired
+    private BaseService baseService;
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public BasicJson login(HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson();
+        ConsoleUserEntity consoleUserEntity;
         String username=request.getParameter("username");
         String password=request.getParameter("password");
         if (username==null||username.equals(""))
@@ -43,16 +47,27 @@ public class AuthController
             basicJson.getErrorMsg().setDescription("请输入密码");
             return basicJson;
         }
-
-        ConsoleUserEntity consoleUserEntity=consoleUserService.getConsoleUserByPhone(username);
-        if (consoleUserEntity==null)
+        try
         {
-            basicJson.getErrorMsg().setDescription("用户不存在");
-            return basicJson;
+            consoleUserEntity = consoleUserService.getConsoleUserByPhone(username);
+            if (consoleUserEntity==null)
+            {
+                basicJson.getErrorMsg().setDescription("用户不存在");
+                return basicJson;
+            }
+            if (!consoleUserEntity.getPassword().equals(password))
+            {
+                basicJson.getErrorMsg().setDescription("密码错误!");
+                return basicJson;
+            }
+            consoleUserEntity.setLastLogin(System.currentTimeMillis());
+            baseService.save(consoleUserEntity);
         }
-        if (!consoleUserEntity.getPassword().equals(password))
+        catch (Exception e)
         {
-            basicJson.getErrorMsg().setDescription("密码错误!");
+            logger.error("登陆时数据库异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("登陆异常");
             return basicJson;
         }
 

@@ -28,7 +28,7 @@
                     <tr>
                         <th>序号</th>
                         <th>组名</th>
-                        <th>组编号</th>
+                        <th>权限</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -38,7 +38,7 @@
                     <tr>
                         <th>序号</th>
                         <th>组名</th>
-                        <th>组编号</th>
+                        <th>权限</th>
                         <th>操作</th>
                     </tr>
                     </tfoot>
@@ -76,8 +76,6 @@
                                         <label>投诉报修:<input type="checkbox" name="complainRepair"></label>&ensp;&ensp;
                                         <label>YunPass管理:<input type="checkbox" name="secret"></label>&ensp;&ensp;
                                         <label>后台用户管理:<input type="checkbox" name="admin"></label>&ensp;&ensp;
-
-
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -149,13 +147,38 @@
     }
 
 
+    $('#groupListTable tbody').on( 'click', 'button#delRowBtn', function () {
+        var data = editTable.row($(this).parents('tr') ).data();
+        var con=confirm("确定删除?");
+        if(con)
+        $.ajax({
+            type: "get",
+            async: false,
+            url: urlConfig.deleteGroup+data.id,
+            dataType: "json", //返回数据形式为json
+            success: function (result) {
+                if (result.status) {
+                    alert("删除成功");
+                    editTable.ajax.reload( null, false );
+                }
+                else
+                {
+                    alert(result.errorMsg.description);
+                }
+            },
+            error: function () {
+                alert("服务器连接失败,请重试!");
+            }
+        });
+    });
+
     //初始化表格数据
     function initDataTable(){
-        editTable=$('#villageListTable').DataTable({
+        editTable=$('#groupListTable').DataTable({
             "processing":true,
             "serverSide": true,
             "ajax":{
-                "url": urlConfig.villageList,
+                "url": urlConfig.groupList,
                 "dataSrc": "jsonString"
             },
             "columnDefs": [{
@@ -169,16 +192,35 @@
                 }
             },{
                 "targets": 1,
-                "data": "code",
+                "data": "name",
                 "orderable": false,
                 "searchable": false
 
             },{
                 "targets": 2,
-                "data": "name",
+                "data": "adminMenu",
                 "orderable": false,
-                "searchable": false
-
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    var roleString="";
+                    if(data.property=="on")
+                        roleString+="&ensp;物业管理;";
+                    if(data.admin=="on")
+                        roleString+="&ensp;后台用户管理;";
+                    if(data.complainRepair=="on")
+                        roleString+="&ensp;投诉报修;";
+                    if(data.fee=="on")
+                        roleString+="&ensp;缴费管理;";
+                    if(data.notice=="on")
+                        roleString+="&ensp;公告管理;";
+                    if(data.parkLot=="on")
+                        roleString+="&ensp;车位管理;";
+                    if(data.secret=="on")
+                        roleString+="&ensp;密钥管理;";
+                    if(data.user=="on")
+                        roleString+="&ensp;用户管理;";
+                    return roleString;
+                }
             },{
                 "targets": 3,//删除
                 "data": null,

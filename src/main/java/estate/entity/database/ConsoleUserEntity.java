@@ -2,6 +2,7 @@ package estate.entity.database;
 
 /**
  * Created by kangbiao on 15-9-13.
+ *
  */
 public class ConsoleUserEntity
 {
@@ -14,6 +15,8 @@ public class ConsoleUserEntity
     private Byte identityType;
     private String identityId;
     private Long lastLogin;
+    private ConsoleGroupEntity consoleGroupEntity;
+
 
 
     public String getPassword()
@@ -104,5 +107,15 @@ public class ConsoleUserEntity
     public void setLastLogin(Long lastLogin)
     {
         this.lastLogin = lastLogin;
+    }
+
+    public ConsoleGroupEntity getConsoleGroupEntity()
+    {
+        return consoleGroupEntity;
+    }
+
+    public void setConsoleGroupEntity(ConsoleGroupEntity consoleGroupEntity)
+    {
+        this.consoleGroupEntity = consoleGroupEntity;
     }
 }

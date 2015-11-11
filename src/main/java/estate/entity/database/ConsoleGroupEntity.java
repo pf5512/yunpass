@@ -6,20 +6,11 @@ package estate.entity.database;
  */
 public class ConsoleGroupEntity
 {
-    private int cgId;
+    private int id;
     private String name;
     private String authorization;
     private String menu;
 
-    public int getCgId()
-    {
-        return cgId;
-    }
-
-    public void setCgId(int cgId)
-    {
-        this.cgId = cgId;
-    }
 
     public String getName()
     {
@@ -51,7 +42,7 @@ public class ConsoleGroupEntity
 
         ConsoleGroupEntity that = (ConsoleGroupEntity) o;
 
-        if (cgId != that.cgId)
+        if (id != that.id)
             return false;
         if (name != null ? !name.equals(that.name) : that.name != null)
             return false;
@@ -64,7 +55,7 @@ public class ConsoleGroupEntity
     @Override
     public int hashCode()
     {
-        int result = cgId;
+        int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (authorization != null ? authorization.hashCode() : 0);
         return result;
@@ -78,5 +69,15 @@ public class ConsoleGroupEntity
     public void setMenu(String menu)
     {
         this.menu = menu;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 }

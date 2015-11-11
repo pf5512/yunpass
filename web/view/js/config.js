@@ -14,7 +14,12 @@ urlConfig.login=host+"auth/login";
 
 //后台用户管理相关的url
 urlConfig.addGroup=host+"admin/addGroup";
-urlConfig.addAdminUser=host+"admin/addAdminUser";
+urlConfig.addAdmin=host+"admin/addAdmin";
+urlConfig.groupList=host+"admin/groupList";
+urlConfig.adminList=host+"admin/adminList";
+urlConfig.deleteGroup=host+"admin/deleteGroup/";
+urlConfig.deleteAdmin=host+"admin/deleteAdmin/";
+urlConfig.getGroupList=host+"admin/getGroupList";
 
 //数据统计
 urlConfig.propertyStatis=host+"statis/property";

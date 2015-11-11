@@ -32,5 +32,9 @@
         <property name="lastLogin">
             <column name="last_login" sql-type="bigint"/>
         </property>
+        <many-to-one name="consoleGroupEntity" update="false" insert="false" lazy="false"
+                     class="estate.entity.database.ConsoleGroupEntity">
+            <column name="console_group_id"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

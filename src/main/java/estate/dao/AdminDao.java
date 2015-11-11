@@ -1,0 +1,25 @@
+package estate.dao;
+
+import estate.entity.json.TableData;
+import estate.entity.json.TableFilter;
+
+/**
+ * Created by kangbiao on 15-11-11.
+ * 后台管理数据库访问层
+ */
+public interface AdminDao
+{
+    /**
+     * 获取组列表
+     * @param tableFilter
+     * @return 组信息
+     */
+    TableData getGroupList(TableFilter tableFilter);
+
+    /**
+     * 获取管理员列表
+     * @param tableFilter
+     * @return 管理员信息
+     */
+    TableData getAdminList(TableFilter tableFilter);
+}
