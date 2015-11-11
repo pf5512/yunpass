@@ -329,6 +329,9 @@
                 },
                 "dataSrc": "jsonString"
             },
+            "fnInitComplete": function(oSettings, result) {
+                reLogin(result);
+            },
             "columnDefs": [{
                 "targets": 0,
                 "data":null,

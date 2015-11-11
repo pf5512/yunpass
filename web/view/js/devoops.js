@@ -4,6 +4,19 @@
 "use strict";
 
 /**
+ * 检测到session过期后的动作
+ * @param result
+ */
+function reLogin(result)
+{
+    if(result.errorMsg.code="未登录")
+    {
+        alert("您的会话已过期,请重新登陆");
+        window.location.href=result.errorMsg.description;
+    }
+}
+
+/**
  * 初始化园区选择
  */
 function initVillageSelect()
