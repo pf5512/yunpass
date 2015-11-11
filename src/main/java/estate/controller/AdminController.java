@@ -159,12 +159,19 @@ public class AdminController
         }
         try
         {
+            if (adminService.getAdminByGroupID(id)!=null)
+            {
+                basicJson.getErrorMsg().setDescription("请先删除该组下的成员");
+                return basicJson;
+            }
             consoleGroupEntity.setId(id);
             baseService.delete(consoleGroupEntity);
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setDescription("请先删除该组下的成员");
+            logger.error("删除后台管理人员信息错误:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("删除错误");
             return basicJson;
         }
         basicJson.setStatus(true);
@@ -230,8 +237,5 @@ public class AdminController
         basicJson.setStatus(true);
         return basicJson;
     }
-
-
-
 
 }

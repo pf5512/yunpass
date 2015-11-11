@@ -68,4 +68,10 @@ public class AdminServiceImpl implements AdminService
         }
         return select2s;
     }
+
+    @Override
+    public ArrayList<ConsoleUserEntity> getAdminByGroupID(Integer id)
+    {
+        return adminDao.getAdminByGroupID(id);
+    }
 }

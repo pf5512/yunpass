@@ -1,5 +1,6 @@
 package estate.service;
 
+import estate.entity.database.ConsoleUserEntity;
 import estate.entity.json.Select2;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
@@ -32,4 +33,11 @@ public interface AdminService
      * @return
      */
     ArrayList<Select2> getGroupList();
+
+    /**
+     * 通过组id获取该组的所有成员
+     * @param id
+     * @return
+     */
+    ArrayList<ConsoleUserEntity> getAdminByGroupID(Integer id);
 }

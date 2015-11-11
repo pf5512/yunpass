@@ -1,7 +1,10 @@
 package estate.dao;
 
+import estate.entity.database.ConsoleUserEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
+
+import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-11-11.
@@ -22,4 +25,11 @@ public interface AdminDao
      * @return 管理员信息
      */
     TableData getAdminList(TableFilter tableFilter);
+
+    /**
+     * 通过组id获取该组的所有成员
+     * @param id
+     * @return
+     */
+    ArrayList<ConsoleUserEntity> getAdminByGroupID(Integer id);
 }

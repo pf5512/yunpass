@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kangbiao on 15-11-11.
@@ -70,5 +71,16 @@ public class AdminDaoImpl implements AdminDao
         tableData.setRecordsFiltered(count);
         tableData.setJsonString(entities);
         return tableData;
+    }
+
+    @Override
+    public ArrayList<ConsoleUserEntity> getAdminByGroupID(Integer id)
+    {
+        Session session=getSession();
+        String hql="from ConsoleUserEntity t where t.consoleGroupId=:id";
+        List list=session.createQuery(hql).setInteger("id",id).list();
+        if (list.size()>0)
+            return (ArrayList<ConsoleUserEntity>) list;
+        return null;
     }
 }

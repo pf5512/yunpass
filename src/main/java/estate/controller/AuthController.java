@@ -1,8 +1,10 @@
 package estate.controller;
 
+import estate.common.config.AdminMenuDefine;
+import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
-import estate.dao.ConsoleUserDao;
 import estate.entity.database.ConsoleUserEntity;
+import estate.entity.display.AdminMenu;
 import estate.entity.json.BasicJson;
 import estate.service.BaseService;
 import estate.service.ConsoleUserService;
@@ -29,6 +31,11 @@ public class AuthController
     @Autowired
     private BaseService baseService;
 
+    /**
+     * 管理员登陆
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public BasicJson login(HttpServletRequest request)
     {
@@ -73,6 +80,64 @@ public class AuthController
 
         basicJson.setStatus(true);
         request.getSession().setAttribute("user",consoleUserEntity);
+        return basicJson;
+    }
+
+    /**
+     * 登出
+     * @param request
+     * @return 返回操作结果
+     */
+    public BasicJson loginOut(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        request.getSession().removeAttribute("user");
+        basicJson.setStatus(true);
+        return basicJson;
+    }
+
+    /**
+     * 管理员获取可操作的菜单栏
+     * @param request
+     * @return 菜单栏目
+     */
+    @RequestMapping(value = "getMenu")
+    public BasicJson getMenu(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        StringBuilder stringBuilder=new StringBuilder(AdminMenuDefine.INDEX);
+        ConsoleUserEntity consoleUserEntity= (ConsoleUserEntity) request.getSession().getAttribute("user");
+        AdminMenu adminMenu=GsonUtil.getGson().fromJson(consoleUserEntity.getConsoleGroupEntity().getMenu(),AdminMenu.class);
+        LogUtil.E(GsonUtil.getGson().toJson(adminMenu));
+        try
+        {
+            if (adminMenu.getProperty().equals("on"))
+                stringBuilder.append(AdminMenuDefine.PROPERTY);
+            if (adminMenu.getParkLot().equals("on"))
+                stringBuilder.append(AdminMenuDefine.PARKLOT);
+            if (adminMenu.getUser().equals("on"))
+                stringBuilder.append(AdminMenuDefine.USER);
+            if (adminMenu.getFee().equals("on"))
+                stringBuilder.append(AdminMenuDefine.FEE);
+            if (adminMenu.getNotice().equals("on"))
+                stringBuilder.append(AdminMenuDefine.NOTICE);
+            if (adminMenu.getComplainRepair().equals("on"))
+                stringBuilder.append(AdminMenuDefine.COMPLAINREPAIR);
+            if (adminMenu.getSecret().equals("on"))
+                stringBuilder.append(AdminMenuDefine.SECRET);
+            if (adminMenu.getAdmin().equals("on"))
+                stringBuilder.append(AdminMenuDefine.ADMIN);
+            basicJson.setJsonString(stringBuilder.toString());
+        }
+        catch (Exception e)
+        {
+            logger.error("获取权限菜单异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("获取菜单出错");
+            return basicJson;
+        }
+
+        basicJson.setStatus(true);
         return basicJson;
     }
 }

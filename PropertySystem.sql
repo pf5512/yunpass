@@ -151,7 +151,7 @@ CREATE TABLE `console_group` (
   `authorization` varchar(255) DEFAULT NULL,
   `menu` text NOT NULL,
   PRIMARY KEY (`cg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `console_group` (
 
 LOCK TABLES `console_group` WRITE;
 /*!40000 ALTER TABLE `console_group` DISABLE KEYS */;
-INSERT INTO `console_group` VALUES (2,'管理人员',NULL,'{\"property\":\"on\",\"parkLot\":\"on\",\"user\":\"on\",\"fee\":\"off\",\"notice\":\"off\",\"complainRepair\":\"off\",\"secret\":\"off\",\"admin\":\"off\"}'),(3,'组二',NULL,'{\"property\":\"on\",\"parkLot\":\"off\",\"user\":\"off\",\"fee\":\"on\",\"notice\":\"off\",\"complainRepair\":\"on\",\"secret\":\"on\",\"admin\":\"on\"}');
+INSERT INTO `console_group` VALUES (4,'sdas',NULL,'{\"property\":\"on\",\"parkLot\":\"on\",\"user\":\"on\",\"fee\":\"on\",\"notice\":\"off\",\"complainRepair\":\"on\",\"secret\":\"on\",\"admin\":\"on\"}');
 /*!40000 ALTER TABLE `console_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +191,7 @@ CREATE TABLE `console_user` (
 
 LOCK TABLES `console_user` WRITE;
 /*!40000 ALTER TABLE `console_user` DISABLE KEYS */;
-INSERT INTO `console_user` VALUES (1,'123456','admin','1316278289@qq.com',2,'admin',NULL,NULL,1447247733665);
+INSERT INTO `console_user` VALUES (1,'123456','admin','1316278289@qq.com',4,'admin',NULL,NULL,1447250965996);
 /*!40000 ALTER TABLE `console_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -707,4 +707,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-11 21:17:58
+-- Dump completed on 2015-11-11 22:14:46

@@ -11,6 +11,7 @@ urlConfig.home="/oa/view";
 
 //用户登陆
 urlConfig.login=host+"auth/login";
+urlConfig.getMenu=host+"auth/getMenu";
 
 //后台用户管理相关的url
 urlConfig.addGroup=host+"admin/addGroup";
