@@ -15,6 +15,7 @@ urlConfig.getMenu=host+"auth/getMenu";
 urlConfig.keepSession=host+"auth/keepSession";
 urlConfig.loginOut=host+"auth/loginOut";
 urlConfig.changePassword=host+"auth/changePassword";
+urlConfig.getAdminProfile=host+"auth/getAdminProfile";
 
 //后台用户管理相关的url
 urlConfig.addGroup=host+"admin/addGroup";

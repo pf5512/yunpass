@@ -72,7 +72,7 @@
       <column name="name" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
       <column name="identity_type" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <column name="identity_id" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
-      <column name="last_login" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="last_login" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="cu_id"/>
       <exported-key name="FK_axsavu84vcq195a7mqw9x2xj4" table="complain" schema="" catalog="PropertySystem" columns="cu_id"/>
       <exported-key name="FK_1nyd0erg10vfu0etf8fc8h0va" table="notice" schema="" catalog="PropertySystem" columns="cu_id"/>

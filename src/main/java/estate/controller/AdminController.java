@@ -1,5 +1,6 @@
 package estate.controller;
 
+import estate.common.util.DigestUtil;
 import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
 import estate.entity.database.ConsoleGroupEntity;
@@ -111,7 +112,6 @@ public class AdminController
             basicJson.getErrorMsg().setDescription("添加用户组失败,请重试");
             return basicJson;
         }
-
         basicJson.setStatus(true);
         return basicJson;
     }
@@ -128,6 +128,7 @@ public class AdminController
         BasicJson basicJson=new BasicJson(false);
         try
         {
+            consoleUserEntity.setPassword(DigestUtil.MD5(consoleUserEntity.getPassword()));
             baseService.save(consoleUserEntity);
         }
         catch (Exception e)

@@ -156,7 +156,6 @@ public class AuthController
         StringBuilder stringBuilder=new StringBuilder(AdminMenuDefine.INDEX);
         ConsoleUserEntity consoleUserEntity= (ConsoleUserEntity) request.getSession().getAttribute("user");
         AdminMenu adminMenu=GsonUtil.getGson().fromJson(consoleUserEntity.getConsoleGroupEntity().getMenu(),AdminMenu.class);
-        LogUtil.E(GsonUtil.getGson().toJson(adminMenu));
         try
         {
             if (adminMenu.getProperty().equals("on"))
@@ -184,6 +183,21 @@ public class AuthController
             basicJson.getErrorMsg().setDescription("获取菜单出错");
             return basicJson;
         }
+        basicJson.setStatus(true);
+        return basicJson;
+    }
+
+    /**
+     * 获取管理员的资料
+     * @param request
+     * @return 管理员个人资料
+     */
+    @RequestMapping(value = "/getAdminProfile")
+    public BasicJson getAdminProfile(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        ConsoleUserEntity consoleUserEntity= (ConsoleUserEntity) request.getSession().getAttribute("user");
+        basicJson.setJsonString(consoleUserEntity);
 
         basicJson.setStatus(true);
         return basicJson;

@@ -67,12 +67,11 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle account" data-toggle="dropdown">
 									<div class="avatar">
-										<!--<img src="img/avatar.jpg" class="img-rounded" alt="avatar" />-->
 									</div>
 									<i class="fa fa-angle-down pull-right"></i>
 									<div class="user-mini pull-right">
 										<span class="welcome">欢迎您,</span>
-										<span>admin</span>
+										<span id="name"></span>
 									</div>
 								</a>
 								<ul class="dropdown-menu">
@@ -82,6 +81,12 @@
 											<span>个人资料</span>
 										</a>
 									</li>
+                                    <li>
+                                        <a id="locked-screen" class="submenu" href="#">
+                                            <i class="fa fa-lock"></i>
+                                            <span>锁定屏幕</span>
+                                        </a>
+                                    </li>
 									<li>
 										<a href="javascript:loginOut()">
 											<i class="fa fa-power-off"></i>
@@ -225,7 +230,12 @@
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="profileTab">
                                     <br/><br/>
-
+                                    <ul class="list-group">
+                                        <li class="list-group-item" id="phone"></li>
+                                        <li class="list-group-item" id="name"></li>
+                                        <li class="list-group-item" id="email"></li>
+                                        <li class="list-group-item" id="group"></li>
+                                    </ul>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="passwordTab">
                                     <br/><br/>
@@ -233,19 +243,19 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">原密码</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="oldPassword" name="oldPassword"/>
+                                                <input type="password" class="form-control" id="oldPassword" name="oldPassword"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">新密码</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="password" name="password"/>
+                                                <input type="password" class="form-control" id="password" name="password"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">确认新密码</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" name="confirmPassword"/>
+                                                <input type="password" class="form-control" name="confirmPassword"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -285,7 +295,7 @@
     function showProfile()
     {
         $("#profileModal").modal("show");
-        alert($.md5("sad"));
+        LoadBootstrapValidatorScript(passwordValidator);
     }
     function passwordValidator() {
         $('#changePasswordForm').bootstrapValidator({
@@ -323,16 +333,13 @@
             }
         }).on("success.form.bv",function(e){
             e.preventDefault();
-            submitForm();
+            submitChangePasswordForm();
         });
     }
-    function submitForm()
+    function submitChangePasswordForm()
     {
         var oldPassword= $.md5($("#changePasswordForm #oldPassword").val());
         var newPassword= $.md5($("#changePasswordForm #password").val());
-        console.log(oldPassword);
-        console.log(newPassword);
-
         $.ajax({
             type: "post",
             async: true,
@@ -344,7 +351,8 @@
             dataType: "json", //返回数据形式为json
             success: function (result) {
                 if (result.status) {
-                    alert("修改成功");
+                    alert("修改成功,请重新登陆");
+                    window.location.href=urlConfig.home+"/login.html";
                 }
                 else
                 {
@@ -356,6 +364,7 @@
             }
         });
     }
+
 
 
     function loginOut()
@@ -415,7 +424,27 @@
                 window.location.href=urlConfig.home+"/login.html";
             }
         });
-        LoadBootstrapValidatorScript(passwordValidator);
+
+        $.ajax({
+            type: "post",
+            async: true,
+            url: urlConfig.getAdminProfile,
+            dataType: "json",
+            success: function (result) {
+                if (result.status) {
+                    $(".user-mini #name").html(result.jsonString.name);
+                    $("#profileTab #phone").html("登陆名:"+result.jsonString.phone);
+                    $("#profileTab #name").html("姓名:"+result.jsonString.name);
+                    $("#profileTab #email").html("电子邮箱:"+result.jsonString.email);
+                    $("#profileTab #group").html("所属用户组:"+result.jsonString.consoleGroupEntity.name);
+                }
+                else
+                {
+                }
+            },
+            error: function () {
+            }
+        });
     });
 </script>
 </body>

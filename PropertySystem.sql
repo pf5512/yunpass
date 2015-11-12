@@ -180,9 +180,9 @@ CREATE TABLE `console_user` (
   `name` varchar(45) DEFAULT NULL,
   `identity_type` tinyint(4) DEFAULT NULL,
   `identity_id` varchar(45) DEFAULT NULL,
-  `last_login` bigint(25) NOT NULL,
+  `last_login` bigint(25) DEFAULT NULL,
   PRIMARY KEY (`cu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +191,7 @@ CREATE TABLE `console_user` (
 
 LOCK TABLES `console_user` WRITE;
 /*!40000 ALTER TABLE `console_user` DISABLE KEYS */;
-INSERT INTO `console_user` VALUES (1,'123456','admin','1316278289@qq.com',4,'admin',NULL,NULL,1447295125955);
+INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'admin',NULL,NULL,1447312693480),(4,'fcea920f7412b5da7be0cf42b8c93759','test','',4,'test',NULL,NULL,1447312740360);
 /*!40000 ALTER TABLE `console_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -685,7 +685,7 @@ CREATE TABLE `village` (
   `code` varchar(45) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -707,4 +707,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-12 11:55:30
+-- Dump completed on 2015-11-12 15:21:02
