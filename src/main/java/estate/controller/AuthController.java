@@ -84,13 +84,61 @@ public class AuthController
     }
 
     /**
+     * 会话保持,可扩展为循环收取通知
+     * @param request
+     * @return 返回标准json对象
+     */
+    @RequestMapping(value = "/keepSession")
+    public BasicJson keepSession(HttpServletRequest request)
+    {
+        return new BasicJson(true);
+    }
+
+    /**
      * 登出
      * @param request
      * @return 返回操作结果
      */
+    @RequestMapping(value = "/loginOut")
     public BasicJson loginOut(HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson(false);
+        request.getSession().removeAttribute("user");
+        basicJson.setStatus(true);
+        return basicJson;
+    }
+
+    /**
+     * 修改密码,需要重新登陆
+     * @param request
+     * @return 操作结果
+     */
+    @RequestMapping(value = "/changePassword")
+    public BasicJson changePassword(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        try
+        {
+            String oldPassword=request.getParameter("oldPassword");
+            String newPassword=request.getParameter("newPassword");
+            ConsoleUserEntity consoleUserEntity= (ConsoleUserEntity) request.getSession().getAttribute("user");
+            if (!oldPassword.equals(consoleUserEntity.getPassword()))
+            {
+                basicJson.getErrorMsg().setDescription("原密码错误");
+                return basicJson;
+            }
+            consoleUserEntity.setPassword(newPassword);
+            baseService.save(consoleUserEntity);
+        }
+        catch (Exception e)
+        {
+
+            logger.error("修改密码时发生异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("修改密码失败");
+            return basicJson;
+        }
+
         request.getSession().removeAttribute("user");
         basicJson.setStatus(true);
         return basicJson;

@@ -16,6 +16,16 @@ function reLogin(result)
     }
 }
 
+
+/**
+ * 检查datatable获取的内容是否正确合法
+ * @param result
+ */
+function checkDataTableData(result)
+{
+
+}
+
 /**
  * 初始化园区选择
  */

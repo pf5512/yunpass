@@ -116,43 +116,6 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-<!--<div class="modal fade" role="dialog" id="setSecretModel">-->
-    <!--<div class="modal-dialog modal-lg" role="document">-->
-        <!--<div class="modal-content">-->
-            <!--<div class="modal-header">-->
-                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                <!--<h4 class="modal-title">yunPass配置</h4>-->
-            <!--</div>-->
-            <!--<div class="modal-body">-->
-                <!--<div class="container-fluid">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-12">-->
-                            <!--<form id="setSecretForm" method="post" class="form-horizontal">-->
-                                <!--<div class="form-group">-->
-                                    <!--<label class="col-sm-3 control-label">选择一个yunPass</label>-->
-                                    <!--<div class="col-sm-8">-->
-                                        <!--<select name="yunPassId" id="yunPassList">-->
-                                        <!--</select>-->
-                                        <!--<input type="hidden" name="villageId" id="villageId"/>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-sm-9 col-sm-offset-3">-->
-                                        <!--<button type="button" class="btn btn-primary" id="submitSetSecret">提交</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</form>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="modal-footer">-->
-                <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
-            <!--</div>-->
-        <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
-    <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-<!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
 <script type="text/javascript">
     var editTable;//全局的datatable变量
     $("#doFilterBtn").click(function(){
@@ -183,79 +146,6 @@
             });
         }
     });
-
-//    $('#buildingListTable tbody').on( 'click', 'button#chooseSecretBtn', function () {
-//        var data = editTable.row($(this).parents('tr') ).data();
-//        $("#setSecretModel").modal("show");
-//
-//        $("#setSecretModel #villageId").val(data.id);
-//        $.ajax({
-//            type: "get",
-//            async: true,
-//            url: urlConfig.secretSelect2List,
-//            dataType: "json",
-//            success: function (result) {
-//                if (result.status) {
-//                    var html='<option value="">请选择yunPass编号</option>';
-//                    if(result.jsonString==null)
-//                        html='<option value="">--无可用yunPass--</option>';
-//                    else
-//                    {
-//                        $.each(result.jsonString,function(k,v)
-//                        {
-//                            html+='<option value="'+ v.id+'">'+ v.text+'</option>';
-//                        });
-//                    }
-//                    $("#yunPassList").html(html);
-//                }
-//                else
-//                {
-//                    $("#yunPassList").html('<option value="">--'+result.errorMsg.description+'--</option>');
-//                }
-//            },
-//            error: function () {
-//                $("#yunPassList").html('<option value="">--网络连接失败--</option>');
-//            }
-//        });
-//        $('#yunPassList').val(null).trigger("change")
-//    });
-//    function yunPassListSelect2(){
-//        $('#yunPassList').select2();
-//    }
-//    $("#submitSetSecret").on('click',function(){
-//        var id=$("#setSecretForm #yunPassList option:selected").val();
-//        var villageId=$("#setSecretForm #villageId").val();
-//        if(id=="")
-//        {
-//            alert("请选择一个yunPass");
-//        }
-//        else {
-//            $.ajax({
-//                type: "post",
-//                async: false,
-//                url: urlConfig.setSecret + "building",
-//                data: {
-//                    controlId: villageId,
-//                    id: id
-//                },
-//                dataType: "json",
-//                success: function (result) {
-//                    if (result.status) {
-//                        alert("设置成功!");
-//                        editTable.ajax.reload(null, false);
-//                    }
-//                    else {
-//                        alert(result.errorMsg.description);
-//                    }
-//                },
-//                error: function () {
-//                    alert("服务器连接失败,请重试!");
-//                }
-//            });
-//            $("#setSecretModel").modal("hide");
-//        }
-//    });
-
 
 
     $("#addBuildingBtn").click(function(){
@@ -330,7 +220,7 @@
                 "dataSrc": "jsonString"
             },
             "fnInitComplete": function(oSettings, result) {
-                reLogin(result);
+                checkDataTableData(result);
             },
             "columnDefs": [{
                 "targets": 0,
@@ -408,6 +298,5 @@
         LoadDataTablesScripts(initDataTable);
         initVillageSelect();
         LoadBootstrapValidatorScript(buildingAddValidator);
-//        LoadSelect2Script(yunPassListSelect2);
     });
 </script>

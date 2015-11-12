@@ -9,9 +9,12 @@ var urlConfig={};
 
 urlConfig.home="/oa/view";
 
-//用户登陆
+//用户认证相关
 urlConfig.login=host+"auth/login";
 urlConfig.getMenu=host+"auth/getMenu";
+urlConfig.keepSession=host+"auth/keepSession";
+urlConfig.loginOut=host+"auth/loginOut";
+urlConfig.changePassword=host+"auth/changePassword";
 
 //后台用户管理相关的url
 urlConfig.addGroup=host+"admin/addGroup";

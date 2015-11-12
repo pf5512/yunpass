@@ -43,6 +43,7 @@
 </div>
 <script src="./plugins/jquery/jquery-2.1.0.min.js"></script>
 <script src="./js/config.js"></script>
+<script src="js/jquerymd5.js"></script>
 <script type="text/javascript">
 $("#loginSubmit").click(function(){
     var username=$("#username").val();
@@ -58,7 +59,7 @@ $("#loginSubmit").click(function(){
             url:urlConfig.login,
             data: {
                 username:username,
-                password:password
+                password: $.md5(password)
             },
             dataType: "json", //返回数据形式为json
             success: function (result) {
