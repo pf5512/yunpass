@@ -27,7 +27,13 @@ public interface SsidSecretDao
     TableData getList(TableFilter tableFilter);
 
 
-    SsidSecretEntity getByControTypeControId(Integer contrlId, Byte type);
+    /**
+     * 根据控制对象id和类型获取锁
+     * @param contrlId
+     * @param type
+     * @return
+     */
+    ArrayList<SsidSecretEntity> getByControTypeControId(Integer contrlId, Byte type);
 
     /**
      * 获取所有未使用的密钥

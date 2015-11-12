@@ -151,7 +151,7 @@ CREATE TABLE `console_group` (
   `authorization` varchar(255) DEFAULT NULL,
   `menu` text NOT NULL,
   PRIMARY KEY (`cg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `console_group` (
 
 LOCK TABLES `console_group` WRITE;
 /*!40000 ALTER TABLE `console_group` DISABLE KEYS */;
-INSERT INTO `console_group` VALUES (4,'sdas',NULL,'{\"property\":\"on\",\"parkLot\":\"on\",\"user\":\"on\",\"fee\":\"on\",\"notice\":\"on\",\"complainRepair\":\"on\",\"secret\":\"on\",\"admin\":\"on\"}');
+INSERT INTO `console_group` VALUES (4,'sdas',NULL,'{\"property\":\"on\",\"parkLot\":\"on\",\"user\":\"on\",\"fee\":\"on\",\"notice\":\"on\",\"complainRepair\":\"on\",\"secret\":\"on\",\"admin\":\"on\"}'),(5,'普通用户',NULL,'{\"property\":\"on\",\"parkLot\":\"on\",\"user\":\"off\",\"fee\":\"off\",\"notice\":\"off\",\"complainRepair\":\"off\",\"secret\":\"off\",\"admin\":\"off\"}');
 /*!40000 ALTER TABLE `console_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +182,7 @@ CREATE TABLE `console_user` (
   `identity_id` varchar(45) DEFAULT NULL,
   `last_login` bigint(25) DEFAULT NULL,
   PRIMARY KEY (`cu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +191,7 @@ CREATE TABLE `console_user` (
 
 LOCK TABLES `console_user` WRITE;
 /*!40000 ALTER TABLE `console_user` DISABLE KEYS */;
-INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'admin',NULL,NULL,1447315367148);
+INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'超级管理员',NULL,NULL,1447327018564),(5,'e10adc3949ba59abbe56e057f20f883e','normal','',5,'普通管理员',NULL,NULL,1447326985511);
 /*!40000 ALTER TABLE `console_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -707,4 +707,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-12 16:06:16
+-- Dump completed on 2015-11-12 19:33:14

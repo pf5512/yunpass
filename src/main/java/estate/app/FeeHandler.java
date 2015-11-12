@@ -38,10 +38,10 @@ public class FeeHandler
     public BasicJson getBill(HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson(false);
-
+        String phone= (String) request.getSession().getAttribute("phone");
         try
         {
-            UserBillEntity userBillEntity=billService.getBillByPhone("18144240528", BillPayStatus.UNPAY,null,null);
+            UserBillEntity userBillEntity=billService.getBillByPhone(phone, BillPayStatus.UNPAY,null,null);
             LogUtil.E(GsonUtil.getGson().toJson(userBillEntity));
             if (userBillEntity!=null)
             {

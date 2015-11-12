@@ -22,6 +22,8 @@ public interface SsidSecretService
 
     /**
      *
+     * @param tableFilter
+     * @return
      */
     TableData getList(TableFilter tableFilter);
 
@@ -30,4 +32,12 @@ public interface SsidSecretService
      * @return
      */
     ArrayList<Select2> getSelect2();
+
+    /**
+     * 根据控制对象的id和类型获取锁
+     * @param controlID
+     * @param controlType
+     * @return
+     */
+    ArrayList<SsidSecretEntity> getByControlIdControlType(Integer controlID,byte controlType);
 }

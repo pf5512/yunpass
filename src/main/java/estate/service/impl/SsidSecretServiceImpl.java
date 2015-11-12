@@ -14,6 +14,7 @@ import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.service.SsidSecretService;
 import org.apache.bcel.verifier.statics.LONG_Upper;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,6 +94,12 @@ public class SsidSecretServiceImpl implements SsidSecretService
             select2s.add(select2);
         }
         return select2s;
+    }
+
+    @Override
+    public ArrayList<SsidSecretEntity> getByControlIdControlType(Integer controlID, byte controlType)
+    {
+        return ssidSecretDao.getByControTypeControId(controlID,controlType);
     }
 
 }

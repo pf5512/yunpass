@@ -38,13 +38,15 @@ public class AuthorityServiceImpl implements AuthorityService
             {
                 for (PropertyOwnerInfoEntity propertyOwnerInfoEntity : propertyOwnerInfoEntities)
                 {
-                     ids.add(propertyOwnerInfoEntity.getPropertyEntity().getBuildingId());
+                    if (!ids.contains(propertyOwnerInfoEntity.getPropertyEntity().getBuildingId()))
+                        ids.add(propertyOwnerInfoEntity.getPropertyEntity().getBuildingId());
                 }
             }
             else
             {
                 for (PropertyOwnerInfoEntity propertyOwnerInfoEntity : propertyOwnerInfoEntities)
                 {
+                    if (!ids.contains(propertyOwnerInfoEntity.getPropertyEntity().getBuildingEntity().getVillageId()))
                     ids.add(propertyOwnerInfoEntity.getPropertyEntity().getBuildingEntity().getVillageId());
                 }
             }
@@ -56,7 +58,8 @@ public class AuthorityServiceImpl implements AuthorityService
                 return null;
             for (ParklotOwnerInfoEntity parklotOwnerInfoEntity:parklotOwnerInfoEntities)
             {
-                ids.add(parklotOwnerInfoEntity.getParkingLotEntity().getBrakeId());
+                if (!ids.contains(parklotOwnerInfoEntity.getParkingLotEntity().getBrakeId()))
+                    ids.add(parklotOwnerInfoEntity.getParkingLotEntity().getBrakeId());
             }
         }
         else

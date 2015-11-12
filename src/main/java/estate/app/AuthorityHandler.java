@@ -1,6 +1,5 @@
 package estate.app;
 
-import estate.common.config.SecretType;
 import estate.common.config.SsidControlType;
 import estate.common.util.LogUtil;
 import estate.entity.database.OpenDoorRecordEntity;
@@ -77,7 +76,6 @@ public class AuthorityHandler
             return basicJson;
         }
 
-        //取出当前用户能进入的所有楼栋的ID
         ArrayList<Integer> ids;
         try
         {
@@ -104,6 +102,59 @@ public class AuthorityHandler
         {
             basicJson.getErrorMsg().setCode("12050510");
             basicJson.getErrorMsg().setDescription("您没有该门禁权限");
+            return basicJson;
+        }
+
+        basicJson.setStatus(true);
+        return basicJson;
+    }
+
+    /**
+     * 获取app用户有权限的所有密钥
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getAllowSecret")
+    public BasicJson getAllAuthSecret(HttpServletRequest request)
+    {
+        String phone= (String) request.getSession().getAttribute("phone");
+        BasicJson basicJson=new BasicJson(false);
+
+        ArrayList<SsidSecretEntity> ssidSecretEntities=new ArrayList<>();
+        try
+        {
+            for (Integer villageID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.VILLAGE))
+            {
+                ArrayList<SsidSecretEntity> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.VILLAGE);
+                if (temp != null)
+                {
+                    temp.stream().filter(ssidSecretEntity -> !ssidSecretEntities.contains(ssidSecretEntity)).forEach(ssidSecretEntities::add);
+                }
+            }
+            for (Integer villageID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.BUILDING))
+            {
+                ArrayList<SsidSecretEntity> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.BUILDING);
+                if (temp != null)
+                {
+                    temp.stream().filter(ssidSecretEntity -> !ssidSecretEntities.contains(ssidSecretEntity)).forEach(ssidSecretEntities::add);
+                }
+            }
+            for (Integer villageID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.BRAKE))
+            {
+                ArrayList<SsidSecretEntity> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.BRAKE);
+                if (temp != null)
+                {
+                    temp.stream().filter(ssidSecretEntity -> !ssidSecretEntities.contains(ssidSecretEntity)).forEach(ssidSecretEntities::add);
+                }
+            }
+            if (ssidSecretEntities.size()>0)
+                basicJson.setJsonString(ssidSecretEntities);
+            else basicJson.setJsonString(null);
+        }
+        catch (Exception e)
+        {
+            logger.error("app获取所有权限密钥失败:"+e.getMessage());
+            basicJson.getErrorMsg().setDescription("获取密钥失败");
             return basicJson;
         }
 
