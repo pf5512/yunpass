@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kangbiao on 15-10-15.
@@ -39,10 +40,10 @@ public class ParkLotDaoImpl implements ParkLotDao
 
         StringBuilder hql=new StringBuilder("from ParkingLotEntity t where 1=1 ");
         if (tableFilter.getSearchValue()!=null)
-            hql.append("and (t.code like('")
+            hql.append("and (t.code like('%")
                     .append(tableFilter.getSearchValue())
-                    .append("') or t.location like('")
-                    .append(tableFilter.getSearchValue()).append("') )");
+                    .append("%') or t.location like('%")
+                    .append(tableFilter.getSearchValue()).append("%') )");
         if (tableFilter.getType()!=null)
             hql.append(" and t.type=").append(tableFilter.getType());
         if (tableFilter.getVillageId()!=null)
@@ -66,5 +67,16 @@ public class ParkLotDaoImpl implements ParkLotDao
         Session session=getSession();
         String hql="from ParkingLotEntity t where t.type=:type";
         return session.createQuery(hql).setByte("type",type).list().size();
+    }
+
+    @Override
+    public ArrayList<ParkingLotEntity> getByBrakeID(Integer id)
+    {
+        Session session=getSession();
+        String hql="from ParkingLotEntity t where t.brakeId=:id";
+        List list=session.createQuery(hql).setInteger("id",id).list();
+        if (list.size()>0)
+            return (ArrayList<ParkingLotEntity>) list;
+        return null;
     }
 }

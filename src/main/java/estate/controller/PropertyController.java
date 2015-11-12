@@ -191,25 +191,24 @@ public class PropertyController
      */
     @RequestMapping(value = "/deleteProperty/{propertyID}")
     public BasicJson deleteProperty(@PathVariable Integer propertyID,HttpServletRequest request)
-
     {
         BasicJson basicJson=new BasicJson();
-        ArrayList<PropertyOwnerInfoEntity> ownerInfoEntities=propertyOwnerService.getByPropertyIdRole(propertyID, null);
-        if (ownerInfoEntities!=null)
-        {
-            basicJson.getErrorMsg().setDescription("请先解除该物业的绑定关系后再删除");
-            return basicJson;
-        }
-
-        PropertyEntity propertyEntity=new PropertyEntity();
-        propertyEntity.setId(propertyID);
         try
         {
+            if (propertyOwnerService.getByPropertyIdRole(propertyID, null)!=null)
+            {
+                basicJson.getErrorMsg().setDescription("请先解除该物业的绑定关系后再删除");
+                return basicJson;
+            }
+            PropertyEntity propertyEntity=new PropertyEntity();
+            propertyEntity.setId(propertyID);
             baseService.delete(propertyEntity);
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setDescription("删除失败\n"+e.getMessage());
+            logger.error("删除物业时异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("删除失败");
             return basicJson;
         }
 
@@ -232,8 +231,9 @@ public class PropertyController
         }
         catch (Exception e)
         {
-            basicJson.getErrorMsg().setCode("1234230");
-            basicJson.getErrorMsg().setDescription("获取园区信息失败\n错误详情:"+e.getMessage());
+            logger.error("根据园区id获取楼栋信息失败:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("获取园区信息失败");
             return basicJson;
         }
 
@@ -244,7 +244,6 @@ public class PropertyController
 
     /**
      * 获取物业信息列表
-     *
      * @param tableFilter
      * @param request
      * @return
@@ -267,7 +266,7 @@ public class PropertyController
         }
         catch (Exception e)
         {
-            LogUtil.E(e.getMessage());
+            logger.error("获取物业信息列表失败:"+e.getMessage());
             return null;
         }
     }
@@ -303,28 +302,5 @@ public class PropertyController
         basicJson.setStatus(true);
         return basicJson;
     }
-
-//    @RequestMapping(value = "/generateBill/{propertyID}")
-//    public BasicJson generateBill(@PathVariable Integer propertyID)
-//    {
-//        BasicJson basicJson=new BasicJson();
-//        try
-//        {
-////            billService.generateBillByPropertyID(propertyID);
-//        }
-//        catch (PropertyNotBindFeeItemException p)
-//        {
-//            basicJson.getErrorMsg().setDescription(p.getMessage());
-//            return basicJson;
-//        }
-//        catch (Exception e)
-//        {
-//            LogUtil.E(e.getMessage());
-//            basicJson.getErrorMsg().setDescription("生成账单失败");
-//            return basicJson;
-//        }
-//        basicJson.setStatus(true);
-//        return basicJson;
-//    }
 
 }

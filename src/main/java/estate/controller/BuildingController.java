@@ -86,14 +86,11 @@ public class BuildingController
     public BasicJson delete(@PathVariable Integer buildingID)
     {
         BasicJson basicJson=new BasicJson();
-
         if (propertyService.getByBuildingID(buildingID)!=null)
         {
             basicJson.getErrorMsg().setDescription("删除失败,请先删除该楼栋下的所有物业");
             return basicJson;
         }
-
-
         BuildingEntity buildingEntity=new BuildingEntity();
         buildingEntity.setId(buildingID);
         try

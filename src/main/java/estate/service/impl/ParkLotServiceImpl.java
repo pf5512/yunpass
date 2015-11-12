@@ -3,6 +3,7 @@ package estate.service.impl;
 import estate.dao.BaseDao;
 import estate.dao.ParkLotDao;
 import estate.dao.ParkLotOwnerInfoDao;
+import estate.entity.database.ParkingLotEntity;
 import estate.entity.database.ParklotOwnerInfoEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
@@ -31,7 +32,7 @@ public class ParkLotServiceImpl implements ParkLotService
     public TableData getList(TableFilter tableFilter)
     {
         TableData tableData=parkLotDao.getList(tableFilter);
-        tableData.setRecordsTotal(baseDao.count("ParkingLotEntity"));
+        tableData.setRecordsTotal(baseDao.count(ParkingLotEntity.class));
         return tableData;
     }
 
@@ -39,6 +40,12 @@ public class ParkLotServiceImpl implements ParkLotService
     public ArrayList<ParklotOwnerInfoEntity> getByParkLotID(Integer id)
     {
         return parkLotOwnerInfoDao.getByParkLotID(id);
+    }
+
+    @Override
+    public ArrayList<ParkingLotEntity> getByBrakeID(Integer id)
+    {
+        return parkLotDao.getByBrakeID(id);
     }
 
     @Override

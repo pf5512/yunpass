@@ -60,7 +60,7 @@ CREATE TABLE `brake` (
   PRIMARY KEY (`brake_id`),
   KEY `FK_2ue9kp9ltdrva3k3ib2hgx0yh` (`village_id`),
   CONSTRAINT `FK_2ue9kp9ltdrva3k3ib2hgx0yh` FOREIGN KEY (`village_id`) REFERENCES `village` (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `brake` (
 
 LOCK TABLES `brake` WRITE;
 /*!40000 ALTER TABLE `brake` DISABLE KEYS */;
-INSERT INTO `brake` VALUES (1,'DZ001','道闸一','',5),(2,'DZ005','园区一的道闸5','',5);
+INSERT INTO `brake` VALUES (1,'DZ001','道闸一','',5),(3,'DZ005','道闸二','',5);
 /*!40000 ALTER TABLE `brake` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +160,7 @@ CREATE TABLE `console_group` (
 
 LOCK TABLES `console_group` WRITE;
 /*!40000 ALTER TABLE `console_group` DISABLE KEYS */;
-INSERT INTO `console_group` VALUES (4,'sdas',NULL,'{\"property\":\"on\",\"parkLot\":\"on\",\"user\":\"on\",\"fee\":\"on\",\"notice\":\"off\",\"complainRepair\":\"on\",\"secret\":\"on\",\"admin\":\"on\"}');
+INSERT INTO `console_group` VALUES (4,'sdas',NULL,'{\"property\":\"on\",\"parkLot\":\"on\",\"user\":\"on\",\"fee\":\"on\",\"notice\":\"on\",\"complainRepair\":\"on\",\"secret\":\"on\",\"admin\":\"on\"}');
 /*!40000 ALTER TABLE `console_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +191,7 @@ CREATE TABLE `console_user` (
 
 LOCK TABLES `console_user` WRITE;
 /*!40000 ALTER TABLE `console_user` DISABLE KEYS */;
-INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'admin',NULL,NULL,1447312693480),(4,'fcea920f7412b5da7be0cf42b8c93759','test','',4,'test',NULL,NULL,1447312740360);
+INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'admin',NULL,NULL,1447315367148);
 /*!40000 ALTER TABLE `console_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,7 +379,7 @@ CREATE TABLE `parking_lot` (
   PRIMARY KEY (`pl_id`),
   KEY `FK_4kgpj7bke3cswtrv8jh1vkb70` (`brake_id`),
   CONSTRAINT `FK_4kgpj7bke3cswtrv8jh1vkb70` FOREIGN KEY (`brake_id`) REFERENCES `brake` (`brake_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -388,7 +388,7 @@ CREATE TABLE `parking_lot` (
 
 LOCK TABLES `parking_lot` WRITE;
 /*!40000 ALTER TABLE `parking_lot` DISABLE KEYS */;
-INSERT INTO `parking_lot` VALUES (1,'CW001',NULL,'蓝光米兰香洲道闸一',2,NULL,1,6,0),(2,'CW002',NULL,'车位地址二',1,'巴拉巴拉',1,6,0),(3,'CW009',NULL,'园区一道闸一',2,'',1,5,0),(4,'CW0010',NULL,'园区一道闸一的车位',3,'',1,5,0);
+INSERT INTO `parking_lot` VALUES (1,'CW001',NULL,'蓝光米兰香洲道闸一',2,NULL,1,6,0),(2,'CW002',NULL,'车位地址二',1,'巴拉巴拉',1,6,0),(3,'CW009',NULL,'园区一道闸一',2,'',1,5,0);
 /*!40000 ALTER TABLE `parking_lot` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -707,4 +707,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-12 15:21:02
+-- Dump completed on 2015-11-12 16:06:16

@@ -242,6 +242,32 @@
         });
     });
 
+
+    $("#parkingLotListTable tbody").on('click', 'button#delRowBtn',function() {
+        var data = editTable.row($(this).parents('tr') ).data();
+        var con=confirm("确定删除该车位?");
+        if(con) {
+            $.ajax({
+                type: "get",
+                async: false,
+                url: urlConfig.parkLotDelete + data.id,
+                dataType: "json", //返回数据形式为json
+                success: function (result) {
+                    if (result.status) {
+                        editTable.ajax.reload(null, false);
+                        alert("删除成功");
+                    }
+                    else {
+                        alert(result.errorMsg.description);
+                    }
+                },
+                error: function () {
+                    alert("服务器连接失败,请重试!");
+                }
+            });
+        }
+    });
+
     //设置车位的用户角色
     $("#parkingLotListTable tbody").on('click', 'button#editRowBtn',function(){
         $("#ownerAddForm")[0].reset();
@@ -542,16 +568,6 @@
                     "sortAscending":  ":正序",
                     "sortDescending": ":倒序"
                 }
-            },
-            "oTableTools": {
-                "sSwfPath": "plugins/datatables/copy_csv_xls_pdf.swf",
-                "aButtons": [
-                    {
-                        "sExtends":    "collection",
-                        "sButtonText": '保存 <span class="caret" />',
-                        "aButtons":    [ "csv", "xls" ]
-                    }
-                ]
             }
         });
 

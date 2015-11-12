@@ -2,11 +2,13 @@ package estate.controller;
 
 import estate.common.util.LogUtil;
 import estate.entity.database.BrakeEntity;
+import estate.entity.database.ParkingLotEntity;
 import estate.entity.json.BasicJson;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import estate.service.BaseService;
 import estate.service.BrakeService;
+import estate.service.ParkLotService;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,8 @@ public class BrakeController
     private BaseService baseService;
     @Autowired
     private BrakeService brakeService;
+    @Autowired
+    private ParkLotService parkLotService;
 
     /**
      * 获取道闸列表
@@ -83,13 +87,30 @@ public class BrakeController
      * 删除一个道闸
      * @param brakeID
      * @param request
-     * @return
+     * @return 返回操作结果
      */
     @RequestMapping(value = "/delete/{brakeID}")
     public BasicJson delete(@PathVariable Integer brakeID,HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson();
-
+        try
+        {
+            if (parkLotService.getByBrakeID(brakeID) != null)
+            {
+                basicJson.getErrorMsg().setDescription("请先删除该道闸下的所有车位");
+                return basicJson;
+            }
+            BrakeEntity brakeEntity=new BrakeEntity();
+            brakeEntity.setId(brakeID);
+            baseService.delete(brakeEntity);
+        }
+        catch (Exception e)
+        {
+            logger.error("删除道闸时发生异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("删除失败");
+            return basicJson;
+        }
         basicJson.setStatus(true);
         return basicJson;
     }

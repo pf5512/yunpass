@@ -93,7 +93,24 @@ public class ParkLotController
     public BasicJson delete(@PathVariable Integer parkLotID,HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson();
-
+        try
+        {
+            if (parkLotService.getByParkLotID(parkLotID)!=null)
+            {
+                basicJson.getErrorMsg().setDescription("请先删除该车位的绑定关系");
+                return basicJson;
+            }
+            ParkingLotEntity parkingLotEntity=new ParkingLotEntity();
+            parkingLotEntity.setId(parkLotID);
+            baseService.delete(parkingLotEntity);
+        }
+        catch (Exception e)
+        {
+            logger.error("删除车位时异常:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("删除失败");
+            return basicJson;
+        }
         basicJson.setStatus(true);
         return basicJson;
     }
