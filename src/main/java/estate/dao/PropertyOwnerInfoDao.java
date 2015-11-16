@@ -28,12 +28,12 @@ public interface PropertyOwnerInfoDao
     ArrayList<PropertyOwnerInfoEntity> getByPhone(String phone);
 
     /**
-     * 通过物业id和用户电话返回绑定关系
+     * 通过电话和审核状态获取用户和物业的绑定关系
      * @param phone
-     * @param propertyID
+     * @param status
      * @return
      */
-    ArrayList<PropertyOwnerInfoEntity> getByPhoneProperID(String phone, Integer propertyID);
+    ArrayList<PropertyOwnerInfoEntity> getByPhoneStatus(String phone,byte status);
 
     /**
      * 通过物业id和状态返回

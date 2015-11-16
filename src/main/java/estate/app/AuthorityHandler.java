@@ -4,6 +4,7 @@ import estate.common.config.SsidControlType;
 import estate.common.util.LogUtil;
 import estate.entity.database.OpenDoorRecordEntity;
 import estate.entity.database.SsidSecretEntity;
+import estate.entity.display.SsidSecret;
 import estate.entity.json.BasicJson;
 import estate.service.AuthorityService;
 import estate.service.BaseService;
@@ -120,35 +121,35 @@ public class AuthorityHandler
         String phone= (String) request.getSession().getAttribute("phone");
         BasicJson basicJson=new BasicJson(false);
 
-        ArrayList<SsidSecretEntity> ssidSecretEntities=new ArrayList<>();
+        ArrayList<SsidSecret> ssidSecrets=new ArrayList<>();
         try
         {
             for (Integer villageID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.VILLAGE))
             {
-                ArrayList<SsidSecretEntity> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.VILLAGE);
+                ArrayList<SsidSecret> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.VILLAGE);
                 if (temp != null)
                 {
-                    temp.stream().filter(ssidSecretEntity -> !ssidSecretEntities.contains(ssidSecretEntity)).forEach(ssidSecretEntities::add);
+                    temp.stream().filter(ssidSecretEntity -> !ssidSecrets.contains(ssidSecretEntity)).forEach(ssidSecrets::add);
                 }
             }
             for (Integer villageID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.BUILDING))
             {
-                ArrayList<SsidSecretEntity> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.BUILDING);
+                ArrayList<SsidSecret> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.BUILDING);
                 if (temp != null)
                 {
-                    temp.stream().filter(ssidSecretEntity -> !ssidSecretEntities.contains(ssidSecretEntity)).forEach(ssidSecretEntities::add);
+                    temp.stream().filter(ssidSecretEntity -> !ssidSecrets.contains(ssidSecretEntity)).forEach(ssidSecrets::add);
                 }
             }
             for (Integer villageID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.BRAKE))
             {
-                ArrayList<SsidSecretEntity> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.BRAKE);
+                ArrayList<SsidSecret> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.BRAKE);
                 if (temp != null)
                 {
-                    temp.stream().filter(ssidSecretEntity -> !ssidSecretEntities.contains(ssidSecretEntity)).forEach(ssidSecretEntities::add);
+                    temp.stream().filter(ssidSecretEntity -> !ssidSecrets.contains(ssidSecretEntity)).forEach(ssidSecrets::add);
                 }
             }
-            if (ssidSecretEntities.size()>0)
-                basicJson.setJsonString(ssidSecretEntities);
+            if (ssidSecrets.size()>0)
+                basicJson.setJsonString(ssidSecrets);
             else basicJson.setJsonString(null);
         }
         catch (Exception e)

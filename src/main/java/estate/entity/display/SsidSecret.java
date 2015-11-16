@@ -1,6 +1,8 @@
 package estate.entity.display;
 
 
+import estate.entity.database.SsidSecretEntity;
+
 /**
  * Created by kangbiao on 15-10-29.
  * 包含控制对象信息的实体类,为适应后台显示
@@ -14,6 +16,18 @@ public class SsidSecret
     private String password;
     private Byte type;
     private Object controlEntity;
+
+    public SsidSecret(){}
+
+    public SsidSecret(SsidSecretEntity ssidSecretEntity)
+    {
+        this.id=ssidSecretEntity.getId();
+        this.controlType=ssidSecretEntity.getControlType();
+        this.symbol=ssidSecretEntity.getSymbol();
+        this.secret=ssidSecretEntity.getSecret();
+        this.password=ssidSecretEntity.getPassword();
+        this.type=ssidSecretEntity.getType();
+    }
 
     public Integer getId()
     {

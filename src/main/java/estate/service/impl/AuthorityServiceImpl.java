@@ -1,5 +1,6 @@
 package estate.service.impl;
 
+import estate.common.config.BindStatus;
 import estate.common.config.SsidControlType;
 import estate.common.util.LogUtil;
 import estate.dao.BrakeDao;
@@ -31,7 +32,7 @@ public class AuthorityServiceImpl implements AuthorityService
         ArrayList<Integer> ids=new ArrayList<>();
         if (type== SsidControlType.VILLAGE||type==SsidControlType.BUILDING)
         {
-            ArrayList<PropertyOwnerInfoEntity> propertyOwnerInfoEntities = propertyOwnerInfoDao.getByPhone(phone);
+            ArrayList<PropertyOwnerInfoEntity> propertyOwnerInfoEntities = propertyOwnerInfoDao.getByPhoneStatus(phone, BindStatus.CHECKED);
             if (propertyOwnerInfoEntities==null)
                 return null;
             if (type==SsidControlType.BUILDING)

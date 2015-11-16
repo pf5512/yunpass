@@ -47,13 +47,7 @@ public class SsidSecretServiceImpl implements SsidSecretService
         ArrayList<SsidSecret> ssidSecrets=new ArrayList<>();
         for (SsidSecretEntity ssidSecretEntity:ssidSecretEntities)
         {
-            SsidSecret ssidSecret=new SsidSecret();
-            ssidSecret.setId(ssidSecretEntity.getId());
-            ssidSecret.setSymbol(ssidSecretEntity.getSymbol());
-            ssidSecret.setPassword(ssidSecretEntity.getPassword());
-            ssidSecret.setSecret(ssidSecretEntity.getSecret());
-            ssidSecret.setType(ssidSecretEntity.getType());
-            ssidSecret.setControlType(ssidSecretEntity.getControlType());
+            SsidSecret ssidSecret=new SsidSecret(ssidSecretEntity);
             if (ssidSecretEntity.getControlId()!=null)
             {
                 if (ssidSecretEntity.getControlType() == SsidControlType.VILLAGE)
@@ -97,9 +91,31 @@ public class SsidSecretServiceImpl implements SsidSecretService
     }
 
     @Override
-    public ArrayList<SsidSecretEntity> getByControlIdControlType(Integer controlID, byte controlType)
+    public ArrayList<SsidSecret> getByControlIdControlType(Integer controlID, byte controlType)
     {
-        return ssidSecretDao.getByControTypeControId(controlID,controlType);
+        ArrayList<SsidSecretEntity> ssidSecretEntities= ssidSecretDao.getByControTypeControId(controlID, controlType);
+        ArrayList<SsidSecret> ssidSecrets=new ArrayList<>();
+        for (SsidSecretEntity ssidSecretEntity:ssidSecretEntities)
+        {
+            SsidSecret ssidSecret=new SsidSecret(ssidSecretEntity);
+            if (controlType == SsidControlType.VILLAGE)
+            {
+                VillageEntity villageEntity=(VillageEntity)baseDao.get(ssidSecretEntity.getControlId(), VillageEntity.class);
+                ssidSecret.setControlEntity(villageEntity.getName());
+            }
+            else if (controlType== SsidControlType.BUILDING)
+            {
+                BuildingEntity buildingEntity= (BuildingEntity) baseDao.get(ssidSecretEntity.getControlId(), BuildingEntity.class);
+                ssidSecret.setControlEntity(buildingEntity.getBuildingName());
+            }
+            else if (controlType == SsidControlType.BRAKE)
+            {
+                BrakeEntity brakeEntity= (BrakeEntity) baseDao.get(ssidSecretEntity.getControlId(), BrakeEntity.class);
+                ssidSecret.setControlEntity(brakeEntity.getName());
+            }
+            ssidSecrets.add(ssidSecret);
+        }
+        return ssidSecrets;
     }
 
 }

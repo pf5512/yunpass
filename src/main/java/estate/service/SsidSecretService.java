@@ -1,6 +1,7 @@
 package estate.service;
 
 import estate.entity.database.SsidSecretEntity;
+import estate.entity.display.SsidSecret;
 import estate.entity.json.Select2;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
@@ -39,5 +40,5 @@ public interface SsidSecretService
      * @param controlType
      * @return
      */
-    ArrayList<SsidSecretEntity> getByControlIdControlType(Integer controlID,byte controlType);
+    ArrayList<SsidSecret> getByControlIdControlType(Integer controlID,byte controlType);
 }
