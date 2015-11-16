@@ -93,11 +93,7 @@ public class PropertyHandler
             ArrayList<MyProperty> myProperties=new ArrayList<>();
             for (PropertyOwnerInfoEntity propertyOwnerInfoEntity:propertyOwnerInfoEntities)
             {
-                MyProperty myProperty=new MyProperty();
-                myProperty.setUserRole(propertyOwnerInfoEntity.getUserRole());
-                myProperty.setStatus(propertyOwnerInfoEntity.getStatus());
-                myProperty.setId(propertyOwnerInfoEntity.getId());
-                myProperty.setPropertyEntity(propertyOwnerInfoEntity.getPropertyEntity());
+                MyProperty myProperty=new MyProperty(propertyOwnerInfoEntity);
                 myProperties.add(myProperty);
             }
             basicJson.setJsonString(myProperties);

@@ -1,5 +1,7 @@
 package estate.entity.app;
 
+import estate.entity.database.NoticeEntity;
+
 /**
  * Created by kangbiao on 15-10-23.
  *
@@ -22,6 +24,13 @@ public class Notice
         this.description = description;
         this.id = id;
         this.title = title;
+    }
+
+    public Notice(NoticeEntity noticeEntity)
+    {
+        this.id=noticeEntity.getId();
+        this.createTime=noticeEntity.getTime();
+
     }
 
     public String getContent()

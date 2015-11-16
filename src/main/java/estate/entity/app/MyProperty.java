@@ -1,6 +1,7 @@
 package estate.entity.app;
 
 import estate.entity.database.PropertyEntity;
+import estate.entity.database.PropertyOwnerInfoEntity;
 
 /**
  * Created by kangbiao on 15-10-21.
@@ -12,6 +13,16 @@ public class MyProperty
     private Byte status;
     private Byte userRole;
     private PropertyEntity propertyEntity;
+
+    public MyProperty(PropertyOwnerInfoEntity propertyOwnerInfoEntity)
+    {
+        this.id=propertyOwnerInfoEntity.getId();
+        this.status=propertyOwnerInfoEntity.getStatus();
+        this.userRole=propertyOwnerInfoEntity.getUserRole();
+        this.propertyEntity=propertyOwnerInfoEntity.getPropertyEntity();
+    }
+
+    public MyProperty(){}
 
     public Integer getId()
     {
