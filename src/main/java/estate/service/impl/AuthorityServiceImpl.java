@@ -33,34 +33,35 @@ public class AuthorityServiceImpl implements AuthorityService
         if (type== SsidControlType.VILLAGE||type==SsidControlType.BUILDING)
         {
             ArrayList<PropertyOwnerInfoEntity> propertyOwnerInfoEntities = propertyOwnerInfoDao.getByPhoneStatus(phone, BindStatus.CHECKED);
-            if (propertyOwnerInfoEntities==null)
-                return null;
-            if (type==SsidControlType.BUILDING)
+            if (propertyOwnerInfoEntities!=null)
             {
-                for (PropertyOwnerInfoEntity propertyOwnerInfoEntity : propertyOwnerInfoEntities)
+                if (type == SsidControlType.BUILDING)
                 {
-                    if (!ids.contains(propertyOwnerInfoEntity.getPropertyEntity().getBuildingId()))
-                        ids.add(propertyOwnerInfoEntity.getPropertyEntity().getBuildingId());
-                }
-            }
-            else
-            {
-                for (PropertyOwnerInfoEntity propertyOwnerInfoEntity : propertyOwnerInfoEntities)
+                    for (PropertyOwnerInfoEntity propertyOwnerInfoEntity : propertyOwnerInfoEntities)
+                    {
+                        if (!ids.contains(propertyOwnerInfoEntity.getPropertyEntity().getBuildingId()))
+                            ids.add(propertyOwnerInfoEntity.getPropertyEntity().getBuildingId());
+                    }
+                } else
                 {
-                    if (!ids.contains(propertyOwnerInfoEntity.getPropertyEntity().getBuildingEntity().getVillageId()))
-                    ids.add(propertyOwnerInfoEntity.getPropertyEntity().getBuildingEntity().getVillageId());
+                    for (PropertyOwnerInfoEntity propertyOwnerInfoEntity : propertyOwnerInfoEntities)
+                    {
+                        if (!ids.contains(propertyOwnerInfoEntity.getPropertyEntity().getBuildingEntity().getVillageId()))
+                            ids.add(propertyOwnerInfoEntity.getPropertyEntity().getBuildingEntity().getVillageId());
+                    }
                 }
             }
         }
         else if (type==SsidControlType.BRAKE)
         {
             ArrayList<ParklotOwnerInfoEntity> parklotOwnerInfoEntities=parkLotOwnerInfoDao.getByPhone(phone);
-            if (parklotOwnerInfoEntities==null)
-                return null;
-            for (ParklotOwnerInfoEntity parklotOwnerInfoEntity:parklotOwnerInfoEntities)
+            if (parklotOwnerInfoEntities!=null)
             {
-                if (!ids.contains(parklotOwnerInfoEntity.getParkingLotEntity().getBrakeId()))
-                    ids.add(parklotOwnerInfoEntity.getParkingLotEntity().getBrakeId());
+                for (ParklotOwnerInfoEntity parklotOwnerInfoEntity : parklotOwnerInfoEntities)
+                {
+                    if (!ids.contains(parklotOwnerInfoEntity.getParkingLotEntity().getBrakeId()))
+                        ids.add(parklotOwnerInfoEntity.getParkingLotEntity().getBrakeId());
+                }
             }
         }
         else

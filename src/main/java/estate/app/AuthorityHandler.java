@@ -101,7 +101,6 @@ public class AuthorityHandler
         }
         else
         {
-            basicJson.getErrorMsg().setCode("12050510");
             basicJson.getErrorMsg().setDescription("您没有该门禁权限");
             return basicJson;
         }
@@ -132,17 +131,17 @@ public class AuthorityHandler
                     temp.stream().filter(ssidSecretEntity -> !ssidSecrets.contains(ssidSecretEntity)).forEach(ssidSecrets::add);
                 }
             }
-            for (Integer villageID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.BUILDING))
+            for (Integer buildingID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.BUILDING))
             {
-                ArrayList<SsidSecret> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.BUILDING);
+                ArrayList<SsidSecret> temp = ssidSecretService.getByControlIdControlType(buildingID, SsidControlType.BUILDING);
                 if (temp != null)
                 {
                     temp.stream().filter(ssidSecretEntity -> !ssidSecrets.contains(ssidSecretEntity)).forEach(ssidSecrets::add);
                 }
             }
-            for (Integer villageID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.BRAKE))
+            for (Integer brakeID : authorityService.getAuthorityIDsByPhoneType(phone, SsidControlType.BRAKE))
             {
-                ArrayList<SsidSecret> temp = ssidSecretService.getByControlIdControlType(villageID, SsidControlType.BRAKE);
+                ArrayList<SsidSecret> temp = ssidSecretService.getByControlIdControlType(brakeID, SsidControlType.BRAKE);
                 if (temp != null)
                 {
                     temp.stream().filter(ssidSecretEntity -> !ssidSecrets.contains(ssidSecretEntity)).forEach(ssidSecrets::add);
@@ -150,11 +149,15 @@ public class AuthorityHandler
             }
             if (ssidSecrets.size()>0)
                 basicJson.setJsonString(ssidSecrets);
-            else basicJson.setJsonString(null);
+            else
+            {
+                basicJson.getErrorMsg().setDescription("您没有门禁权限");
+                return basicJson;
+            }
         }
         catch (Exception e)
         {
-            logger.error("app获取所有权限密钥失败:"+e.getMessage());
+            logger.error("app获取所有权限密钥失败:" + e.getMessage());
             basicJson.getErrorMsg().setDescription("获取密钥失败");
             return basicJson;
         }
