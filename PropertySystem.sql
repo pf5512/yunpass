@@ -29,7 +29,7 @@ CREATE TABLE `apk_log` (
   `description` varchar(100) DEFAULT NULL,
   `upload_time` bigint(25) DEFAULT NULL,
   PRIMARY KEY (`al_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `apk_log` (
 
 LOCK TABLES `apk_log` WRITE;
 /*!40000 ALTER TABLE `apk_log` DISABLE KEYS */;
-INSERT INTO `apk_log` VALUES (1,'1.0','test.apk','第一个版本',1448178899936),(2,'1.2','test.apk','第二个版本',1448178956772);
+INSERT INTO `apk_log` VALUES (4,'v1.1','test.apk','wu',1448181687503),(5,'v1.1.2','test.apk','wu',1448181708230);
 /*!40000 ALTER TABLE `apk_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +218,7 @@ CREATE TABLE `console_user` (
 
 LOCK TABLES `console_user` WRITE;
 /*!40000 ALTER TABLE `console_user` DISABLE KEYS */;
-INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'超级管理员',NULL,NULL,1448178537715),(5,'e10adc3949ba59abbe56e057f20f883e','normal','',5,'普通管理员',NULL,NULL,1447326985511);
+INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'超级管理员',NULL,NULL,1448181587483),(5,'e10adc3949ba59abbe56e057f20f883e','normal','',5,'普通管理员',NULL,NULL,1447326985511);
 /*!40000 ALTER TABLE `console_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -734,4 +734,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-22 16:01:54
+-- Dump completed on 2015-11-22 16:51:55

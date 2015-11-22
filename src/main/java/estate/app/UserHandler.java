@@ -87,6 +87,7 @@ public class UserHandler
     {
         BasicJson basicJson=new BasicJson(true);
         request.getSession().removeAttribute("phone");
+        request.getSession().invalidate();
         return basicJson;
     }
 

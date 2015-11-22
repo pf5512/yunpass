@@ -2,11 +2,16 @@ package estate.dao.impl;
 
 import estate.dao.ApkLogDao;
 import estate.entity.database.ApkLogEntity;
+import estate.entity.database.VillageEntity;
+import estate.entity.json.TableData;
+import estate.entity.json.TableFilter;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,5 +52,24 @@ public class ApkLogDaoImpl implements ApkLogDao
         if (list.size()>0)
             return (ApkLogEntity) list.get(0);
         return null;
+    }
+
+    @Override
+    public TableData getList(TableFilter tableFilter)
+    {
+        Session session=getSession();
+        TableData tableData=new TableData();
+        ArrayList<ApkLogEntity> entities;
+        Query query;
+        String hql="from ApkLogEntity t order by t.uploadTime desc ";
+        query=session.createQuery(hql);
+        Integer count=query.list().size();
+        entities=(ArrayList<ApkLogEntity>)query
+                .setFirstResult(tableFilter.getStart())
+                .setMaxResults(tableFilter.getLength())
+                .list();
+        tableData.setRecordsFiltered(count);
+        tableData.setJsonString(entities);
+        return tableData;
     }
 }

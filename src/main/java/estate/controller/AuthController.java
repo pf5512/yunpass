@@ -104,6 +104,7 @@ public class AuthController
     {
         BasicJson basicJson=new BasicJson(false);
         request.getSession().removeAttribute("user");
+        request.getSession().invalidate();
         basicJson.setStatus(true);
         return basicJson;
     }

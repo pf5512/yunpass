@@ -84,6 +84,7 @@ public class AdminMenuDefine
                 "<ul class='dropdown-menu'>" +
                 "<li><a class='ajax-link' href='ajax/secretConfig.html'>密钥导入</a></li>" +
                 "<li><a class='ajax-link' href='ajax/secretList.html'>密钥查看</a></li>" +
+                "<li><a class='ajax-link' href='ajax/apkList.html'>APK管理</a></li>" +
                 "</ul>" +
                 "</li>";
         public static String ADMIN="<li class='dropdown'>" +

@@ -130,6 +130,11 @@ urlConfig.propertyImport=host+"upload/excel/property";
 urlConfig.bindImport=host+"upload/excel/bind";
 urlConfig.secretImport=host+"upload/excel/secret";
 
+//apk管理
+urlConfig.apkUpload=host+"upload/apk";
+urlConfig.apkList=host+"apk/getList";
+urlConfig.deleteApk=host+"apk/delete/";
+
 //搜索
 urlConfig.search=host+"search/";
 

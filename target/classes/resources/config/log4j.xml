@@ -14,7 +14,7 @@
                      filePattern="${backupFilePath}$${date:yyyy-MM}/app-%d{yyyyMMddHHmmssSSS}.log.gz">
             <PatternLayout
                     pattern="%d{MM.dd HH:mm:ss} %-5level %class{36} %L %M - %msg%xEx%n" />
-            <SizeBasedTriggeringPolicy size="1MB" />
+            <SizeBasedTriggeringPolicy size="2MB" />
             <DefaultRolloverStrategy max="200"/>
         </RollingFile>
 
