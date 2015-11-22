@@ -11,6 +11,7 @@ public class Config
     public static final String FILEPATH=System.getProperty("WEB.ROOT")+"file/";
     public static final String PICPATH=System.getProperty("WEB.ROOT")+"file/picture/";
     public static final String DOCPATH=System.getProperty("WEB.ROOT")+"file/documentPath/";
+    public static final String APKPATH=System.getProperty("WEB.ROOT")+"file/apk/";
 
     public static final String PICWEBPATH="/oa/file/picture/";
 

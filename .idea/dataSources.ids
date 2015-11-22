@@ -7,6 +7,14 @@
     </database-info>
     <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
     <schema name="" catalog="PropertySystem"/>
+    <table name="apk_log" schema="" catalog="PropertySystem" type="TABLE">
+      <column name="al_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="version_code" sqlType="VARCHAR" precision="30" scale="0" nullable="true" jdbcType="12"/>
+      <column name="apk_name" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="description" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="upload_time" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="al_id"/>
+    </table>
     <table name="app_user" schema="" catalog="PropertySystem" type="TABLE">
       <column name="phone" sqlType="VARCHAR" precision="15" scale="0" nullable="false" jdbcType="12" remarks="5omL5py65Y+356CB"/>
       <column name="passwd" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>

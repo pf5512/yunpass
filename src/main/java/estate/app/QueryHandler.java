@@ -1,7 +1,10 @@
 package estate.app;
 
 import estate.common.util.LogUtil;
+import estate.entity.app.NewestApk;
+import estate.entity.database.ApkLogEntity;
 import estate.entity.json.BasicJson;
+import estate.service.ApkLogService;
 import estate.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,8 @@ public class QueryHandler
 
     @Autowired
     private PropertyService propertyService;
+    @Autowired
+    private ApkLogService apkLogService;
 
     /**
      * 获取所有的园区
@@ -103,6 +108,34 @@ public class QueryHandler
             LogUtil.E(e.getMessage());
             basicJson.getErrorMsg().setCode("100000");
             basicJson.getErrorMsg().setDescription("获取物业信息失败");
+            return basicJson;
+        }
+
+        basicJson.setStatus(true);
+        return basicJson;
+    }
+
+    /**
+     * 查询apk的最新版本
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/checkUpdate")
+    public BasicJson getNewestApk(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+
+        try
+        {
+            ApkLogEntity apkLogEntity=apkLogService.getNewestApk();
+            NewestApk newestApk=new NewestApk(apkLogEntity);
+            newestApk.setPath(request.getContextPath()+"/file/apk/"+apkLogEntity.getApkName());
+            basicJson.setJsonString(newestApk);
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("获取版本信息失败");
             return basicJson;
         }
 

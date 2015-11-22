@@ -43,12 +43,10 @@ public class PictureServiceImpl implements PictureService
         {
             MultipartFile fileItem= fileMap.get(key);
             String fileName = fileItem.getOriginalFilename();
-            LogUtil.E("FILENAME:" + fileName);
             if (fileItem.getSize() > maxSize)
                 throw new PictureUploadException("图片大小不能超过2兆");
 
             String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-            LogUtil.E("图片后缀名:"+fileExt);
             if (!Arrays.asList(allowExts.split(",")).contains(fileExt))
                 throw new PictureUploadException("不允许的文件类型");
 

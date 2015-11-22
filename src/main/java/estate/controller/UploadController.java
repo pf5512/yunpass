@@ -3,9 +3,12 @@ package estate.controller;
 import estate.common.Config;
 import estate.common.util.ExcelParse;
 import estate.common.util.LogUtil;
+import estate.entity.database.ApkLogEntity;
 import estate.entity.json.BasicJson;
 import estate.entity.json.ExcelImportReport;
 import estate.entity.json.KindEditor;
+import estate.service.ApkLogService;
+import estate.service.BaseService;
 import estate.service.ExcelImportService;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
@@ -33,6 +36,10 @@ public class UploadController
 {
     @Autowired
     private ExcelImportService excelImportService;
+    @Autowired
+    private BaseService baseService;
+    @Autowired
+    private ApkLogService apkLogService;
 
     @RequestMapping(value = "/kindeditor")
     public KindEditor kindEditorUploader(HttpServletRequest request)
@@ -227,6 +234,74 @@ public class UploadController
 
         basicJson.setStatus(true);
         basicJson.setJsonString(excelImportReport);
+        return basicJson;
+    }
+
+
+    /**
+     * 上传apk
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/apk")
+    public BasicJson uploadApk(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+        ApkLogEntity apkLogEntity=new ApkLogEntity();
+        MultipartFile multipartFile;
+        try
+        {
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            multipartFile = multipartRequest.getFile("apk");
+            if (multipartFile == null)
+            {
+                basicJson.getErrorMsg().setDescription("请选择文件");
+                return basicJson;
+            }
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setDescription("请选择文件");
+            return basicJson;
+        }
+        String fileName=multipartFile.getOriginalFilename();
+        if (!fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase().equals("apk"))
+        {
+            basicJson.getErrorMsg().setDescription("文件类型不合法");
+            return basicJson;
+        }
+        try
+        {
+            apkLogEntity.setDescription(request.getParameter("description"));
+            apkLogEntity.setUploadTime(System.currentTimeMillis());
+            apkLogEntity.setVersionCode(request.getParameter("versionCode"));
+            apkLogEntity.setApkName(fileName);
+            if (apkLogService.getByVersionCode(apkLogEntity.getVersionCode())!=null)
+            {
+                basicJson.getErrorMsg().setDescription("该版本apk已存在");
+                return basicJson;
+            }
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("参数错误");
+            return basicJson;
+        }
+
+        try
+        {
+            FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(Config.APKPATH, fileName));
+            baseService.save(apkLogEntity);
+        }
+        catch (IOException e)
+        {
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("文件上传失败,请重试");
+            return basicJson;
+        }
+
+        basicJson.setStatus(true);
         return basicJson;
     }
 
