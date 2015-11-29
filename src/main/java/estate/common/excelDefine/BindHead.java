@@ -16,5 +16,4 @@ public class BindHead
     public static String AUTHTIME="入住时间";
     public static String URGENTNAME="紧急联系人姓名";
     public static String URGENTPHONE="紧急联系人电话";
-
 }

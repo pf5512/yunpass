@@ -3,11 +3,9 @@ package estate.controller;
 import estate.common.config.UserType;
 import estate.common.util.LogUtil;
 import estate.entity.database.PropertyEntity;
-import estate.entity.database.PropertyOwnerInfoEntity;
 import estate.entity.json.BasicJson;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
-import estate.exception.EntityTypeErrorException;
 import estate.service.*;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 /**
  * Created by kangbiao on 15-9-23.
@@ -56,7 +53,7 @@ public class PropertyController
                 return basicJson;
             }
         }
-        catch (EntityTypeErrorException e)
+        catch (Exception e)
         {
             basicJson.getErrorMsg().setDescription("内部参数错误,请查看日志文件");
             return basicJson;

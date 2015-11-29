@@ -1,7 +1,6 @@
 package estate.dao;
 
 import estate.common.enums.Entity;
-import estate.exception.EntityTypeErrorException;
 
 import java.io.Serializable;
 
@@ -53,7 +52,7 @@ public interface BaseDao
      * @param entity
      * @return 对象
      */
-    Object getByCode(String code,Entity entity) throws EntityTypeErrorException;
+    Object getByCode(String code,Entity entity);
 
     /**
      * 根据表名计算总数

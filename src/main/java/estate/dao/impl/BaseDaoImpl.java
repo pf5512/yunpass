@@ -2,7 +2,6 @@ package estate.dao.impl;
 
 import estate.common.enums.Entity;
 import estate.dao.BaseDao;
-import estate.exception.EntityTypeErrorException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,10 +90,10 @@ public class BaseDaoImpl implements BaseDao
     }
 
     @Override
-    public Object getByCode(String code, Entity entity) throws EntityTypeErrorException
+    public Object getByCode(String code, Entity entity)
     {
         Session session=getSession();
-        String hql="";
+        String hql;
         switch (entity)
         {
             case PROPERTY:
@@ -103,8 +102,14 @@ public class BaseDaoImpl implements BaseDao
             case BUILDING:
                 hql="from BuildingEntity t where t.buildingCode=:code";
                 break;
+            case VILLAGE:
+                hql="from VillageEntity t where t.code=:code";
+                break;
+            case BRAKE:
+                hql="from BrakeEntity t where t.code=:code";
+                break;
             default:
-                throw new EntityTypeErrorException("该对象不存在!");
+                return null;
         }
 
         List list=session.createQuery(hql).setString("code",code).list();

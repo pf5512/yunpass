@@ -3,7 +3,6 @@ package estate.service;
 import estate.entity.database.PropertyEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
-import estate.exception.EntityTypeErrorException;
 
 import java.util.ArrayList;
 
@@ -50,7 +49,7 @@ public interface PropertyService
      * @param code
      * @return
      */
-    PropertyEntity getByCode(String code) throws EntityTypeErrorException;
+    PropertyEntity getByCode(String code);
 
     /**
      * 通过用户电话和类型获取用户绑定的所有的物业

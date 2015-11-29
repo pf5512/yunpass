@@ -3,6 +3,7 @@ package estate.service.impl;
 import com.google.gson.Gson;
 import estate.common.Config;
 import estate.common.config.*;
+import estate.common.enums.Entity;
 import estate.common.excelDefine.BindHead;
 import estate.common.excelDefine.PropertyHead;
 import estate.common.excelDefine.SecretHead;
@@ -14,6 +15,7 @@ import estate.dao.*;
 import estate.entity.database.*;
 import estate.entity.json.ExcelImportReport;
 import estate.service.ExcelImportService;
+import org.apache.bcel.generic.IF_ACMPEQ;
 import org.apache.xmlbeans.impl.jam.mutable.MAnnotatedElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,10 @@ public class ExcelImportServiceImpl implements ExcelImportService
     private BaseDao baseDao;
     @Autowired
     private BuildingDao buildingDao;
+    @Autowired
+    private VillageDao villageDao;
+    @Autowired
+    private BrakeDao brakeDao;
     @Autowired
     private UserDao userDao;
     @Autowired
@@ -429,6 +435,67 @@ public class ExcelImportServiceImpl implements ExcelImportService
                     errorNum += 1;
                     errorDescription.add("无线类型错误: <br/>" + gson.toJson(map));
                     check = false;
+                }
+            }
+
+            if (check)
+            {
+                //可选导入项
+                if (map.get(SecretHead.CONTROLTYPE)!=null&&!map.get(SecretHead.CONTROLTYPE).equals(""))
+                {
+                    try
+                    {
+                        switch (map.get(SecretHead.CONTROLTYPE))
+                        {
+                            case "园区":
+                                VillageEntity villageEntity = (VillageEntity) baseDao.getByCode(map.get(SecretHead.CONTROLCODE), Entity.VILLAGE);
+                                if (villageEntity == null)
+                                {
+                                    errorNum += 1;
+                                    errorDescription.add("该园区不存在: <br/>" + gson.toJson(map));
+                                    check = false;
+                                    break;
+                                }
+                                ssidSecretEntity.setControlId(villageEntity.getId());
+                                ssidSecretEntity.setControlType(SsidControlType.VILLAGE);
+                                break;
+                            case "道闸":
+                                BrakeEntity brakeEntity = (BrakeEntity) baseDao.getByCode(map.get(SecretHead.CONTROLCODE), Entity.BRAKE);
+                                if (brakeEntity == null)
+                                {
+                                    errorNum += 1;
+                                    errorDescription.add("该道闸不存在: <br/>" + gson.toJson(map));
+                                    check = false;
+                                    break;
+                                }
+                                ssidSecretEntity.setControlId(brakeEntity.getId());
+                                ssidSecretEntity.setControlType(SsidControlType.BRAKE);
+                                break;
+                            case "楼栋":
+                                BuildingEntity buildingEntity = (BuildingEntity) baseDao.getByCode(map.get(SecretHead.CONTROLCODE), Entity.BUILDING);
+                                if (buildingEntity == null)
+                                {
+                                    errorNum += 1;
+                                    errorDescription.add("该楼栋不存在: <br/>" + gson.toJson(map));
+                                    check = false;
+                                    break;
+                                }
+                                ssidSecretEntity.setControlType(SsidControlType.BUILDING);
+                                ssidSecretEntity.setControlId(buildingEntity.getId());
+                                break;
+                            default:
+                                errorNum += 1;
+                                errorDescription.add("控制对象类型错误: <br/>" + gson.toJson(map));
+                                check = false;
+                                break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        errorNum += 1;
+                        errorDescription.add("该数据异常: <br/>" + gson.toJson(map));
+                        check = false;
+                    }
                 }
             }
 

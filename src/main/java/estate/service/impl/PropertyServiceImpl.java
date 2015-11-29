@@ -8,7 +8,6 @@ import estate.entity.database.VillageEntity;
 import estate.entity.json.Select2;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
-import estate.exception.EntityTypeErrorException;
 import estate.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,7 +91,7 @@ public class PropertyServiceImpl implements PropertyService
 
 
     @Override
-    public PropertyEntity getByCode(String code) throws EntityTypeErrorException
+    public PropertyEntity getByCode(String code)
     {
         return (PropertyEntity) baseDao.getByCode(code, Entity.PROPERTY);
     }

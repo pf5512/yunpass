@@ -7,5 +7,7 @@ package estate.common.enums;
 public enum Entity
 {
     PROPERTY,
-    BUILDING
+    BUILDING,
+    BRAKE,
+    VILLAGE
 }
