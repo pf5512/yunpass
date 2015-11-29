@@ -116,7 +116,7 @@ CREATE TABLE `building` (
   PRIMARY KEY (`building_id`),
   KEY `FK_6odky3rdk3fxudn5blwdw34ny` (`village_id`),
   CONSTRAINT `FK_6odky3rdk3fxudn5blwdw34ny` FOREIGN KEY (`village_id`) REFERENCES `village` (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `building` (
 
 LOCK TABLES `building` WRITE;
 /*!40000 ALTER TABLE `building` DISABLE KEYS */;
-INSERT INTO `building` VALUES (1,5,'','G1B1','园区1的楼栋1'),(5,7,'独栋','LD001','楼栋一');
+INSERT INTO `building` VALUES (1,5,'','G1B1','园区1的楼栋1'),(5,7,'独栋','LD001','楼栋一'),(8,5,NULL,'LD002','所属');
 /*!40000 ALTER TABLE `building` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -712,7 +712,7 @@ CREATE TABLE `village` (
   `code` varchar(45) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -721,7 +721,7 @@ CREATE TABLE `village` (
 
 LOCK TABLES `village` WRITE;
 /*!40000 ALTER TABLE `village` DISABLE KEYS */;
-INSERT INTO `village` VALUES (5,'园区一','YQ001',''),(7,'万科城市花园','wk001','川师附近');
+INSERT INTO `village` VALUES (5,'园区一','YQ001',''),(7,'万科城市花园','wk001','川师附近'),(9,'测试园区','gg001',NULL);
 /*!40000 ALTER TABLE `village` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -734,4 +734,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 21:39:07
+-- Dump completed on 2015-11-29 21:45:29
