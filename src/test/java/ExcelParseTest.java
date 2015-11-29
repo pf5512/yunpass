@@ -14,6 +14,5 @@ public class ExcelParseTest
     @Test
     public void test() throws Exception
     {
-        LogUtil.E(GsonUtil.getGson().toJson(excelParse.parseExcel("/home/kangbiao/桌面/test.xlsx")));
     }
 }

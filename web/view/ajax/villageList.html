@@ -85,6 +85,29 @@
                             </form>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="uploadVillageForm" action="" class="form-horizontal">
+                                <fieldset>
+                                    <legend>批量导入园区信息</legend>
+                                    <br/>
+                                    <input type="file" name="file"/>
+                                    <br/>
+                                    <input type="button" class="btn btn-primary" id="submitBtn" value="提交"/>
+                                </fieldset>
+                            </form>
+                            <div class="row">
+                                <div class="col-md-12" id="importInfo">
+                                    <h4 id="countArea"></h4>
+                                    <div style="max-height:400px;overflow: auto;">
+                                        <ol id="errorArea">
+
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -96,6 +119,53 @@
 
 <script type="text/javascript">
     var editTable;//全局的datatable变量
+
+    $("#submitBtn").click(function(){
+        var formData = new FormData($("#uploadVillageForm")[0]);
+        $(this).attr("disabled","disabled");
+        $("#importInfo #countArea").html("");
+        $("#importInfo #errorArea").html('<button class="btn btn-danger btn-app btn-circle" type="button">' +
+                '<i class="fa fa-spinner fa-spin"></i></button>');
+        $.ajax({
+            url: urlConfig.villageImport ,
+            type: 'POST',
+            data: formData,
+            async: true,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if(result.status)
+                {
+                    var html="";
+                    var coutInfo="<font color='green'>成功条数:"+result.jsonString.succNum+
+                            "</font>/<font color='red'>失败条数:"+result.jsonString.errorNum+
+                            "</font>";
+                    $("#importInfo #countArea").html(coutInfo);
+                    var errors=result.jsonString.errorDescription;
+                    if(errors!=null&&errors!="")
+                    {
+                        $.each(errors,function(k,v){
+                            html+="<li>"+v+"</li>"
+                        });
+                    }
+                    $("#importInfo #errorArea").html(html);
+                }
+                else
+                {
+                    alert(result.errorMsg.description);
+                    $("#importInfo #errorArea").html("");
+                }
+                $("#submitBtn").removeAttr("disabled");
+                console.log(result);
+            },
+            error: function () {
+                alert("服务器连接失败,请重试!");
+                $("#submitBtn").removeAttr("disabled");
+                $("#importInfo #errorArea").html("");
+            }
+        });
+    });
 
     $('#villageListTable tbody').on( 'click', 'button#delRowBtn', function () {
         var data = editTable.row($(this).parents('tr') ).data();

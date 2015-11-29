@@ -33,4 +33,18 @@ public interface ExcelImportService
      */
     ExcelImportReport importSecret(List<Map<String,String>> result);
 
+    /**
+     * 导入园区信息
+     * @param result
+     * @return
+     */
+    ExcelImportReport importVillage(List<Map<String,String>> result);
+
+    /**
+     * 导入楼栋信息
+     * @param result
+     * @return
+     */
+    ExcelImportReport importBuilding(List<Map<String,String>> result);
+
 }

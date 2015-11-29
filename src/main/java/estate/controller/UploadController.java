@@ -2,6 +2,7 @@ package estate.controller;
 
 import estate.common.Config;
 import estate.common.util.ExcelParse;
+import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
 import estate.entity.database.ApkLogEntity;
 import estate.entity.json.BasicJson;
@@ -161,6 +162,11 @@ public class UploadController
         {
             String fileName=map.get(key).getOriginalFilename();
             String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+            if (map.get(key).getSize()<=0)
+            {
+                basicJson.getErrorMsg().setDescription("请选择文件");
+                return basicJson;
+            }
             if (!(fileExt.equals("xls")||fileExt.equals("xlsx")))
             {
                 basicJson.getErrorMsg().setDescription("非法的文件格式");
@@ -189,47 +195,35 @@ public class UploadController
 
         //导入结果报告
         ExcelImportReport excelImportReport;
-        switch (type)
+        try
         {
-            case "property":
-                try
-                {
+            switch (type)
+            {
+                case "property":
                     excelImportReport = excelImportService.importProperty(result);
-                }
-                catch (Exception e)
-                {
-                    basicJson.getErrorMsg().setDescription("excel文件内容不合法!");
-                    basicJson.getErrorMsg().setCode(e.getMessage());
-                    return basicJson;
-                }
-                break;
-            case "bind":
-                try
-                {
+                    break;
+                case "bind":
                     excelImportReport = excelImportService.importBind(result);
-                }
-                catch (Exception e)
-                {
-                    basicJson.getErrorMsg().setDescription("excel文件内容不合法!");
-                    basicJson.getErrorMsg().setCode(e.getMessage());
-                    return basicJson;
-                }
-                break;
-            case "secret":
-                try
-                {
+                    break;
+                case "secret":
                     excelImportReport = excelImportService.importSecret(result);
-                }
-                catch (Exception e)
-                {
-                    basicJson.getErrorMsg().setDescription("excel文件内容不合法!");
-                    basicJson.getErrorMsg().setCode(e.getMessage());
+                    break;
+                case "village":
+                    excelImportReport = excelImportService.importVillage(result);
+                    break;
+                case "building":
+                    excelImportReport = excelImportService.importBuilding(result);
+                    break;
+                default:
+                    basicJson.getErrorMsg().setDescription("请求路径错误");
                     return basicJson;
-                }
-                break;
-            default:
-                basicJson.getErrorMsg().setDescription("请求路径错误");
-                return basicJson;
+            }
+        }
+        catch (Exception e)
+        {
+            basicJson.getErrorMsg().setDescription("excel文件内容不合法!");
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            return basicJson;
         }
 
         basicJson.setStatus(true);

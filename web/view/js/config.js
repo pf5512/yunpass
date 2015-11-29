@@ -129,6 +129,8 @@ urlConfig.deleteParkLotOwnerBind=host+"parkLot/deleteBind/";
 urlConfig.propertyImport=host+"upload/excel/property";
 urlConfig.bindImport=host+"upload/excel/bind";
 urlConfig.secretImport=host+"upload/excel/secret";
+urlConfig.villageImport=host+"upload/excel/village";
+urlConfig.buildingImport=host+"upload/excel/building";
 
 //apk管理
 urlConfig.apkUpload=host+"upload/apk";

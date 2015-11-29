@@ -31,7 +31,7 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label for="buildingList">选择楼栋</label>
+                            <label for="buildingId">选择楼栋</label>
                             <select name="buildingId" class="buildingList">
                                 <option value=''>--所有楼栋--</option>
                             </select>
@@ -219,8 +219,9 @@
                                         <label class="col-sm-2 control-label">证件类型</label>
                                         <div class="col-sm-8">
                                             <select name="identityType" class="form-control" id="identityType">
-                                                <option value="1">身份证</option>
-                                                <option value="2">军人证</option>
+                                                <option value="0">身份证</option>
+                                                <option value="1">军人证</option>
+                                                <option value="2">护照</option>
                                             </select>
                                         </div>
                                     </div>
@@ -347,6 +348,8 @@
                                 result.jsonString[i].identityType="身份证";
                             else if(result.jsonString[i].identityType==1)
                                 result.jsonString[i].identityType="军官证";
+                            else if(result.jsonString[i].identityType==2)
+                                result.jsonString[i].identityType="护照";
                             else result.jsonString[i].identityType="未设置"
                             if(result.jsonString[i].sex==0)
                                 result.jsonString[i].sex="男";
