@@ -116,7 +116,7 @@ CREATE TABLE `building` (
   PRIMARY KEY (`building_id`),
   KEY `FK_6odky3rdk3fxudn5blwdw34ny` (`village_id`),
   CONSTRAINT `FK_6odky3rdk3fxudn5blwdw34ny` FOREIGN KEY (`village_id`) REFERENCES `village` (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `building` (
 
 LOCK TABLES `building` WRITE;
 /*!40000 ALTER TABLE `building` DISABLE KEYS */;
-INSERT INTO `building` VALUES (1,5,'','G1B1','园区1的楼栋1'),(5,7,'独栋','LD001','楼栋一'),(8,5,NULL,'LD002','所属');
+INSERT INTO `building` VALUES (1,5,'','G1B1','园区1的楼栋1'),(5,7,'独栋','LD001','楼栋一'),(9,5,NULL,'LD002','楼栋二');
 /*!40000 ALTER TABLE `building` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +218,7 @@ CREATE TABLE `console_user` (
 
 LOCK TABLES `console_user` WRITE;
 /*!40000 ALTER TABLE `console_user` DISABLE KEYS */;
-INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'超级管理员',NULL,NULL,1448803511536),(5,'e10adc3949ba59abbe56e057f20f883e','normal','',5,'普通管理员',NULL,NULL,1447326985511);
+INSERT INTO `console_user` VALUES (1,'e10adc3949ba59abbe56e057f20f883e','admin','1316278289@qq.com',4,'超级管理员',NULL,NULL,1448804749425),(5,'e10adc3949ba59abbe56e057f20f883e','normal','',5,'普通管理员',NULL,NULL,1447326985511);
 /*!40000 ALTER TABLE `console_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -654,7 +654,7 @@ CREATE TABLE `ssid_secret` (
   `secret` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ss_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -663,7 +663,7 @@ CREATE TABLE `ssid_secret` (
 
 LOCK TABLES `ssid_secret` WRITE;
 /*!40000 ALTER TABLE `ssid_secret` DISABLE KEYS */;
-INSERT INTO `ssid_secret` VALUES (9,5,1,1,NULL,'YC_D_001','123456789',NULL),(10,5,2,2,NULL,'YC_D_002','123456789','123456'),(11,1,3,1,NULL,'YC_D_003','12345678',NULL);
+INSERT INTO `ssid_secret` VALUES (9,5,1,1,NULL,'YC_D_001','123456789',NULL),(10,5,2,2,NULL,'YC_D_002','123456789','123456'),(11,1,3,1,NULL,'YC_D_003','12345678',NULL),(12,NULL,NULL,1,NULL,'YC_D_004','1236632',NULL);
 /*!40000 ALTER TABLE `ssid_secret` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -712,7 +712,7 @@ CREATE TABLE `village` (
   `code` varchar(45) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`village_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -721,7 +721,7 @@ CREATE TABLE `village` (
 
 LOCK TABLES `village` WRITE;
 /*!40000 ALTER TABLE `village` DISABLE KEYS */;
-INSERT INTO `village` VALUES (5,'园区一','YQ001',''),(7,'万科城市花园','wk001','川师附近'),(9,'测试园区','gg001',NULL);
+INSERT INTO `village` VALUES (5,'园区一','YQ001',''),(7,'万科城市花园','wk001','川师附近');
 /*!40000 ALTER TABLE `village` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -734,4 +734,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 21:45:29
+-- Dump completed on 2015-11-29 21:50:49
