@@ -66,5 +66,11 @@ public interface PropertyService
      */
     Integer getNumByType(byte type);
 
+    /**
+     * 获取所有的物业
+     * @return
+     */
+    ArrayList<PropertyEntity> getAllProperty();
+
 
 }

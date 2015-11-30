@@ -46,7 +46,7 @@ urlConfig.feeList=host+"fee/list/";
 urlConfig.deleteFee=host+"fee/delete/";
 urlConfig.relateFeeToBuilding=host+"fee/relateBuilding";
 urlConfig.getBillList=host+"fee/getBillList";
-urlConfig.generateAllBill=host+"fee/getnerateAllBill";
+urlConfig.generatePropertyBill=host+"fee/generatePropertyBill";
 urlConfig.pushBill=host+"fee/pushBill/";
 
 //维修相关的URL

@@ -43,4 +43,10 @@ public interface PropertyDao
      */
     Integer countByType(byte type);
 
+    /**
+     * 获取所有的物业
+     * @return
+     */
+    ArrayList<PropertyEntity> getAllProperty();
+
 }

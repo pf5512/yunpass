@@ -11,7 +11,7 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<!--<button id="generateBillBtn" class="btn btn-info">一键生成账单</button>-->
+					<button id="generateBillBtn" class="btn btn-info">一键生成账单</button>
 				</div>
 				<div class="box-icons">
 					<a class="expand-link">
@@ -135,7 +135,7 @@
 			$.ajax({
 				type: "post",
 				async: true,
-				url: urlConfig.generateAllBill,
+				url: urlConfig.generatePropertyBill,
 				dataType: "json",
 				success: function (result) {
 					if (result.status) {

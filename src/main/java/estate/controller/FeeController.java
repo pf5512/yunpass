@@ -6,6 +6,7 @@ import estate.common.config.UserType;
 import estate.common.util.Convert;
 import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
+import estate.dao.PropertyDao;
 import estate.entity.database.FeeItemEntity;
 import estate.entity.database.OwnerEntity;
 import estate.entity.database.PropertyEntity;
@@ -40,6 +41,10 @@ public class FeeController
     private FeeService feeService;
     @Autowired
     private BaseService baseService;
+    @Autowired
+    private PropertyDao propertyDao;
+    @Autowired
+    private BillService billService;
 
     /**
      * 增加三种费用
@@ -252,6 +257,35 @@ public class FeeController
         {
             return null;
         }
+    }
+
+    @RequestMapping(value = "/generatePropertyBill")
+    public BasicJson generatePropertyBill(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+
+        ArrayList<PropertyEntity> propertyEntities=propertyDao.getAllProperty();
+        if (propertyEntities==null)
+        {
+            basicJson.getErrorMsg().setDescription("系统中没有物业信息");
+            return basicJson;
+        }
+        try
+        {
+            for (PropertyEntity propertyEntity : propertyEntities)
+            {
+                billService.generateBillByPropertyID(propertyEntity.getId());
+            }
+        }
+        catch (Exception e)
+        {
+            logger.error("账单生成失败:"+e.getMessage());
+            basicJson.getErrorMsg().setCode(e.getMessage());
+            basicJson.getErrorMsg().setDescription("账单生成失败,请重试");
+            return basicJson;
+        }
+        basicJson.setStatus(true);
+        return basicJson;
     }
 
 }

@@ -109,4 +109,10 @@ public class PropertyServiceImpl implements PropertyService
         return propertyDao.countByType(type);
     }
 
+    @Override
+    public ArrayList<PropertyEntity> getAllProperty()
+    {
+        return propertyDao.getAllProperty();
+    }
+
 }

@@ -60,11 +60,15 @@ public class BillServiceImpl implements BillService
                     int temp2 = 0;
                     for (PropertyBillEntity propertyBillEntity : propertyBillEntities)
                     {
-                        if (temp!=0&&temp2 == 0)
+                        if (temp!=0&&temp2==0)
                         {
-                            propertyBill.append(";").append(propertyBillEntity.getFeeItemFee());
+                            propertyBill.append(";");
                         }
-                        else if (temp2!=0)
+                        if (temp2==0)
+                        {
+                            propertyBill.append(propertyBillEntity.getFeeItemFee());
+                        }
+                        else
                         {
                             propertyBill.append(";").append(propertyBillEntity.getFeeItemFee());
                         }
@@ -72,7 +76,6 @@ public class BillServiceImpl implements BillService
                     }
                     temp++;
                 }
-
             }
             userBillEntity.setPropertyBill(propertyBill.toString());
         }
@@ -84,7 +87,6 @@ public class BillServiceImpl implements BillService
             int temp=0;
             for (ParklotOwnerInfoEntity parklotOwnerInfoEntity : parklotOwnerInfoEntities)
             {
-                LogUtil.E(GsonUtil.getGson().toJson(parklotOwnerInfoEntity));
                 FeeItemEntity feeItemEntity = (FeeItemEntity) feeItemDao.getParkLotByVillageIdType
                         (parklotOwnerInfoEntity.getParkingLotEntity().getBrakeEntity().getVillageId(),
                                 String.valueOf(parklotOwnerInfoEntity.getParkingLotEntity().getType()));
@@ -116,7 +118,6 @@ public class BillServiceImpl implements BillService
                             parkLotExtra.getPerTimePrice();
                             if (temp == 0)
                             {
-
                                 parkLotBill
                                         .append("车位费(")
                                         .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
@@ -136,7 +137,6 @@ public class BillServiceImpl implements BillService
                             parkLotExtra.getMonthPrice();
                             if (temp == 0)
                             {
-
                                 parkLotBill
                                         .append("车位月租费(")
                                         .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
@@ -155,7 +155,6 @@ public class BillServiceImpl implements BillService
                         case ParkLotOwnerRole.USER:
                             if (temp == 0)
                             {
-
                                 parkLotBill
                                         .append("车位管理费(")
                                         .append(parklotOwnerInfoEntity.getParkingLotEntity().getCode())
@@ -184,15 +183,13 @@ public class BillServiceImpl implements BillService
     }
 
     @Override
-    public void generateBillByPropertyID(Integer id) throws PropertyNotBindFeeItemException
+    public void generateBillByPropertyID(Integer id)
     {
         ArrayList<FeeItemOrderEntity> feeItemOrderEntities =feeItemOrderDao.getFeeItemOrdersByPropertyID(id);
         PropertyEntity propertyEntity= (PropertyEntity) baseDao.get(id,PropertyEntity.class);
 
         if (feeItemOrderEntities==null)
-        {
-            throw new PropertyNotBindFeeItemException("该物业未绑定任何费用!");
-        }
+            return;
 
         StringBuilder billInfo=new StringBuilder("");
         PropertyBillEntity propertyBillEntity = new PropertyBillEntity();
@@ -201,7 +198,7 @@ public class BillServiceImpl implements BillService
 
         ArrayList<PropertyBillEntity> propertyBillEntities=billDao
                 .getPropertyBillByPropertyID(id, BillPayStatus.UNPAY, thisMonth, null);
-        if (propertyBillEntities.size()>0)
+        if (propertyBillEntities!=null)
         {
             for (PropertyBillEntity propertyBillEntityTemp:propertyBillEntities)
             {

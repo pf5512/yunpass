@@ -21,7 +21,7 @@ public interface BillService
      * 根据物业id生成这个物业的账单
      * @param id
      */
-    void generateBillByPropertyID(Integer id) throws PropertyNotBindFeeItemException;
+    void generateBillByPropertyID(Integer id);
 
     /**
      * 通过用户的电话获取这个用户的车位费账单

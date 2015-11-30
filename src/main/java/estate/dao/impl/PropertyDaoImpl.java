@@ -116,5 +116,16 @@ public class PropertyDaoImpl implements PropertyDao
         return session.createQuery(hql).setByte("type",type).list().size();
     }
 
+    @Override
+    public ArrayList<PropertyEntity> getAllProperty()
+    {
+        Session session=getSession();
+        String hql="from PropertyEntity ";
+        List list=session.createQuery(hql).list();
+        if (list.size()>0)
+            return (ArrayList<PropertyEntity>) list;
+        return null;
+    }
+
 
 }
