@@ -214,10 +214,7 @@ public class UserController
     @RequestMapping(value = "/appUserList")
     public TableData getAppUserList(TableFilter tableFilter,HttpServletRequest request)
     {
-        if(request.getParameter("search[value]")!=null)
-            tableFilter.setSearchValue(request.getParameter("search[value]"));
-        else
-            tableFilter.setSearchValue("");
+        tableFilter.setSearchValue(request.getParameter("search[value]"));
         try
         {
             return userService.getAppUserList(tableFilter);

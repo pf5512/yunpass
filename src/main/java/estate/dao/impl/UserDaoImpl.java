@@ -65,7 +65,7 @@ public class UserDaoImpl implements UserDao
         Session session = getSession();
         TableData tableData = new TableData(true);
         Query query;
-        if (!tableFilter.getSearchValue().equals(""))
+        if (tableFilter.getSearchValue()!=null)
         {
             String hql = "from AppUserEntity t where t.phone like (?)";
             query = session.createQuery(hql).setString(0, "%" + tableFilter.getSearchValue() + "%");

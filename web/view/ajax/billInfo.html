@@ -26,7 +26,7 @@
                             <div class="col-md-3">
                                 <label for="billStatus">状态</label>
                                 <select name="billStatus" id="billStatus">
-                                    <option value="-1">所有状态</option>
+                                    <option value="">所有状态</option>
                                     <option value="0">未缴费</option>
                                     <option value="1">已缴费</option>
                                 </select>
@@ -47,12 +47,15 @@
 						<tr>
 							<th>序号</th>
 							<th>账单号</th>
-							<th>应缴费用</th>
-							<th>过期罚款</th>
-							<th>总费用</th>
-							<th>生成时间</th>
+							<th>用户电话</th>
+							<th>车位费总价</th>
+							<th>服务费总价</th>
+							<th>物业费总价</th>
+                            <th>滞纳金</th>
 							<th>是否缴费</th>
-							<th>付款人</th>
+							<th>付款方式</th>
+                            <th>付款时间</th>
+                            <th>生成时间</th>
 							<th>账单详情</th>
 							<th>操作</th>
 						</tr>
@@ -63,16 +66,19 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<th>序号</th>
-							<th>账单号</th>
-							<th>应缴费用</th>
-							<th>过期罚款</th>
-							<th>总费用</th>
-							<th>生成时间</th>
-							<th>是否缴费</th>
-							<th>付款人</th>
-							<th>账单详情</th>
-							<th>操作</th>
+                            <th>序号</th>
+                            <th>账单号</th>
+                            <th>用户电话</th>
+                            <th>车位费总价</th>
+                            <th>服务费总价</th>
+                            <th>物业费总价</th>
+                            <th>滞纳金</th>
+                            <th>是否缴费</th>
+                            <th>付款方式</th>
+                            <th>付款时间</th>
+                            <th>生成时间</th>
+                            <th>账单详情</th>
+                            <th>操作</th>
 						</tr>
 					</tfoot>
 				</table>
@@ -139,7 +145,7 @@
 				dataType: "json",
 				success: function (result) {
 					if (result.status) {
-						editTable.ajax.reload( null, false );
+//						editTable.ajax.reload( null, false );
 						alert("生成成功");
 						thisObject.html('一键生成账单');
 					}
@@ -240,9 +246,9 @@
 			"ajax":{
 				"url": urlConfig.getBillList,
                 "data":function ( d ) {
-                    d.billStatus = $("#billStatus option:selected").val();
-                    d.billStartTime=$("#billStartTime").val();
-                    d.billEndTime=$("#billEndTime").val();
+                    d.status = $("#billStatus option:selected").val();
+                    d.startTime=$("#billStartTime").val();
+                    d.endTime=$("#billEndTime").val();
                 },
 				"dataSrc": "jsonString"
 			},
@@ -257,35 +263,17 @@
 				}
 			},{
 				"targets": 1,
-				"data":"billGenerationTime",
+				"data":"billSeris",
 				"orderable": false,
 				"searchable": false
-
 			},{
 				"targets": 2,
-				"data":"feeItemFee",
-				"visible": true,
+				"data":"phone",
 				"orderable": false,
 				"searchable": false,
-                "render": function ( data, type, row ) {
-                    var kvs=data.split(";");
-                    var total=0;
-                    for (var i in kvs)
-                    {
-                        total+=parseFloat(kvs[i].split(":")[1]);
-                    }
-                    return total.toFixed(2);
-                }
 			},{
 				"targets": 3,
-				"data":"overdueFee",
-				"visible": true,
-				"orderable": false,
-				"searchable": false,
-                "defaultContent":"0.00"
-			},{
-				"targets": 4,
-				"data":"feeItemFee",
+				"data":"parklotBill",
 				"visible": true,
 				"orderable": false,
 				"searchable": false,
@@ -299,15 +287,46 @@
                     return total.toFixed(2);
                 }
 			},{
-				"targets": 5,
-				"data": "billGenerationTime",
-				"orderable": false,
-				"searchable": false,
-				"render": function ( data, type, row ) {
-					return formatDate(data,"yyyy-MM-dd");
-				}
-			},{
-				"targets": 6,
+                "targets": 4,
+                "data": "serviceBill",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    if(data==null)
+                        return "0.00";
+                    var kvs=data.split(";");
+                    var total=0;
+                    for (var i in kvs)
+                    {
+                        total+=parseFloat(kvs[i].split(":")[1]);
+                    }
+                    return total.toFixed(2);
+                }
+            },{
+                "targets": 5,
+                "data": "propertyBill",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    if(data==null)
+                        return "待结算";
+                    var kvs=data.split(";");
+                    var total=0;
+                    for (var i in kvs)
+                    {
+                        total+=parseFloat(kvs[i].split(":")[1]);
+                    }
+                    return total.toFixed(2);
+                }
+            },{
+                "targets": 6,
+                "data": "overdueFee",
+                "orderable": false,
+                "searchable": false,
+                "defaultContent":
+                        "0.00"
+            },{
+				"targets": 7,
 				"data": "payStatus",
 				"orderable": false,
 				"searchable": false,
@@ -320,30 +339,51 @@
 						return "--";
 				}
 			},{
-                "targets": 7,
-                "data": "payer",
-                "orderable": false,
-                "searchable": false
-            },{
                 "targets": 8,
-                "data": null,
+                "data": "payType",
                 "orderable": false,
                 "searchable": false,
-                "defaultContent":
-                        "<button id='detailRowBtn' class='btn btn-primary' type='button'>查看</button>"
+                "render": function ( data, type, row ) {
+                    if (data==null)
+                        return "<font color='red'>未缴费</font>";
+                    else if (data==1)
+                        return "<font color='green'>支付宝</font>";
+                    else
+                        return "--";
+                }
             },{
-				"targets": 9,
-				"data": "payStatus",
-				"orderable": false,
-				"searchable": false,
-				"render": function ( data, type, row ) {
-					if (data==0)
-						return "<button id='pushBillBtn' class='btn btn-primary' type='button'>催缴</button>";
-					else
-						return "--";
-				}
-			}],
-			"aaSorting": [[ 5, "asc" ]],
+                "targets": 9,
+                "data": "payTime",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    return formatDate(data,"yyyy-MM-dd");
+                }
+            },{
+                "targets": 10,
+                "data": "updateTime",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    return formatDate(data,"yyyy-MM-dd");
+                }
+            },{
+                "targets": 11,
+                "data": "updateTime",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    return formatDate(data,"yyyy-MM-dd");
+                }
+            },{
+                "targets": 12,
+                "data": "updateTime",
+                "orderable": false,
+                "searchable": false,
+                "render": function ( data, type, row ) {
+                    return formatDate(data,"yyyy-MM-dd");
+                }
+            }],
 			"autoWidth":false,
 			"sDom":
 					"<'box-content'<'col-sm-6'f><'col-sm-6 text-right'l><'clearfix'>>tr<'box-content'<'col-sm-6'i><'col-sm-6 text-right'p><'clearfix'>>",

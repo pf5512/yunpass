@@ -2,6 +2,7 @@ package estate.dao.impl;
 
 import estate.dao.BillDao;
 import estate.entity.database.PropertyBillEntity;
+import estate.entity.database.UserBillEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 import org.hibernate.Session;
@@ -52,6 +53,25 @@ public class BillDaoImpl implements BillDao
         List list=session.createQuery(hql.toString()).list();
         if (list.size()>0)
             return (ArrayList<PropertyBillEntity>) list;
+        return null;
+    }
+
+    @Override
+    public ArrayList<UserBillEntity> getUserBillByPhone(String phone, Byte status, Long startTime, Long endTime)
+    {
+        Session session=getSession();
+        StringBuilder hql=new StringBuilder("from UserBillEntity t where t.phone='").append(phone).append("'");
+        if (status!=null)
+            hql.append(" and t.payStatus=").append(status);
+        if (startTime!=null&&endTime==null)
+            hql.append(" and t.updateTime>=").append(startTime);
+        if (startTime==null&&endTime!=null)
+            hql.append(" and t.updateTime<=").append(endTime);
+        if (startTime!=null&&endTime!=null)
+            hql.append(" and t.updateTime>=").append(startTime).append(" and t.updateTime<=").append(endTime);
+        List list=session.createQuery(hql.toString()).list();
+        if (list.size()>0)
+            return (ArrayList<UserBillEntity>) list;
         return null;
     }
 }

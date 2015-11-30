@@ -7,9 +7,7 @@ import estate.common.util.Convert;
 import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
 import estate.dao.PropertyDao;
-import estate.entity.database.FeeItemEntity;
-import estate.entity.database.OwnerEntity;
-import estate.entity.database.PropertyEntity;
+import estate.entity.database.*;
 import estate.entity.json.BasicJson;
 import estate.entity.json.ParkLotExtra;
 import estate.entity.json.TableData;
@@ -24,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by kangbiao on 15-9-14.
@@ -45,6 +45,8 @@ public class FeeController
     private PropertyDao propertyDao;
     @Autowired
     private BillService billService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 增加三种费用
@@ -238,43 +240,51 @@ public class FeeController
     @RequestMapping(value = "/getBillList")
     public TableData getBillList(TableFilter tableFilter,HttpServletRequest request)
     {
-        TableData tableData=new TableData();
-        ArrayList<FeeItemEntity> feeItemEntities=new ArrayList<>();
-        tableData.setJsonString(feeItemEntities);
         tableFilter.setSearchValue(request.getParameter("search[value]"));
-        tableFilter.setStatus(Byte.valueOf(request.getParameter("billStatus")));
-        tableFilter.setStartTime(Convert.time2num(request.getParameter("billStartTime")));
-        tableFilter.setEndTime(Convert.time2num(request.getParameter("billEndTime")));
-        if (tableFilter.getStatus()==-1)
-            tableFilter.setStatus(null);
-        if (tableFilter.getSearchValue().equals(""))
-            tableFilter.setSearchValue(null);
-        try
+        TableData tableData;
+        tableData=userService.getAppUserList(tableFilter);
+        ArrayList<AppUserEntity> appUserEntities= (ArrayList<AppUserEntity>) tableData.getJsonString();
+        ArrayList<UserBillEntity> userBillEntities=new ArrayList<>();
+        for (AppUserEntity appUserEntity:appUserEntities)
         {
-            return tableData;
+            ArrayList<UserBillEntity> userBillEntities1=billService
+                    .getUserBill(appUserEntity.getPhone(), tableFilter.getStatus(),
+                            tableFilter.getStartTime(), tableFilter.getEndTime());
+            if (userBillEntities1!=null)
+            userBillEntities.addAll(userBillEntities1);
         }
-        catch (Exception e)
-        {
-            return null;
-        }
+        tableData.setJsonString(userBillEntities);
+        return tableData;
     }
 
     @RequestMapping(value = "/generatePropertyBill")
     public BasicJson generatePropertyBill(HttpServletRequest request)
     {
         BasicJson basicJson=new BasicJson(false);
-
-        ArrayList<PropertyEntity> propertyEntities=propertyDao.getAllProperty();
-        if (propertyEntities==null)
-        {
-            basicJson.getErrorMsg().setDescription("系统中没有物业信息");
-            return basicJson;
-        }
         try
         {
+            //生成物业费账单
+            ArrayList<PropertyEntity> propertyEntities=propertyDao.getAllProperty();
+            if (propertyEntities==null)
+            {
+                basicJson.getErrorMsg().setDescription("系统中没有物业信息");
+                return basicJson;
+            }
             for (PropertyEntity propertyEntity : propertyEntities)
             {
                 billService.generateBillByPropertyID(propertyEntity.getId());
+            }
+
+            //生成其他费用的账单
+            ArrayList<AppUserEntity> appUserEntities=userService.getAllAppUser();
+            if (appUserEntities==null)
+            {
+                basicJson.getErrorMsg().setDescription("系统中没有用户信息");
+                return basicJson;
+            }
+            for (AppUserEntity appUserEntity:appUserEntities)
+            {
+                billService.generateUserBill(appUserEntity.getPhone());
             }
         }
         catch (Exception e)

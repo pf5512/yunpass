@@ -13,7 +13,6 @@ public interface AppUserService
      */
     Object getByPhone(String phone);
 
-    /**
-     * 通过app
-     */
+
+
 }

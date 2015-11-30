@@ -1,6 +1,7 @@
 package estate.dao;
 
 import estate.entity.database.PropertyBillEntity;
+import estate.entity.database.UserBillEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
 
@@ -21,9 +22,6 @@ public interface BillDao
      */
     TableData getList(TableFilter tableFilter);
 
-
-
-
     /**
      * 根据物业id获取不同状态的账单
      * @param propertyID
@@ -33,5 +31,15 @@ public interface BillDao
      * @return
      */
     ArrayList<PropertyBillEntity> getPropertyBillByPropertyID(Integer propertyID,Byte status,Long startTime,Long endTime);
+
+    /**
+     * 通过用户电话等返回用户的账单
+     * @param phone
+     * @param status
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    ArrayList<UserBillEntity> getUserBillByPhone(String phone,Byte status,Long startTime,Long endTime);
 
 }

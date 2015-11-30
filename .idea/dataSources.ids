@@ -270,6 +270,20 @@
       <column name="password" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="ss_id"/>
     </table>
+    <table name="user_bill" schema="" catalog="PropertySystem" type="TABLE">
+      <column name="ub_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="bill_seris" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="phone" sqlType="VARCHAR" precision="15" scale="0" nullable="true" jdbcType="12"/>
+      <column name="property_bill" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="service_bill" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="parklot_bill" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="update_time" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="pay_status" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="pay_type" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="pay_time" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="overdue_fee" sqlType="DECIMAL" precision="11" scale="2" nullable="true" jdbcType="3" def="MC4wMA=="/>
+      <primary-key name="PRIMARY" columns="ub_id"/>
+    </table>
     <table name="user_info" schema="" catalog="PropertySystem" type="TABLE">
       <column name="ui_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="phone" sqlType="VARCHAR" precision="15" scale="0" nullable="false" jdbcType="12" remarks="5omL5py65Y+356CB"/>

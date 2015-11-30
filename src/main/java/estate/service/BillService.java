@@ -14,6 +14,9 @@ import java.util.ArrayList;
 public interface BillService
 {
 
+    ArrayList<UserBillEntity> getUserBill(String phone,Byte status,Long startTime,Long endTime);
+
+    String getPropertyBillString(String phone,Byte status,Long startTime,Long endTime);
 
     UserBillEntity getBillByPhone(String phone,Byte status,Long startTime,Long endTime);
 
@@ -29,4 +32,16 @@ public interface BillService
      * @return
      */
 //    Object getParkLotBillByPhone(String phone);
+
+    /**
+     * 生成所有用户的账单
+     */
+    void generateUserBill(String phone);
+
+    /**
+     * 获取app用户的账单列表
+     * @param tableFilter
+     * @return
+     */
+    TableData getBill(TableFilter tableFilter);
 }

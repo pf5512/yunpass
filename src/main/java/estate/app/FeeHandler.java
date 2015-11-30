@@ -47,7 +47,7 @@ public class FeeHandler
             {
                 ArrayList<Select2> select2s=new ArrayList<>();
                 String propertyBill=userBillEntity.getPropertyBill();
-                String parkLotBill=userBillEntity.getParkLotBill();
+                String parkLotBill=userBillEntity.getParklotBill();
                 double total=0.00;
                 if (propertyBill!=null)
                 {
