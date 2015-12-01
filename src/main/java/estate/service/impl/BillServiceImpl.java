@@ -5,19 +5,20 @@ import estate.common.config.BillPayStatus;
 import estate.common.config.ParkLotOwnerRole;
 import estate.common.util.Convert;
 import estate.common.util.GsonUtil;
-import estate.common.util.LogUtil;
 import estate.dao.*;
 import estate.entity.database.*;
 import estate.entity.json.ParkLotExtra;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
-import estate.exception.PropertyNotBindFeeItemException;
 import estate.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by kangbiao on 15-10-6.
@@ -294,7 +295,11 @@ public class BillServiceImpl implements BillService
                 }
             }
         }
-        userBillEntity.setBillSeris(String.valueOf(System.currentTimeMillis()));
+        if (userBillEntity.getBillSeris()==null)
+        {
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+            userBillEntity.setBillSeris(df.format(System.currentTimeMillis())+(new Random().nextInt(899999)+100000));
+        }
         userBillEntity.setParklotBill(parkLotBill.toString());
         userBillEntity.setUpdateTime(System.currentTimeMillis());
         userBillEntity.setPayStatus(BillPayStatus.UNPAY);

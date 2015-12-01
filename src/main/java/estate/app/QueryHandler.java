@@ -143,4 +143,20 @@ public class QueryHandler
         return basicJson;
     }
 
+    /**
+     * 获取物业服务电话
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getServicePhone")
+    public BasicJson getServicePhone(HttpServletRequest request)
+    {
+        BasicJson basicJson=new BasicJson(false);
+
+        //TODO 获取电话待完成
+        basicJson.setJsonString("15135265452");
+
+        basicJson.setStatus(true);
+        return basicJson;
+    }
 }

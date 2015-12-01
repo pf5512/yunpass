@@ -4,7 +4,7 @@ import estate.exception.TypeErrorException;
 
 /**
  * Created by kangbiao on 15-10-9.
- * 证件类型
+ * 证件类型,身份郑,军官证,护照
  */
 public class CardType
 {

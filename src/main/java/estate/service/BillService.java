@@ -3,7 +3,6 @@ package estate.service;
 import estate.entity.database.UserBillEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
-import estate.exception.PropertyNotBindFeeItemException;
 
 import java.util.ArrayList;
 

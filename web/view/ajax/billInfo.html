@@ -183,7 +183,6 @@
         $("#parklotFeeInfo").html(parseBill(data.parklotBill));
         $("#serviceFeeInfo").html(parseBill(data.serviceBill));
         $("#overdueFeeInfo").html(parseBill(data.overdueFee));
-        console.log(data);
     });
 
     function parseBill(data)
@@ -239,8 +238,8 @@
 				"url": urlConfig.getBillList,
                 "data":function ( d ) {
                     d.status = $("#billStatus option:selected").val();
-                    d.startTime=$("#billStartTime").val();
-                    d.endTime=$("#billEndTime").val();
+                    d.billStartTime=$("#billStartTime").val();
+                    d.billEndTime=$("#billEndTime").val();
                 },
 				"dataSrc": "jsonString"
 			},
@@ -333,7 +332,6 @@
                         data=data==""||data==null?data+row.serviceBill:data+";"+row.serviceBill;
                     if(row.parklotBill!=null&&row.parklotBill!="")
                         data=data==""||data==null?data+row.parklotBill:data+";"+row.parklotBill;
-                    console.log(data);
                     if(data==null||data=="")
                         return "0.00";
                     var kvs=data.split(";");

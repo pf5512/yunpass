@@ -115,7 +115,6 @@ public class UploadController
                 return kindEditor;
             }
             String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-            LogUtil.E("houzui:"+fileExt);
             if (!Arrays.asList(extMap.get(dirName).split(",")).contains(fileExt))
             {
                 kindEditor.setMessage("上传文件扩展名是不允许的扩展名。\n只允许" + extMap.get(dirName) + "格式。");

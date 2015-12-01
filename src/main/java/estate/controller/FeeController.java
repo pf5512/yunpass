@@ -2,7 +2,6 @@ package estate.controller;
 
 import estate.common.Config;
 import estate.common.config.FeeType;
-import estate.common.config.UserType;
 import estate.common.util.Convert;
 import estate.common.util.GsonUtil;
 import estate.common.util.LogUtil;
@@ -12,7 +11,6 @@ import estate.entity.json.BasicJson;
 import estate.entity.json.ParkLotExtra;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
-import estate.exception.PropertyNotBindFeeItemException;
 import estate.service.*;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by kangbiao on 15-9-14.
@@ -241,6 +237,8 @@ public class FeeController
     public TableData getBillList(TableFilter tableFilter,HttpServletRequest request)
     {
         tableFilter.setSearchValue(request.getParameter("search[value]"));
+        tableFilter.setStartTime(Convert.time2num(request.getParameter("billStartTime")));
+        tableFilter.setEndTime(Convert.time2num(request.getParameter("billEndTime")));
         try
         {
             return billService.getList(tableFilter);

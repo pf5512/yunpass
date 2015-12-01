@@ -415,12 +415,12 @@
                 }
                 else
                 {
-                    alert("发生了一些错误~~~请重新登陆");
+                    alert("会话超时,请重新登陆");
                     window.location.href=urlConfig.home+"/login.html";
                 }
             },
             error: function () {
-                alert("发生了一些错误~~~请重新登陆");
+                alert("会话超时,请重新登陆");
                 window.location.href=urlConfig.home+"/login.html";
             }
         });

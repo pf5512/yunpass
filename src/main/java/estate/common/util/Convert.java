@@ -131,7 +131,6 @@ public class Convert
         }
         catch (ParseException e)
         {
-//            LogUtil.E(e.getMessage());
             return null;
         }
     }
