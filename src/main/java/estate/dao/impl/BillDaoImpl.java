@@ -5,6 +5,7 @@ import estate.entity.database.PropertyBillEntity;
 import estate.entity.database.UserBillEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,25 @@ public class BillDaoImpl implements BillDao
     @Override
     public TableData getList(TableFilter tableFilter)
     {
-        return null;
+        Session session=getSession();
+        TableData tableData = new TableData(true);
+        Query query;
+        StringBuilder hql=new StringBuilder("from UserBillEntity t where t.phone like('%").append(tableFilter.getSearchValue()).append("%')");
+        if (tableFilter.getStatus()!=null)
+            hql.append(" and t.payStatus=").append(tableFilter.getStatus());
+        if (tableFilter.getStartTime()!=null&&tableFilter.getEndTime()==null)
+            hql.append(" and t.updateTime>=").append(tableFilter.getStartTime());
+        if (tableFilter.getStartTime()==null&&tableFilter.getEndTime()!=null)
+            hql.append(" and t.updateTime<=").append(tableFilter.getEndTime());
+        if (tableFilter.getStartTime()!=null&&tableFilter.getEndTime()!=null)
+            hql.append(" and t.updateTime>=").append(tableFilter.getStartTime()).append(" and t.updateTime<=").append(tableFilter.getEndTime());
+        hql.append(" order by t.updateTime desc");
+        query=session.createQuery(hql.toString());
+        Integer count=query.list().size();
+        List list=query.setFirstResult(tableFilter.getStart()).setMaxResults(tableFilter.getLength()).list();
+        tableData.setRecordsFiltered(count);
+        tableData.setJsonString(list);
+        return tableData;
     }
 
     @Override

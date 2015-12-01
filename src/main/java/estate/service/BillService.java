@@ -14,11 +14,32 @@ import java.util.ArrayList;
 public interface BillService
 {
 
+    /**
+     * 获取用户账单列表
+     * @param tableFilter
+     * @return
+     */
+    TableData getList(TableFilter tableFilter);
+
+    /**
+     * 根据查询条件获取某个用户的账单
+     * @param phone
+     * @param status
+     * @param startTime
+     * @param endTime
+     * @return
+     */
     ArrayList<UserBillEntity> getUserBill(String phone,Byte status,Long startTime,Long endTime);
 
+    /**
+     * 根据查询条件获取某个用户的物业账单,字符串组成
+     * @param phone
+     * @param status
+     * @param startTime
+     * @param endTime
+     * @return
+     */
     String getPropertyBillString(String phone,Byte status,Long startTime,Long endTime);
-
-    UserBillEntity getBillByPhone(String phone,Byte status,Long startTime,Long endTime);
 
     /**
      * 根据物业id生成这个物业的账单
@@ -27,21 +48,8 @@ public interface BillService
     void generateBillByPropertyID(Integer id);
 
     /**
-     * 通过用户的电话获取这个用户的车位费账单
+     * 根绝用户电话生成某个用户的账单
      * @param phone
-     * @return
-     */
-//    Object getParkLotBillByPhone(String phone);
-
-    /**
-     * 生成所有用户的账单
      */
     void generateUserBill(String phone);
-
-    /**
-     * 获取app用户的账单列表
-     * @param tableFilter
-     * @return
-     */
-    TableData getBill(TableFilter tableFilter);
 }

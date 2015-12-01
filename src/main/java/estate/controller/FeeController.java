@@ -241,20 +241,14 @@ public class FeeController
     public TableData getBillList(TableFilter tableFilter,HttpServletRequest request)
     {
         tableFilter.setSearchValue(request.getParameter("search[value]"));
-        TableData tableData;
-        tableData=userService.getAppUserList(tableFilter);
-        ArrayList<AppUserEntity> appUserEntities= (ArrayList<AppUserEntity>) tableData.getJsonString();
-        ArrayList<UserBillEntity> userBillEntities=new ArrayList<>();
-        for (AppUserEntity appUserEntity:appUserEntities)
+        try
         {
-            ArrayList<UserBillEntity> userBillEntities1=billService
-                    .getUserBill(appUserEntity.getPhone(), tableFilter.getStatus(),
-                            tableFilter.getStartTime(), tableFilter.getEndTime());
-            if (userBillEntities1!=null)
-            userBillEntities.addAll(userBillEntities1);
+            return billService.getList(tableFilter);
         }
-        tableData.setJsonString(userBillEntities);
-        return tableData;
+        catch (Exception e)
+        {
+            return new TableData(false);
+        }
     }
 
     @RequestMapping(value = "/generatePropertyBill")

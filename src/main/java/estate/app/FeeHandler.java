@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -41,55 +42,61 @@ public class FeeHandler
         String phone= (String) request.getSession().getAttribute("phone");
         try
         {
-            UserBillEntity userBillEntity=billService.getBillByPhone(phone, BillPayStatus.UNPAY,null,null);
-            LogUtil.E(GsonUtil.getGson().toJson(userBillEntity));
-            if (userBillEntity!=null)
+            ArrayList<UserBillEntity> userBillEntities=billService.getUserBill(phone, BillPayStatus.UNPAY,null,null);
+            if (userBillEntities!=null)
             {
-                ArrayList<Select2> select2s=new ArrayList<>();
-                String propertyBill=userBillEntity.getPropertyBill();
-                String parkLotBill=userBillEntity.getParklotBill();
-                double total=0.00;
-                if (propertyBill!=null)
-                {
-
-                    for (String kv: Arrays.asList(propertyBill.split(";")))
-                    {
-                        try
-                        {
-                            Select2 select2 = new Select2();
-                            select2.setId(kv.split(":")[0]);
-                            select2.setText(kv.split(":")[1]);
-                            total+=Double.valueOf(kv.split(":")[1]);
-                            select2s.add(select2);
-                        }
-                        catch (Exception e){}
-                    }
-                }
-                if (parkLotBill!=null)
-                {
-
-                    for (String kv: Arrays.asList(parkLotBill.split(";")))
-                    {
-                        try
-                        {
-                            Select2 select2 = new Select2();
-                            select2.setId(kv.split(":")[0]);
-                            select2.setText(kv.split(":")[1]);
-                            total+=Double.valueOf(kv.split(":")[1]);
-                            select2s.add(select2);
-                        }
-                        catch (Exception e){}
-                    }
-                }
                 ArrayList<Bill> bills=new ArrayList<>();
-                Bill bill=new Bill();
-                bill.setItems(select2s);
-                bill.setId(19);
-                bill.setTotal(String.valueOf(total));
-                bill.setBillTime(Convert.num2time(System.currentTimeMillis()));
-                bills.add(bill);
+                basicJson.setJsonString(bills);
+                for (UserBillEntity userBillEntity:userBillEntities)
+                {
+                    Bill bill=new Bill();
+                    ArrayList<Select2> select2s=new ArrayList<>();
+                    String propertyBill=userBillEntity.getPropertyBill();
+                    String parkLotBill=userBillEntity.getParklotBill();
+                    double total=0.00;
+                    if (propertyBill!=null&&!propertyBill.equals(""))
+                    {
+
+                        for (String kv: Arrays.asList(propertyBill.split(";")))
+                        {
+                            try
+                            {
+                                Select2 select2 = new Select2();
+                                select2.setId(kv.split(":")[0]);
+                                select2.setText(kv.split(":")[1]);
+                                total+=Double.valueOf(kv.split(":")[1]);
+                                select2s.add(select2);
+                            }
+                            catch (Exception e){}
+                        }
+                    }
+                    if (parkLotBill!=null&&!parkLotBill.equals(""))
+                    {
+
+                        for (String kv: Arrays.asList(parkLotBill.split(";")))
+                        {
+                            try
+                            {
+                                Select2 select2 = new Select2();
+                                select2.setId(kv.split(":")[0]);
+                                select2.setText(kv.split(":")[1]);
+                                total+=Double.valueOf(kv.split(":")[1]);
+                                select2s.add(select2);
+                            }
+                            catch (Exception e){}
+                        }
+                    }
+                    bill.setItems(select2s);
+                    bill.setStatus(userBillEntity.getPayStatus());
+                    bill.setId(userBillEntity.getId());
+                    BigDecimal sum = new BigDecimal(total);
+                    bill.setTotal(sum.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                    bill.setBillTime(Convert.num2time(userBillEntity.getUpdateTime()));
+                    bills.add(bill);
+                }
                 basicJson.setJsonString(bills);
             }
+
         }
         catch (Exception e)
         {

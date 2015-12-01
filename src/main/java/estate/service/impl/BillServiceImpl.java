@@ -40,9 +40,39 @@ public class BillServiceImpl implements BillService
     private FeeItemDao feeItemDao;
 
     @Override
+    public TableData getList(TableFilter tableFilter)
+    {
+        TableData tableData=billDao.getList(tableFilter);
+        ArrayList<UserBillEntity> userBillEntities= (ArrayList<UserBillEntity>) tableData.getJsonString();
+        if (userBillEntities!=null&&userBillEntities.size()>0)
+        {
+            for (UserBillEntity userBillEntity:userBillEntities)
+            {
+                if (userBillEntity.getPayStatus()==BillPayStatus.UNPAY)
+                    userBillEntity.setPropertyBill(
+                            this.getPropertyBillString(
+                                    userBillEntity.getPhone(),
+                                    tableFilter.getStatus(),
+                                    tableFilter.getStartTime(),
+                                    tableFilter.getEndTime()));
+            }
+        }
+        tableData.setRecordsTotal(baseDao.count(UserBillEntity.class));
+        return tableData;
+    }
+
+    @Override
     public ArrayList<UserBillEntity> getUserBill(String phone, Byte status, Long startTime, Long endTime)
     {
-        return billDao.getUserBillByPhone(phone, status, startTime, endTime);
+        ArrayList<UserBillEntity> userBillEntities= billDao.getUserBillByPhone(phone, status, startTime, endTime);
+        if (userBillEntities==null)
+            return null;
+        for (UserBillEntity userBillEntity:userBillEntities)
+        {
+            if (userBillEntity.getPayStatus()==BillPayStatus.UNPAY)
+                userBillEntity.setPropertyBill(this.getPropertyBillString(phone,status,startTime,endTime));
+        }
+        return userBillEntities;
     }
 
     @Override
@@ -84,27 +114,6 @@ public class BillServiceImpl implements BillService
             }
         }
         return propertyBill.toString();
-    }
-
-    @Override
-    public UserBillEntity getBillByPhone(String phone, Byte status, Long startTime, Long endTime)
-    {
-        UserBillEntity userBillEntity=new UserBillEntity();
-        StringBuilder allParkLotBill=new StringBuilder();
-
-        //获取车位账单
-        ArrayList<UserBillEntity> userBillEntities=billDao.getUserBillByPhone(phone, status, startTime, endTime);
-        int count=0;
-        for (UserBillEntity userBillEntity1:userBillEntities)
-        {
-            if (count==0)
-                allParkLotBill.append(userBillEntity1.getParklotBill());
-            else
-                allParkLotBill.append(";").append(userBillEntity1.getParklotBill());
-            count++;
-        }
-        userBillEntity.setParklotBill(allParkLotBill.toString());
-        return userBillEntity;
     }
 
     @Override
@@ -290,16 +299,6 @@ public class BillServiceImpl implements BillService
         userBillEntity.setUpdateTime(System.currentTimeMillis());
         userBillEntity.setPayStatus(BillPayStatus.UNPAY);
         baseDao.save(userBillEntity);
-    }
-
-    @Override
-    public TableData getBill(TableFilter tableFilter)
-    {
-
-        tableFilter.getStartTime();
-        tableFilter.getEndTime();
-
-        return null;
     }
 
 }
