@@ -1,6 +1,7 @@
 package estate.dao;
 
 import estate.entity.database.AppUserEntity;
+import estate.entity.database.OwnerEntity;
 import estate.entity.database.UserInfoEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
@@ -55,5 +56,11 @@ public interface UserDao
      * @return
      */
     UserInfoEntity getUserDetailByPhone(String phone);
+
+    /**
+     * 获取所有业主
+     * @return
+     */
+    ArrayList<OwnerEntity> getAllOwner();
 
 }

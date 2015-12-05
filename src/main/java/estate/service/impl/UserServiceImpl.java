@@ -62,4 +62,10 @@ public class UserServiceImpl implements UserService
     {
         return userDao.getAllAppUser();
     }
+
+    @Override
+    public ArrayList<OwnerEntity> getAllOwner()
+    {
+        return userDao.getAllOwner();
+    }
 }

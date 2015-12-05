@@ -4,6 +4,7 @@ import estate.common.config.AppUserStatus;
 import estate.common.config.UserType;
 import estate.dao.UserDao;
 import estate.entity.database.AppUserEntity;
+import estate.entity.database.OwnerEntity;
 import estate.entity.database.UserInfoEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
@@ -139,6 +140,17 @@ public class UserDaoImpl implements UserDao
         List list=session.createQuery(hql).setString("phone",phone).list();
         if (list.size()>0)
             return (UserInfoEntity) list.get(0);
+        return null;
+    }
+
+    @Override
+    public ArrayList<OwnerEntity> getAllOwner()
+    {
+        Session session =getSession();
+        String hql="from OwnerEntity ";
+        List list=session.createQuery(hql).list();
+        if (list.size()>0)
+            return (ArrayList<OwnerEntity>) list;
         return null;
     }
 }

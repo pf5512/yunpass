@@ -183,6 +183,8 @@ public class BillServiceImpl implements BillService
     @Override
     public void generateUserBill(String phone)
     {
+        if (phone==null)
+            return;
         StringBuilder parkLotBill=new StringBuilder();
         UserBillEntity userBillEntity=new UserBillEntity();
         userBillEntity.setPhone(phone);

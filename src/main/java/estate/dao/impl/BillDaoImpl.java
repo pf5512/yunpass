@@ -2,6 +2,7 @@ package estate.dao.impl;
 
 import estate.dao.BillDao;
 import estate.entity.database.PropertyBillEntity;
+import estate.entity.database.PropertyOwnerInfoEntity;
 import estate.entity.database.UserBillEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
@@ -38,7 +39,21 @@ public class BillDaoImpl implements BillDao
         Session session=getSession();
         TableData tableData = new TableData(true);
         Query query;
-        StringBuilder hql=new StringBuilder("from UserBillEntity t where t.phone like('%").append(tableFilter.getSearchValue()).append("%')");
+        StringBuilder hql=new StringBuilder("from UserBillEntity t where 1=1 ");
+        if (tableFilter.getSearchValue()!=null)
+        {
+            hql.append(" and (t.phone like('%").append(tableFilter.getSearchValue()).append("%')");
+            String hqlTemp="from PropertyOwnerInfoEntity t where t.propertyEntity.location like (:location) or t.propertyEntity.code like (:code)";
+            ArrayList<PropertyOwnerInfoEntity> list= (ArrayList<PropertyOwnerInfoEntity>) session.createQuery(hqlTemp).setString("location","%"+tableFilter.getSearchValue()+"%").setString("code", "%"+tableFilter.getSearchValue()+"%").list();
+            if (list.size()>0)
+            {
+                for (PropertyOwnerInfoEntity propertyOwnerInfoEntity:list)
+                {
+                    hql.append(" or t.phone like('%").append(propertyOwnerInfoEntity.getPhone()).append("%')");
+                }
+            }
+            hql.append(")");
+        }
         if (tableFilter.getStatus()!=null)
             hql.append(" and t.payStatus=").append(tableFilter.getStatus());
         if (tableFilter.getStartTime()!=null&&tableFilter.getEndTime()==null)

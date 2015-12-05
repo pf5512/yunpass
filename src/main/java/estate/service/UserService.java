@@ -1,6 +1,7 @@
 package estate.service;
 
 import estate.entity.database.AppUserEntity;
+import estate.entity.database.OwnerEntity;
 import estate.entity.database.UserInfoEntity;
 import estate.entity.json.TableData;
 import estate.entity.json.TableFilter;
@@ -54,4 +55,10 @@ public interface UserService
      * @return
      */
     ArrayList<AppUserEntity> getAllAppUser();
+
+    /**
+     * 获取系统中所有的业主信息
+     * @return
+     */
+    ArrayList<OwnerEntity> getAllOwner();
 }

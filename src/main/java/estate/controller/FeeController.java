@@ -269,6 +269,7 @@ public class FeeController
 
             //生成其他费用的账单
             ArrayList<AppUserEntity> appUserEntities=userService.getAllAppUser();
+            ArrayList<OwnerEntity> ownerEntities=userService.getAllOwner();
             if (appUserEntities==null)
             {
                 basicJson.getErrorMsg().setDescription("系统中没有用户信息");
@@ -276,7 +277,16 @@ public class FeeController
             }
             for (AppUserEntity appUserEntity:appUserEntities)
             {
+                for (OwnerEntity ownerEntity:ownerEntities)
+                {
+                    if (ownerEntity.getPhone()!=null&&ownerEntity.getPhone().equals(appUserEntity.getPhone()))
+                        ownerEntity.setPhone(null);
+                }
                 billService.generateUserBill(appUserEntity.getPhone());
+            }
+            for (OwnerEntity ownerEntity:ownerEntities)
+            {
+                billService.generateUserBill(ownerEntity.getPhone());
             }
         }
         catch (Exception e)

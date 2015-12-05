@@ -108,5 +108,4 @@ public class PropertyOwnerInfoDaoImpl implements PropertyOwnerInfoDao
             return (ArrayList<PropertyOwnerInfoEntity>) list;
         return null;
     }
-
 }
